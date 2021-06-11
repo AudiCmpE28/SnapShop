@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "application",
-    "slug": "application",
+    "name": "SnapShop",
+    "slug": "SnapShop",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./screens/assets/icon.png",
+    "icon": "./app/assets/icon.png",
     "splash": {
-      "image": "./screens/assets/splash.png",
+      "image": "./app/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,12 +21,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./screens/assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./screens/assets/favicon.png"
+      "favicon": "./assets/favicon.png"
     }
   }
 }
