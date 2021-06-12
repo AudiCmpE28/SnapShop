@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
     height: "50%",
     backgroundColor: colors.white,
     borderRadius: 50,
-    borderWidth: 2,
+    borderWidth: 10,
+    borderColor: colors.cartBlue,
     alignSelf: "center",
   },
   camCartImage: {
