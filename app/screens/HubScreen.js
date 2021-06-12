@@ -58,6 +58,7 @@ function HubScreen(props) {
         </View>
       </View>
       <View style={styles.imageContainer}>
+        <HeadingText style={styles.imageText}>Snap it!</HeadingText>
         <TouchableOpacity onPress={() => console.log("Click")}>
           <Image
             style={styles.camCartImage}
@@ -91,18 +92,25 @@ const styles = StyleSheet.create({
 
   imageContainer: {
     width: "70%",
-    height: "50%",
+    height: "40%",
     backgroundColor: colors.white,
-    borderRadius: 50,
-    borderWidth: 10,
-    borderColor: colors.cartBlue,
+
     alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: "0%",
+
+    borderTopWidth: 10,
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderColor: colors.cartBlue,
   },
   camCartImage: {
-    width: 300,
-    height: 300,
-    justifyContent: "center",
-    alignSelf: "center",
+    width: 250,
+    height: 250,
   },
 });
 

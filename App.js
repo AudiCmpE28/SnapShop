@@ -36,6 +36,8 @@ function App() {
 export default App;
 */
 
+// Used to test screens
+
 export default function App() {
   return <HubScreen />;
 }

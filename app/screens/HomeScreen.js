@@ -20,11 +20,11 @@ const itemList = [
     itemName: "Item 2",
     image: require("../assets/coke.png"),
   },
-  {
-    id: 3,
-    itemName: "Item 3",
-    image: require("../assets/coke.png"),
-  },
+  // {
+  //   id: 3,
+  //   itemName: "Item 3",
+  //   image: require("../assets/coke.png"),
+  // },
 ];
 
 function HomeScreen(props) {
@@ -80,11 +80,12 @@ const styles = StyleSheet.create({
     width: "60%",
     alignSelf: "center",
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: colors.black,
     borderWidth: 5,
     borderColor: "orange",
     borderRadius: 30,
+    position: "absolute",
+    bottom: "0%",
   },
   text: {
     fontSize: 33,
