@@ -1,13 +1,13 @@
-import React from "react";
-import { Image, Text, StyleSheet, View } from "react-native";
+import * as React from "react";
+import { ActivityIndicator, Image, Text, StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
 
-function WelcomeScreen(props) {
+function WelcomeScreen({ navigation }) {
   return (
     <View style={styles.background}>
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require("../assets/SSLogo.png")} />
+        <Image style={styles.logo} source={require("../assets/logo.png")} />
         <Text
           style={{
             fontFamily: "Roboto",
@@ -37,7 +37,10 @@ function WelcomeScreen(props) {
         >
           Shop on the spot
         </Text>
-        <Image style={styles.cart} source={require("../assets/cart.png")} />
+        <View style={[styles.loading, styles.loading_horizontal]}>
+          <ActivityIndicator size="large" color="blue" />
+        </View>
+        <Text>{setTimeout(() => { navigation.navigate('HomeScreen'); }, 5000)}</Text>
       </View>
     </View>
   );
@@ -62,6 +65,16 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: 200,
     height: 200,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: "center",
+    marginTop: 120,
+  },
+  loading_horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
   },
 });
 

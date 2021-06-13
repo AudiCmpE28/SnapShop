@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from 'react';
 import { FlatList, StyleSheet, View } from "react-native";
 import Card from "../components/Card";
 
@@ -30,7 +30,7 @@ const results = [
   },
 ];
 
-function ResultScreen(props) {
+function ResultScreen({ navigation }) {
   return (
     <Screen style={styles.screen}>
       <View style={styles.card}>

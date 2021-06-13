@@ -1,10 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import * as React from 'react';
 import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from "./app/screens/HomeScreen";
+
 import WelcomeScreen from "./app/screens/WelcomeScreen";
-import HubScreen from "./app/screens/HubScreen";
+import HomeScreen from "./app/screens/HomeScreen";
+import cameraScreen from "./app/screens/cameraScreen";
+
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
 import RecentItem from "./app/components/RecentItem";
@@ -15,18 +19,20 @@ import ItemLink from "./app/components/ItemLink";
 import ResultScreen from "./app/screens/ResultScreen";
 import Card from "./app/components/Card";
 
-/*
+//for practice screen only
+import PracticeScreen from "./app/screens/PracticeScreen";
 
+//stack of pages
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="initialScreen" component={initialScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="homeScreen" component={homeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
-        <Stack.Screen name="resultsScreen" component={resultsScreen} />
+        {/* <Stack.Screen name="resultsScreen" component={resultsScreen} /> */}
 
       </Stack.Navigator>
     </NavigationContainer>
@@ -34,10 +40,10 @@ function App() {
 }
 
 export default App;
-*/
 
-// Used to test screens
 
-export default function App() {
-  return <HubScreen />;
-}
+// // Used to test screens
+
+// export default function App() {
+//   return <HomeScreen />;
+// }
