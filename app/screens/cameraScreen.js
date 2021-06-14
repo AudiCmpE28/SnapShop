@@ -44,7 +44,7 @@ function cameraScreen({ navigation }) {
                         <Text style={cameraStyle.text}> Flip </Text>
                     </TouchableOpacity>
 
-                    {/* <Text style={cameraStyle.capture} onPress={this.takePicture}>CAPTURE</Text> */}
+                    <Text style={cameraStyle.capture} onPress={this.takePicture}>CAPTURE</Text>
 
                 </View>
             </Camera>
