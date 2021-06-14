@@ -23,27 +23,27 @@ import Card from "./app/components/Card";
 import PracticeScreen from "./app/screens/PracticeScreen";
 
 //stack of pages
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
-        {/* <Stack.Screen name="resultsScreen" component={resultsScreen} /> */}
+// function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+//         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+//         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
+//         {/* <Stack.Screen name="resultsScreen" component={resultsScreen} /> */}
 
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 
-export default App;
+// export default App;
 
 
 // // Used to test screens
 
-// export default function App() {
-//   return <HomeScreen />;
-// }
+export default function App() {
+  return <cameraScreen />;
+}

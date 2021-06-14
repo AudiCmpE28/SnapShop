@@ -2,13 +2,9 @@ import React, { useState, useEffect, Component, useRef } from 'react';
 import { captureRef } from 'react-native-view-shot';
 import { SafeAreaView, Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import { RNCamera } from 'react-native-camera';
 
-// takePicture = () => {
-//     const options = {};
-//     this.camera.capture({ metadata: options })
-//         .then((data) => console.log(data))
-//         .catch(err => console.error(err));
-// };
+
 
 function cameraScreen({ navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
@@ -27,6 +23,17 @@ function cameraScreen({ navigation }) {
     if (hasPermission === false) {
         return <Text>No access to camera</Text>;
     }
+
+    // takePicture = async () => {
+    //     if (this.camera) {
+    //         const options = { quality: 0.5, base64: true };
+    //         const data = await this.camera.takePictureAsync(options);
+    //         console.log(data.uri);
+    //     }
+    // };
+
+
+
 
     return (
         <View style={cameraStyle.container}>

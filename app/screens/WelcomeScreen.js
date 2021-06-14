@@ -40,7 +40,7 @@ function WelcomeScreen({ navigation }) {
         <View style={[styles.loading, styles.loading_horizontal]}>
           <ActivityIndicator size="large" color="blue" />
         </View>
-        <Text>{setTimeout(() => { navigation.navigate('HomeScreen'); }, 5000)}</Text>
+        <Text>{setTimeout(() => { navigation.navigate('HomeScreen'); }, 1000)}</Text>
       </View>
     </View>
   );
