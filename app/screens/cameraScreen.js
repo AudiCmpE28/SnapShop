@@ -13,7 +13,7 @@ function cameraScreen({ navigation }) {
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestPermissionsAsync();
-            setHasPermission(status === 'granted');
+            setHasPermission(status === "granted");
         })();
     }, []);
 
@@ -52,7 +52,6 @@ function cameraScreen({ navigation }) {
                     </TouchableOpacity>
 
                     {/* <Text style={cameraStyle.capture} onPress={this.takePicture}>CAPTURE</Text> */}
-
                 </View>
             </Camera>
         </View>
@@ -68,23 +67,23 @@ const cameraStyle = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1,
-        backgroundColor: 'transparent',
-        flexDirection: 'row',
+        backgroundColor: "transparent",
+        flexDirection: "row",
         margin: 20,
     },
     button: {
         flex: 0.1,
-        alignSelf: 'flex-end',
-        alignItems: 'center',
+        alignSelf: "flex-end",
+        alignItems: "center",
     },
     text: {
         fontSize: 18,
-        color: 'white',
+        color: "white",
     },
     capture: {
         fontSize: 20,
-        color: 'blue',
-        alignSelf: 'center',
+        color: "blue",
+        alignSelf: "center",
     },
 });
 
