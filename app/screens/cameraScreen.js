@@ -35,26 +35,26 @@ function cameraScreen({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  return (
-    <View style={cameraStyle.container}>
-      <Camera style={cameraStyle.camera} type={type}>
-        <View style={cameraStyle.buttonContainer}>
-          <TouchableOpacity
-            style={cameraStyle.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}
-          >
-            <Text style={cameraStyle.text}> Flip </Text>
-          </TouchableOpacity>
-          <Text style={cameraStyle.capture} onPress={this.takePicture}>
-            CAPTURE
-          </Text>
-          //suh dude
+    return (
+        <View style={cameraStyle.container}>
+            <Camera style={cameraStyle.camera} type={type}>
+                <View style={cameraStyle.buttonContainer}>
+                    <TouchableOpacity
+                        style={cameraStyle.button}
+                        onPress={() => {
+                            setType(
+                                type === Camera.Constants.Type.back
+                                    ? Camera.Constants.Type.front
+                                    : Camera.Constants.Type.back
+                            );
+                        }}>
+                        <Text style={cameraStyle.text}> Flip </Text>
+                    </TouchableOpacity>
+
+                    {/* <Text style={cameraStyle.capture} onPress={this.takePicture}>CAPTURE</Text> */}
+
+                </View>
+            </Camera>
         </View>
       </Camera>
     </View>
