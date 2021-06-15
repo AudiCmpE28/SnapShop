@@ -1,11 +1,27 @@
 # SnapShop
 
 ## Expo Downloadables:
-1) npm install --save react-native-navigation
-2) npm install react-native-super-grid
-3) npm install --save react-native-vector-icons react-native-camera
-4) npm install @react-navigation/native
-5) npm install expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
-6) npm install expo install expo-camera
-7) npm install expo install react-native-view-shot
-8) npm install expo-camera expo-av
+
+# used for stack and navigating through pages
+npm install --save react-native-navigation
+
+# another navigation library
+npm install @react-navigation/native
+
+# used for organizing items in a grid
+npm install react-native-super-grid
+
+# for vector icons and using react native tools for camera
+npm install --save react-native-vector-icons react-native-camera
+
+# libraries used for viewing the pages and animations
+npm install expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
+# another library used for camera through the expo
+npm install expo install expo-camera
+
+# library used for capturing images
+npm install expo install react-native-view-shot
+
+# library used for camera
+npm install expo-camera expo-av
