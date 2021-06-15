@@ -8,3 +8,4 @@
 5) npm install expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 6) npm install expo install expo-camera
 7) npm install expo install react-native-view-shot
+8) npm install expo-camera expo-av
