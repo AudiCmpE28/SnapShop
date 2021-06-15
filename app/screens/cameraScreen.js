@@ -1,12 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  TouchableHighlight,
-  StyleSheet,
-  Dimensions,
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
+  Image, StyleSheet, Dimensions, View, Text, TouchableOpacity, SafeAreaView,
 } from "react-native";
 import { Camera } from "expo-camera";
 import colors from "../config/colors";
@@ -16,7 +10,10 @@ const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
 const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
 
+
+//main function for camera screen
 function cameraScreen({ navigation }) {
+  // conditions to keep track when using camera such as flip and flash modes
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [cameraFlash, setCameraFlash] = useState(
@@ -24,6 +21,8 @@ function cameraScreen({ navigation }) {
   );
   const [isPreview, setIsPreview] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
+
+
 
   const cameraRef = useRef();
   useEffect(() => {
@@ -48,6 +47,7 @@ function cameraScreen({ navigation }) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
         console.log("picture source", source);
+
       }
     }
   };
@@ -88,6 +88,8 @@ function cameraScreen({ navigation }) {
         style={[styles.closeCross, { transform: [{ rotate: "-45deg" }] }]}
       />
     </TouchableOpacity>
+
+    // save button
   );
 
   const renderCaptureControl = () => (
@@ -135,6 +137,9 @@ function cameraScreen({ navigation }) {
     </SafeAreaView>
   );
 }
+
+
+// styles for beauty
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
