@@ -1,9 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import * as React from 'react';
+import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import HomeScreen from "./app/screens/HomeScreen";
@@ -30,19 +29,21 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
+        <Stack.Screen
+          name="cameraScreen"
+          component={cameraScreen}
+          options={{ title: "Snap Picture" }}
+        />
         {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
         <Stack.Screen name="ResultScreen" component={ResultScreen} /> */}
-
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 export default App;
-
 
 // // Used to test screens
 // export default function App() {
