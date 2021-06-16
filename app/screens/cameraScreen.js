@@ -47,7 +47,6 @@ function cameraScreen({ navigation }) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
         console.log("picture source", source);
-
       }
     }
   };

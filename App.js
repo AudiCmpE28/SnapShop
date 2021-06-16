@@ -9,6 +9,7 @@ import HomeScreen from "./app/screens/HomeScreen";
 import cameraScreen from "./app/screens/cameraScreen";
 import ResultScreen from "./app/screens/ResultScreen";
 import Viewshoot from "./app/extraScreens/cameraBackup";
+import googleImage from "./app/screens/googleImage";
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
@@ -30,8 +31,8 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="cameraScreen"
-          component={cameraScreen}
+          name="googleImage"
+          component={googleImage}
           options={{ title: "Snap Picture" }}
         />
         {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />

@@ -28,6 +28,11 @@ npm install expo-camera expo-av
 ## SQL database using Firebase
 npm install --save @react-native-firebase/app
 
+## google image search
+<!-- npm install react-native-google-image-search -->
+
+npm install --save google-images
+
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 //// In testing, may not need
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
