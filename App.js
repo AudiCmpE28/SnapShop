@@ -9,7 +9,8 @@ import HomeScreen from "./app/screens/HomeScreen";
 import cameraScreen from "./app/screens/cameraScreen";
 import ResultScreen from "./app/screens/ResultScreen";
 import Viewshoot from "./app/extraScreens/cameraBackup";
-import googleImage from "./app/screens/googleImage";
+import ImageSelection from "./app/screens/ImageSelection";
+import imgGalleryScreen from "./app/screens/imgGalleryScreen";
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
@@ -30,15 +31,13 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="googleImage"
-          component={googleImage}
-          options={{ title: "Snap Picture" }}
-        />
-        {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
-        <Stack.Screen name="ResultScreen" component={ResultScreen} /> */}
+        <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Selecting" }} />
+        <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
+
+        {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}
+        {/* <Stack.Screen name="ResultScreen" component={ResultScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

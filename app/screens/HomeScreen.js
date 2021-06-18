@@ -27,6 +27,11 @@ const itemList = [
   },
 ];
 
+// const IMAGE_OPTIONS = [
+//   { id: 1, itemName: "Phone Camera", onPress: () => navigation.navigate('cameraScreen'), },
+//   { id: 2, itemName: "Image Gallery", onPress: () => navigation.navigate('googleImage'), },
+// ];
+
 function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
@@ -52,12 +57,15 @@ function HomeScreen({ navigation }) {
       </View>
       <View style={styles.imageContainer}>
         <HeadingText style={styles.imageText}>Snap it!</HeadingText>
-        <TouchableOpacity onPress={() => navigation.navigate('cameraScreen')}>
-          <Image
-            style={styles.camCartImage}
-            source={require("../assets/cart_cam.png")}
-          />
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('cameraScreen')}
+          onLongPress={() => navigation.navigate('ImageSelection')}
+        >
+          <Image style={styles.camCartImage} source={require("../assets/cart_cam.png")} />
         </TouchableOpacity>
+
+
       </View>
     </View>
   );

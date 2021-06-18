@@ -22,8 +22,29 @@ npm install expo install expo-camera
 ## library used for capturing images
 npm install expo install react-native-view-shot
 
-## library used for camera
+## library used for camera and video
 npm install expo-camera expo-av
+
+## assest path to i9mage
+npm install expo install expo-asset
+
+
+npm install expo install expo-image-picker
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+//// In testing, may not need
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+## installing expo sharing
+npm install expo install expo-sharing
+
+## expo image picker
+npm install expo install expo-image-picker
+
+npm install @expo/react-native-action-sheet -S
+
+
+## to select images
+npm install --save react-native-image-picker
 
 ## SQL database using Firebase
 npm install --save @react-native-firebase/app
@@ -32,11 +53,3 @@ npm install --save @react-native-firebase/app
 <!-- npm install react-native-google-image-search -->
 
 npm install --save google-images
-
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-//// In testing, may not need
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-## to select images
-npm install --save react-native-image-picker
