@@ -1,5 +1,5 @@
 /* 
-This is the new homeScreen combining Simon's elements with my lists.
+Camera Screen elements with flash, flip, and preview.
 */
 
 import React, { useState, useRef, useEffect } from "react";
