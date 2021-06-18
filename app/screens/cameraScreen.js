@@ -1,4 +1,6 @@
-
+/* 
+This is the new homeScreen combining Simon's elements with my lists.
+*/
 
 import React, { useState, useRef, useEffect } from "react";
 import {
