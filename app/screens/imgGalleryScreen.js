@@ -17,7 +17,7 @@ function imgGalleryScreen({ navigation }) {
 
     return (
         <SafeAreaView styles={styles.container}>
-            <TouchableOpacity >
+            <TouchableOpacity>
                 <Text>Other Image</Text>
             </TouchableOpacity>
 
