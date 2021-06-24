@@ -46,12 +46,34 @@ function cameraScreen({ navigation }) {
     if (cameraRef.current) {
       const options = { quality: 0.5, base64: true, skipProcessing: true };
       const data = await cameraRef.current.takePictureAsync(options);
-      const source = data.uri;
+      // const sourceuri = data.uri;
+      const source = data.base64;
       if (source) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
-        console.log("picture source", source);
-        <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen', { imageName: source }); }, 2000)}</Text>
+        let base64img = 'data:image/jpg;base64,${source}';
+        let apiUrl= 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';//https://cloudinary.com/console
+        let data= {file:base64img,upload_preset:'skwa0pat'};
+        fetch(apiUrl, {
+          body: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST'
+        })
+        .then(async response => {
+          let data = await response.json();
+          if (data.secure_url) {
+            console.log('Upload successful')
+            alert('Upload successful');
+          }
+        })
+        .catch(err => {
+          console.log('Upload failed')
+          alert('Cannot upload');
+        });
+        console.log("picture in base64:", source);
+        // <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen', { imageName: source }); }, 2000)}</Text>
       }
     }
   };
