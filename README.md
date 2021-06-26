@@ -25,11 +25,14 @@ npm install expo install react-native-view-shot
 ## library used for camera and video
 npm install expo-camera expo-av
 
-## assest path to i9mage
+## assest path to image
 npm install expo install expo-asset
 
 
 npm install expo install expo-image-picker
+
+## sqlite sql database
+npm install expo install expo-sqlite
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 //// In testing, may not need

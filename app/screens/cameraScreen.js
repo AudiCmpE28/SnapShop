@@ -3,10 +3,9 @@ Camera Screen elements with flash, flip, and preview.
 */
 
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Image, StyleSheet, Dimensions, View, Text, TouchableOpacity, SafeAreaView,
-} from "react-native";
+import { Image, StyleSheet, Dimensions, View, Text, TouchableOpacity, SafeAreaView, } from "react-native";
 import { Camera } from "expo-camera";
+
 import colors from "../config/colors";
 
 //adjusts things according to phone size
@@ -24,6 +23,7 @@ function cameraScreen({ navigation }) {
     Camera.Constants.FlashMode.off
   );
   const [isPreview, setIsPreview] = useState(false);
+  const [isImageDB, setImageDB] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
 
 
@@ -44,14 +44,41 @@ function cameraScreen({ navigation }) {
   //function to capture the image
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0.5, base64: true, skipProcessing: true };
+      const options = { quality: 0.7, base64: true };
       const data = await cameraRef.current.takePictureAsync(options);
-      const source = data.uri;
+      const source = data.base64;
       if (source) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
         console.log("picture source", source);
-        <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen', { imageName: source }); }, 2000)}</Text>
+
+
+        let base64Img = `data:image/jpg;base64,${source}`;
+        let apiUrl =
+          'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
+        let data = {
+          file: base64Img,
+          upload_preset: 'SnapShop'
+        };
+
+        fetch(apiUrl, {
+          body: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST'
+        })
+        // .then(async response => {
+        //   let data = await response.json();
+        //   if (data.secure_url) {
+        //     alert('Upload successful');
+        //   }
+        // })
+        // .catch(err => {
+        //   alert('Cannot upload');
+        //   console.log(err);
+        // });
+        // setImageDB(false);
       }
     }
   };
@@ -80,6 +107,16 @@ function cameraScreen({ navigation }) {
     );
   };
 
+  const saveImageDB = async () => {
+    <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen'); }, 1000)}</Text>
+  };
+
+  const saveImagePreview = () => (
+    <TouchableOpacity onPress={saveImageDB} style={styles.saveButton}>
+      <Text>Save Image</Text>
+    </TouchableOpacity>
+  );
+
   const cancelPreview = async () => {
     await cameraRef.current.resumePreview();
     setIsPreview(false);
@@ -87,13 +124,8 @@ function cameraScreen({ navigation }) {
 
   const renderCancelPreviewButton = () => (
     <TouchableOpacity onPress={cancelPreview} style={styles.closeButton}>
-      <View style={[styles.closeCross, { transform: [{ rotate: "45deg" }] }]} />
-      <View
-        style={[styles.closeCross, { transform: [{ rotate: "-45deg" }] }]}
-      />
+      <Text>Retake Image</Text>
     </TouchableOpacity>
-
-    // save button
   );
 
   const renderCaptureControl = () => (
@@ -135,7 +167,7 @@ function cameraScreen({ navigation }) {
         onCameraReady={onCameraReady}
       />
       <View style={styles.container}>
-        {isPreview && renderCancelPreviewButton()}
+        {isPreview && renderCancelPreviewButton() && saveImagePreview()}
         {!isPreview && renderCaptureControl()}
       </View>
     </SafeAreaView>
@@ -152,22 +184,14 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   closeButton: {
-    position: "absolute",
-    top: 35,
-    left: 15,
-    height: closeButtonSize,
-    width: closeButtonSize,
-    borderRadius: Math.floor(closeButtonSize / 2),
-    justifyContent: "center",
+    position: "relative",
+    flexDirection: "row",
+    bottom: "5%",
     alignItems: "center",
-    backgroundColor: colors.white,
-    opacity: 0.7,
-    zIndex: 2,
-  },
-  closeCross: {
-    width: "68%",
-    height: 1,
-    backgroundColor: "black",
+    justifyContent: "center",
+    alignContent: "center",
+    color: "yellow",
+    backgroundColor: "white",
   },
   buttonsContainer: {
     position: "absolute",
@@ -176,6 +200,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignContent: "center",
+  },
+  saveButton: {
+    position: "relative",
+    flexDirection: "row",
+    bottom: "5%",
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    color: "yellow",
+    backgroundColor: "white",
   },
   captureButton: {
     backgroundColor: colors.white,
@@ -210,5 +244,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
 
 export default cameraScreen;
