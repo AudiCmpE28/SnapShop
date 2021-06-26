@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, Text, SafeAreaView, View, Image, TouchableOpacity, ScrollView, Button, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -49,5 +49,33 @@ export default App;
 
 // // Used to test screens
 // export default function App() {
-//   return <initialStuff />;
+//   const [word, setWord] = React.useState('building');
+//   const [associations, setAssociations] = React.useState(null);
+//   const getAssociations = () => {
+//     fetch('/api/wordsapi/' + word)
+//       .then(result => result.json())
+//       .then(body => setAssociations(body));
+//   };
+
+//   return (
+//     <SafeAreaView className="app">
+//       <Text>API testing</Text>
+//       <TextInput value={word} onChange={e => setWord(e.target.value)} />
+//       <TouchableOpacity onClick={getAssociations} />
+
+//       {associations && (
+//         Object.keys(associations).length === 0
+//           ? <Text>No results</Text>
+//           : <View>
+//             {Object.entries(associations).map(([association]) => (
+//               <View>
+//                 {association}
+//                 {' '}
+//               </View>
+//             ))}
+//           </View>
+//       )}
+
+//     </SafeAreaView>
+//   );
 // }
