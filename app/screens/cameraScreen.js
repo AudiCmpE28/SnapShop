@@ -50,7 +50,7 @@ function cameraScreen({ navigation }) {
       if (source) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
-        console.log("picture source", source);
+        // console.log("picture source", source);
 
 
         let base64Img = `data:image/jpg;base64,${source}`;
@@ -68,17 +68,18 @@ function cameraScreen({ navigation }) {
           },
           method: 'POST'
         })
-        // .then(async response => {
-        //   let data = await response.json();
-        //   if (data.secure_url) {
-        //     alert('Upload successful');
-        //   }
-        // })
-        // .catch(err => {
-        //   alert('Cannot upload');
-        //   console.log(err);
-        // });
-        // setImageDB(false);
+          .then(async response => {
+            let data = await response.json();
+            if (data.secure_url) {
+              // alert('Upload successful');
+              console.log(data.secure_url);
+            }
+          })
+          .catch(err => {
+            // alert('Cannot upload');
+            console.log(err);
+          });
+        setImageDB(false);
       }
     }
   };
