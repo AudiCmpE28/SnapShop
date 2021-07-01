@@ -32,6 +32,8 @@ const Stack = createStackNavigator();
 import * as imgDB from "./database/SQLiteDB";
 function App() {
   imgDB.initDB();
+  //test retrieving all items
+  imgDB.getItemwithID(imgDB.db,-1)
   return (
     <NavigationContainer>
       <Stack.Navigator>

@@ -73,21 +73,20 @@ function cameraScreen({ navigation }) {
           },
           method: 'POST'
         })
-          .then(async response => {
-            let data = await response.json();
-            if (data.secure_url) {
-              // alert('Upload successful');
-              // console.log(data);
-              let dataurl= data.url;
-              imgDB.insertUrl(imgDB.db,dataurl);
-            }
-          })
-          .catch(err => {
-            // alert('Cannot upload');
-            console.log(err);
-          });
-          //test retrieving all items
-          imgDB.getItemwithID(imgDB.db,-1)
+        .then(async response => {
+          let data = await response.json();
+          if (data.secure_url) {
+            // alert('Upload successful');
+            // console.log(data);
+          let dataurl= data.url;
+          imgDB.insertUrl(imgDB.db,dataurl);
+          }
+        })
+        .catch(err => {
+          // alert('Cannot upload');
+          console.log(err);
+        });
+
         setImageDB(false);
       }
     }

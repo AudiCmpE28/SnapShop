@@ -1,11 +1,12 @@
 import * as SQLite from 'expo-sqlite';
 
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, RecyclerViewBackedScrollViewBase } from 'react-native';
 
 // create and return db object
 
 export const db= SQLite.openDatabase('imgDB');
 
+// tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
 
 
 /**
@@ -17,45 +18,49 @@ export const db= SQLite.openDatabase('imgDB');
  * @param price Price of said item
  * */
 export function initDB(){
+    console.log('Inside initDB');
+    // db.transaction(tx => {
+    //     tx.executeSql(
+    //         'DROP TABLE IF EXISTS RecentItems'  //reset of db on each startup, temporary 
+    //         )
+    //     }
+    // )
     db.transaction(tx => {
-        tx.executeSql(
-            'DROP TABLE IF EXISTS RecentItems'
-            )
-        }
-    )
-    db.transaction(tx => {
-        tx.executeSql(
-            'DROP TABLE IF EXISTS RecentItems CREATE TABLE IF NOT EXISTS RecentItems (ID INTEGER PRIMARY KEY AUTOINCREMENT, itemURL TEXT, itemName TEXT, storeName TEXT, price REAL)'
-        )
+        tx.executeSql('CREATE TABLE IF NOT EXISTS RecentItems (ID INTEGER PRIMARY KEY AUTOINCREMENT, itemURL TEXT, itemName TEXT, storeName TEXT, price REAL)')
     })
 }
 
 export  function insertUrl(imgDB,url){
-    imgDB.transaction(tx =>{
-        tx.executeSql('INSERT INTO RecentItems (ID, itemURL) values (?,?)',[null,url],console.log(SQLite.ResultSet),console.log(console.error()))
-})
-
-// console.log("insertURL success %s",url)
-
+        console.log('Inside insertUrl');
+        imgDB.transaction(
+            tx => {
+              tx.executeSql('INSERT INTO RecentItems (ID, itemURL) values (?,?)',[null,url],(_, result) => {console.log(JSON.stringify(result)),(_,error)=>console.log(JSON.stringify(error))});
+            }
+        )
 }
+
+
+
 
 export function getItemwithID(imgDB,ID)
 {
-    if(ID == -1){
+    if(ID == -1)
+    {
+        console.log('Inside getItemwithID ALL')
         imgDB.transaction(tx =>{
-            tx.executeSql('SELECT * FROM RecentItems',[],(_,{ rows })=>console.log(JSON.stringify(rows)))
+            tx.executeSql('SELECT * FROM RecentItems',[],(_, result) => {console.log(JSON.stringify(result))});
+            // tx.executeSql('SELECT * FROM RecentItems',[],(_,{ rows })=>console.log(JSON.stringify(rows)))
             // tx.executeSql('SELECT * FROM RecentItems',[],console.log(SQLite.ResultSet),console.log(console.error()))
-
         })
     }
-    if(ID>=-1)
+    if(ID>-1)
     {
+        console.log('Inside getItemwithID %d',ID)
         imgDB.transaction(tx =>{
-            tx.executeSql('SELECT * FROM RecentItems WHERE ID =?',[ID,],(_,{ rows })=>console.log(JSON.stringify(rows)))
+            tx.executeSql('SELECT * FROM RecentItems WHERE ID =?',[ID,],(trans, result) => {console.log(trans, result)});
             // tx.executeSql('SELECT * FROM RecentItems WHERE ID =?',[ID],console.log(SQLite.ResultSet),console.log(console.error()))
         })
     }
-    alert(JSON.stringify(rows))
     // console.log("getItemwithID success %d",ID)
 
 }
