@@ -5,9 +5,9 @@ Camera Screen elements with flash, flip, and preview.
 import React, { useState, useRef, useEffect } from "react";
 import { Image, StyleSheet, Dimensions, View, Text, TouchableOpacity, SafeAreaView, } from "react-native";
 import { Camera } from "expo-camera";
-
 import colors from "../config/colors";
 
+import * as imgDB from "../../database/SQLiteDB";
 //adjusts things according to phone size
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
@@ -55,10 +55,15 @@ function cameraScreen({ navigation }) {
 
         let base64Img = `data:image/jpg;base64,${source}`;
         let apiUrl =
-          'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
+        // 'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
+        // let data = {
+        //   file: base64Img,
+        //   upload_preset: 'SnapShop'
+        // };
+          'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
         let data = {
           file: base64Img,
-          upload_preset: 'SnapShop'
+          upload_preset: 'hskz2avq'
         };
 
         fetch(apiUrl, {
@@ -72,13 +77,17 @@ function cameraScreen({ navigation }) {
             let data = await response.json();
             if (data.secure_url) {
               // alert('Upload successful');
-              console.log(data.secure_url);
+              // console.log(data);
+              let dataurl= data.url;
+              imgDB.insertUrl(imgDB.db,dataurl);
             }
           })
           .catch(err => {
             // alert('Cannot upload');
             console.log(err);
           });
+          //test retrieving all items
+          imgDB.getItemwithID(imgDB.db,-1)
         setImageDB(false);
       }
     }
