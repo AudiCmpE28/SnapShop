@@ -28,10 +28,7 @@ import PracticeScreen from "./app/extraScreens/PracticeScreen";
 // stack of pages
 const Stack = createStackNavigator();
 
-// database import
-import * as imgDB from "./database/SQLiteDB";
 function App() {
-  imgDB.initDB();
   return (
     <NavigationContainer>
       <Stack.Navigator>
