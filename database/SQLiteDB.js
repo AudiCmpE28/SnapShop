@@ -17,15 +17,10 @@ export const db= SQLite.openDatabase('imgDB');
  * @param price Price of said item
  * */
 export function initDB(){
+
     db.transaction(tx => {
         tx.executeSql(
-            'DROP TABLE IF EXISTS RecentItems'
-            )
-        }
-    )
-    db.transaction(tx => {
-        tx.executeSql(
-            'DROP TABLE IF EXISTS RecentItems CREATE TABLE IF NOT EXISTS RecentItems (ID INTEGER PRIMARY KEY AUTOINCREMENT, itemURL TEXT, itemName TEXT, storeName TEXT, price REAL)'
+            'CREATE TABLE IF NOT EXISTS RecentItems (ID INTEGER PRIMARY KEY AUTOINCREMENT, itemURL TEXT, itemName TEXT, storeName TEXT, price REAL)'
         )
     })
 }
