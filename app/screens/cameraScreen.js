@@ -109,7 +109,7 @@ function cameraScreen({ navigation }) {
   };
 
   const saveImageDB = async () => {
-    <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen'); }, 1000)}</Text>
+    <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen', { imageURL: 'data.secure_url' }); }, 1000)}</Text>
   };
 
   const saveImagePreview = () => (

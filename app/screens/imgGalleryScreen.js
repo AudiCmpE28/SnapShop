@@ -12,7 +12,6 @@ import HeadingText from "../components/HeadingText";
 
 function imgGalleryScreen({ navigation }) {
     const imageURI = useNavigation('image');
-
     console.log(imageURI);
 
     return (
@@ -29,7 +28,7 @@ function imgGalleryScreen({ navigation }) {
                 <Text>Analyze</Text>
             </TouchableOpacity>
 
-            {/* <Image source={{ imageURI }} style={styles.imageDisplay} /> */}
+            <Image source={{ uri: imageURI }} style={styles.imageDisplay} />
         </SafeAreaView>
 
     );
