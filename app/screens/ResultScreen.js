@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, FlatList, StyleSheet, View } from "react-native";
+import { Text, FlatList, StyleSheet, View, Linking } from "react-native";
 import Card from "../components/Card";
 
 import ItemLink from "../components/ItemLink";
@@ -33,7 +33,7 @@ function ResultScreen({ navigation, route }) {
           <View style={styles.card}>
             <Card
               title="Hardcoded Title"
-              //description="Test description"
+              description="Click a box below to open the link for purchase."
               image={{ uri: imageURL }}
             />
           </View>
@@ -48,7 +48,7 @@ function ResultScreen({ navigation, route }) {
                 webName={item.store}
                 link={item.url}
                 price={item.price}
-                onPress={() => console.log("Clicked")}
+                onPress={() => Linking.openURL(item.url)}
               />
             )}
           />

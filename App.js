@@ -41,7 +41,7 @@ function App() {
         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
         <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Selecting" }} />
         <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ResultScreen" component={ResultScreen} />
+        <Stack.Screen name="ResultScreen" component={ResultScreen} options={{ headerShown: false }} />
 
         {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}
 
