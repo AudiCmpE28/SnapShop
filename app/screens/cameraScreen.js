@@ -8,7 +8,7 @@ import { Camera } from "expo-camera";
 import * as imgDB from "../../database/SQLiteDB";
 
 import colors from "../config/colors";
-
+import * as imgDB from '../../database/SQLiteDB';
 //adjusts things according to phone size
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
@@ -54,10 +54,10 @@ function cameraScreen({ navigation }) {
 
 
         let base64Img = `data:image/jpg;base64,${source}`;
-        let apiUrl = 'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
+        let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
         let data = {
           file: base64Img,
-          upload_preset: 'SnapShop'
+          upload_preset: 'hskz2avq'
         };
 
         fetch(apiUrl, {

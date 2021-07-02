@@ -1,13 +1,10 @@
 import * as SQLite from 'expo-sqlite';
 
-import { View, Text, TouchableOpacity, ScrollView, RecyclerViewBackedScrollViewBase } from 'react-native';
-
 // create and return db object
-
 export const db= SQLite.openDatabase('imgDB');
 
+/* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
-
 
 /**
  * Creates a table RecentItems containing: 
@@ -34,8 +31,8 @@ export  function insertUrl(imgDB,url){
         console.log('Inside insertUrl');
         imgDB.transaction(
             tx => {
-              tx.executeSql('INSERT INTO RecentItems (ID, itemURL) values (?,?)',[null,url],(_, result) => {console.log(JSON.stringify(result)),(_,error)=>console.log(JSON.stringify(error))});
-            }
+              tx.executeSql('INSERT INTO RecentItems (ID, itemURL) values (?,?)',[null,url],(_, result) => {console.log(JSON.stringify(result))},(_,error)=>{console.log(JSON.stringify(error))});
+            }//                                                                                             ^ instead of console logging, try return{resultobj=Json.stringify(result)} ?
         )
 }
 
@@ -48,16 +45,16 @@ export function getItemwithID(imgDB,ID)
     {
         console.log('Inside getItemwithID ALL')
         imgDB.transaction(tx =>{
-            tx.executeSql('SELECT * FROM RecentItems',[],(_, result) => {console.log(JSON.stringify(result))});
-            // tx.executeSql('SELECT * FROM RecentItems',[],(_,{ rows })=>console.log(JSON.stringify(rows)))
-            // tx.executeSql('SELECT * FROM RecentItems',[],console.log(SQLite.ResultSet),console.log(console.error()))
+            tx.executeSql('SELECT * FROM RecentItems',[],(_, result) => {console.log(JSON.stringify(result.rows._array))});
+            // tx.executeSql('SELECT * FROM RecentItems',[],(_, result) => {console.log(JSON.stringify(result))});
+
         })
     }
     if(ID>-1)
     {
         console.log('Inside getItemwithID %d',ID)
         imgDB.transaction(tx =>{
-            tx.executeSql('SELECT * FROM RecentItems WHERE ID =?',[ID,],(trans, result) => {console.log(trans, result)});
+            tx.executeSql('SELECT * FROM RecentItems WHERE ID =?',[ID,],(_, result) => {console.log(JSON.stringify(result.rows._array))});
             // tx.executeSql('SELECT * FROM RecentItems WHERE ID =?',[ID],console.log(SQLite.ResultSet),console.log(console.error()))
         })
     }
