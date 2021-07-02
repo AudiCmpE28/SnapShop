@@ -1,10 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { StyleSheet, Text, SafeAreaView, View, Image, TouchableOpacity, ScrollView, Button, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Button,
+  TextInput,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as imgDB from "./database/SQLiteDB";
-
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import HomeScreen from "./app/screens/HomeScreen";
@@ -27,31 +36,25 @@ import Card from "./app/components/Card";
 import PracticeScreen from "./app/extraScreens/PracticeScreen";
 import * as imgDB from './database/SQLiteDB';
 // stack of pages
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
-function App() {
-  imgDB.initDB();
-  //test retrieving all items
-  imgDB.getItemwithID(imgDB.db, -1);
+// function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+//         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
+//         <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Selecting" }} />
+//         <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
-        <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Selecting" }} />
-        <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ResultScreen" component={ResultScreen} />
+//         {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}
+//         <Stack.Screen name="ResultScreen" component={ResultScreen} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 
-        {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}
-
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-export default App;
-
+// export default App;
 
 // // Used to test screens
 // export default function App() {
@@ -85,3 +88,8 @@ export default App;
 //     </SafeAreaView>
 //   );
 // }
+
+// Used to test screens
+export default function App() {
+  return <ResultScreen />;
+}

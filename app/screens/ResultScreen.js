@@ -8,11 +8,11 @@ import colors from "../config/colors";
 
 
 function ResultScreen({ navigation, route }) {
-  const { imageURL } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=' + imageURL;
+  const urlAPI =
+    "https://whispering-falls-08617.herokuapp.com/search?searchquery=https://i.ebayimg.com/images/g/HT0AAOSwCdResUW4/s-l640.jpg";
 
   useEffect(() => {
     fetch(urlAPI)
@@ -34,7 +34,7 @@ function ResultScreen({ navigation, route }) {
             <Card
               title="Hardcoded Title"
               //description="Test description"
-              image={{ uri: imageURL }}
+              image={require("../assets/coke.png")}
             />
           </View>
 
@@ -44,6 +44,10 @@ function ResultScreen({ navigation, route }) {
             initialNumToRender={3}
             renderItem={({ item }) => (
               <ItemLink
+                // itemName={item.itemName}
+                // webName={item.webName}
+                // link={item.link}
+                // price={item.price}
                 itemName={item.name}
                 webName={item.store}
                 link={item.url}
