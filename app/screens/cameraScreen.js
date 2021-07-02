@@ -14,19 +14,18 @@ const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
 const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
 
 
+
 //main function for camera screen
 function cameraScreen({ navigation }) {
   // conditions to keep track when using camera such as flip and flash modes
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-  const [cameraFlash, setCameraFlash] = useState(
-    Camera.Constants.FlashMode.off
-  );
+  const [cameraFlash, setCameraFlash] = useState(Camera.Constants.FlashMode.off);
   const [isPreview, setIsPreview] = useState(false);
   const [isImageDB, setImageDB] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
 
-
+  const [urlVariable, setURLvar] = useState('No Image');
 
   const cameraRef = useRef();
   useEffect(() => {
@@ -54,8 +53,7 @@ function cameraScreen({ navigation }) {
 
 
         let base64Img = `data:image/jpg;base64,${source}`;
-        let apiUrl =
-          'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
+        let apiUrl = 'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
         let data = {
           file: base64Img,
           upload_preset: 'SnapShop'
@@ -73,6 +71,7 @@ function cameraScreen({ navigation }) {
             if (data.secure_url) {
               // alert('Upload successful');
               console.log(data.secure_url);
+              setURLvar(data.secure_url);
             }
           })
           .catch(err => {
@@ -109,7 +108,7 @@ function cameraScreen({ navigation }) {
   };
 
   const saveImageDB = async () => {
-    <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen', { imageURL: 'data.secure_url' }); }, 1000)}</Text>
+    <Text>{setTimeout(() => { navigation.navigate('ResultScreen', { imageURL: urlVariable }); }, 1000)}</Text>
   };
 
   const saveImagePreview = () => (

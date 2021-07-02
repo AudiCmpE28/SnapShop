@@ -38,7 +38,7 @@ function App() {
         <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
 
         {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}
-        {/* <Stack.Screen name="ResultScreen" component={ResultScreen} /> */}
+        <Stack.Screen name="ResultScreen" component={ResultScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

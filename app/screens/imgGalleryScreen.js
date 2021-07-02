@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import { useNavigation, } from '@react-navigation/native';
-import * as Sharing from 'expo-sharing';
 
 
 import RecentItem from "../components/RecentItem";
@@ -10,26 +9,36 @@ import HeadingText from "../components/HeadingText";
 
 
 
-function imgGalleryScreen({ navigation }) {
-    const imageURI = useNavigation('image');
-    console.log(imageURI);
+function imgGalleryScreen({ navigation, route }) {
+    const { imageURL } = route.params;
+    console.log(imageURL);
+    const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=' + imageURL;
+    console.log(urlAPI);
+
+    fetch(urlAPI, {
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then(async response => {
+            let data = await response.json();
+            if (data) {
+                console.log(data);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
 
     return (
-        <SafeAreaView styles={styles.container}>
+        <View styles={styles.container}>
             <TouchableOpacity>
                 <Text>Other Image</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-                <Text>Snap Again</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-                <Text>Analyze</Text>
-            </TouchableOpacity>
-
-            <Image source={{ uri: imageURI }} style={styles.imageDisplay} />
-        </SafeAreaView>
+            <Image source={{ uri: imageURL }} style={{ width: 200, height: 200 }} />
+        </View>
 
     );
 }
@@ -38,14 +47,12 @@ function imgGalleryScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.primary,
+        alignItems: "center",
+        justifyContent: "center",
+        alignContent: "center",
     },
-    imageDisplay: {
-        width: "70%",
-        height: "40%",
-        resizeMode: 'contain',
-    },
-})
+
+});
 
 
 export default imgGalleryScreen;
