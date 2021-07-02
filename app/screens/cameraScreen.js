@@ -70,7 +70,9 @@ function cameraScreen({ navigation }) {
             let data = await response.json();
             if (data.secure_url) {
               // alert('Upload successful');
-              console.log(data.secure_url);
+              // console.log(data);
+              let dataurl = data.url;
+              imgDB.insertUrl(imgDB.db, dataurl);
               setURLvar(data.secure_url);
             }
           })
@@ -78,6 +80,7 @@ function cameraScreen({ navigation }) {
             // alert('Cannot upload');
             console.log(err);
           });
+
         setImageDB(false);
       }
     }

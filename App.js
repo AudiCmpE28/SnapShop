@@ -29,6 +29,9 @@ import PracticeScreen from "./app/extraScreens/PracticeScreen";
 const Stack = createStackNavigator();
 
 function App() {
+  imgDB.initDB();
+  //test retrieving all items
+  imgDB.getItemwithID(imgDB.db,-1)
   return (
     <NavigationContainer>
       <Stack.Navigator>
