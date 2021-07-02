@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, FlatList, StyleSheet, View } from "react-native";
 import Card from "../components/Card";
 
 import ItemLink from "../components/ItemLink";
@@ -31,59 +31,56 @@ const results = [
 ];
 
 function ResultScreen({ navigation, route }) {
-  const { imageURL } = route.params;
-  // const [listItems, setItemList] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
-  console.log(imageURL);
-  const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=' + imageURL;
-  // const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=https://res.cloudinary.com/das4rbvo9/image/upload/v1625187981/l23wsbgqllwgfcmgfwsv.jpg';
-  console.log(urlAPI);
+  const urlAPI =
+    "https://whispering-falls-08617.herokuapp.com/search?searchquery=https://i.ebayimg.com/images/g/HT0AAOSwCdResUW4/s-l640.jpg";
 
-  fetch(urlAPI, {
-    headers: {
-      'content-type': 'application/json'
-    }
-  })
-    .then(async response => {
-      let data1 = await response.json();
-      if (data1) {
-        console.log(data1);
-        // setItemList(data1);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  useEffect(() => {
+    fetch(urlAPI)
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
+
+  console.log(data);
 
   return (
     <Screen style={styles.screen}>
-      <View style={styles.card}>
-        <Card
-          title="Coke Can"
-          //description="Test description"
-          image={{ uri: imageURL }}
-        // image={{ uri: 'https://res.cloudinary.com/das4rbvo9/image/upload/v1625187981/l23wsbgqllwgfcmgfwsv.jpg' }}
-        />
-      </View>
+      {isLoading ? (
+        <Text> Loading... </Text>
+      ) : (
+        <>
+          <View style={styles.card}>
+            <Card
+              title="Hardcoded Title"
+              //description="Test description"
+              image={require("../assets/coke.png")}
+            />
+          </View>
 
-      {/* <FlatList
-        data={listItems}
-        keyExtractor={(results) => results.id.toString()}
-        initialNumToRender={3}
-        renderItem={({ item }) => (
-          <ItemLink
-            // itemName={item.itemName}
-            // webName={item.webName}
-            // link={item.link}
-            // price={item.price}
-            itemName={item.name}
-            webName={item.store}
-            link={item.url}
-            price={item.price}
-            onPress={() => console.log("Clicked")}
+          <FlatList
+            data={data}
+            //keyExtractor={(results) => results.id.toString()}
+            initialNumToRender={3}
+            renderItem={({ item }) => (
+              <ItemLink
+                // itemName={item.itemName}
+                // webName={item.webName}
+                // link={item.link}
+                // price={item.price}
+                itemName={item.name}
+                webName={item.store}
+                link={item.url}
+                price={item.price}
+                onPress={() => console.log("Clicked")}
+              />
+            )}
           />
-        )}
-      /> */}
+        </>
+      )}
     </Screen>
   );
 }
