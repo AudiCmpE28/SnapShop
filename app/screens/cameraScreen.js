@@ -46,11 +46,11 @@ function cameraScreen({ navigation }) {
       const options = { quality: 0.7, base64: true };
       const data = await cameraRef.current.takePictureAsync(options);
       const source = data.base64;
+
       if (source) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
         // console.log("picture source", source);
-
 
         let base64Img = `data:image/jpg;base64,${source}`;
         let apiUrl = 'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
@@ -70,16 +70,14 @@ function cameraScreen({ navigation }) {
             let data = await response.json();
             if (data.secure_url) {
               // alert('Upload successful');
-              // console.log(data);
-              let dataurl = data.url;
-              imgDB.insertUrl(imgDB.db, dataurl);
+              console.log(data.secure_url);
               setURLvar(data.secure_url);
             }
           })
           .catch(err => {
-            // alert('Cannot upload');
             console.log(err);
           });
+
 
         setImageDB(false);
       }

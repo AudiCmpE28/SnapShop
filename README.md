@@ -42,7 +42,7 @@ npm install expo install expo-image-picker
 
 ## sqlite sql database
 
-npm install expo install expo-sqlite
+npm install expo install expo-sqlite@9.1.0
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 //// In testing, may not need

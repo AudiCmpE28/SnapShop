@@ -32,7 +32,7 @@ const results = [
 
 function ResultScreen({ navigation, route }) {
   const { imageURL } = route.params;
-  const [listItems, setItemList] = useState('null');
+  // const [listItems, setItemList] = useState([]);
 
   console.log(imageURL);
   const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=' + imageURL;
@@ -44,10 +44,10 @@ function ResultScreen({ navigation, route }) {
     }
   })
     .then(async response => {
-      let data = await response.json();
-      if (data) {
-        console.log(data);
-        setItemList(data);
+      let data1 = await response.json();
+      if (data1) {
+        console.log(data1);
+        // setItemList(data1);
       }
     })
     .catch(err => {
@@ -64,9 +64,10 @@ function ResultScreen({ navigation, route }) {
         />
       </View>
 
-      <FlatList
-        data={listItems}
+      {/* <FlatList
+        data={data1}
         keyExtractor={(results) => results.id.toString()}
+        initialNumToRender={3}
         renderItem={({ item }) => (
           <ItemLink
             // itemName={item.itemName}
@@ -80,7 +81,7 @@ function ResultScreen({ navigation, route }) {
             onPress={() => console.log("Clicked")}
           />
         )}
-      />
+      /> */}
     </Screen>
   );
 }
