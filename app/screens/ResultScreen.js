@@ -36,6 +36,7 @@ function ResultScreen({ navigation, route }) {
 
   console.log(imageURL);
   const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=' + imageURL;
+  // const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=https://res.cloudinary.com/das4rbvo9/image/upload/v1625187981/l23wsbgqllwgfcmgfwsv.jpg';
   console.log(urlAPI);
 
   fetch(urlAPI, {
@@ -61,11 +62,12 @@ function ResultScreen({ navigation, route }) {
           title="Coke Can"
           //description="Test description"
           image={{ uri: imageURL }}
+        // image={{ uri: 'https://res.cloudinary.com/das4rbvo9/image/upload/v1625187981/l23wsbgqllwgfcmgfwsv.jpg' }}
         />
       </View>
 
       {/* <FlatList
-        data={data1}
+        data={listItems}
         keyExtractor={(results) => results.id.toString()}
         initialNumToRender={3}
         renderItem={({ item }) => (
