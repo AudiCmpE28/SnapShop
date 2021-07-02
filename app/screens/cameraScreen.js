@@ -7,7 +7,7 @@ import { Image, StyleSheet, Dimensions, View, Text, TouchableOpacity, SafeAreaVi
 import { Camera } from "expo-camera";
 
 import colors from "../config/colors";
-
+import * as imgDB from '../../database/SQLiteDB';
 //adjusts things according to phone size
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
@@ -81,7 +81,12 @@ function cameraScreen({ navigation }) {
           // alert('Cannot upload');
           console.log(err);
         });
+        let item1=JSON.stringify(imgDB.getItemwithID(imgDB.db,1))
+        let item2=JSON.stringify(imgDB.getItemwithID(imgDB.db,2))
 
+        console.log('Attempting to print items')
+        console.log(item1)
+        console.log(item2)
         setImageDB(false);
       }
     }
@@ -112,7 +117,7 @@ function cameraScreen({ navigation }) {
   };
 
   const saveImageDB = async () => {
-    <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen', { imageURL: 'data.secure_url' }); }, 1000)}</Text>
+    <Text>{setTimeout(() => { navigation.navigate('imgGalleryScreen', { imageURL: 'data.secure_url' });}, 1000)}</Text>
   };
 
   const saveImagePreview = () => (

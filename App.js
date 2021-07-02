@@ -24,14 +24,13 @@ import Card from "./app/components/Card";
 
 //for practice screen only
 import PracticeScreen from "./app/extraScreens/PracticeScreen";
-
+import * as imgDB from './database/SQLiteDB';
 // stack of pages
 const Stack = createStackNavigator();
 
 function App() {
   imgDB.initDB();
   //test retrieving all items
-  imgDB.getItemwithID(imgDB.db,-1)
   return (
     <NavigationContainer>
       <Stack.Navigator>
