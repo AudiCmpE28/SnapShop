@@ -3,6 +3,7 @@ import * as React from "react";
 import { StyleSheet, Text, SafeAreaView, View, Image, TouchableOpacity, ScrollView, Button, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import * as imgDB from "./database/SQLiteDB";
 
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
@@ -29,13 +30,17 @@ import PracticeScreen from "./app/extraScreens/PracticeScreen";
 const Stack = createStackNavigator();
 
 function App() {
+  imgDB.initDB();
+  //test retrieving all items
+  imgDB.getItemwithID(imgDB.db, -1);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
         <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Selecting" }} />
-        <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} /> */}
+        <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ResultScreen" component={ResultScreen} />
 
         {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}

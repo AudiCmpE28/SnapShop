@@ -5,6 +5,7 @@ Camera Screen elements with flash, flip, and preview.
 import React, { useState, useRef, useEffect } from "react";
 import { Image, StyleSheet, Dimensions, View, Text, TouchableOpacity, SafeAreaView, } from "react-native";
 import { Camera } from "expo-camera";
+import * as imgDB from "../../database/SQLiteDB";
 
 import colors from "../config/colors";
 
@@ -71,6 +72,8 @@ function cameraScreen({ navigation }) {
             if (data.secure_url) {
               console.log(data.secure_url);
               setURLvar(data.secure_url);
+              let dataurl = data.url;
+              imgDB.insertUrl(imgDB.db, dataurl);
             }
           })
           .catch(err => {

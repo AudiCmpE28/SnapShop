@@ -44,7 +44,7 @@ function ItemLink({ itemName, webName, link, price, onPress }) {
               fontStyle: "italic",
             }}
           >
-            ${price}
+            {price}
           </Text>
         </View>
       </View>
