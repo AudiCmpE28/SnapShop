@@ -5,6 +5,7 @@ Camera Screen elements with flash, flip, and preview.
 import React, { useState, useRef, useEffect } from "react";
 import { Image, StyleSheet, Dimensions, View, Text, TouchableOpacity, SafeAreaView, } from "react-native";
 import { Camera } from "expo-camera";
+import * as imgDB from "../../database/SQLiteDB";
 
 import colors from "../config/colors";
 import * as imgDB from '../../database/SQLiteDB';
@@ -69,22 +70,16 @@ function cameraScreen({ navigation }) {
           .then(async response => {
             let data = await response.json();
             if (data.secure_url) {
-              // alert('Upload successful');
-              // console.log(data);
+              console.log(data.secure_url);
+              setURLvar(data.secure_url);
               let dataurl = data.url;
               imgDB.insertUrl(imgDB.db, dataurl);
-              setURLvar(data.secure_url);
             }
           })
           .catch(err => {
             // alert('Cannot upload');
             console.log(err);
           });
-        let item1=JSON.stringify(imgDB.getItemwithID(imgDB.db,1)) // currently returns nothing/undefined, @TODO: add return to callback in tx sqlexecutions
-        let item2=JSON.stringify(imgDB.getItemwithID(imgDB.db,2))
-        console.log('Attempting to print items')
-        console.log(item1)
-        console.log(item2)
         setImageDB(false);
       }
     }
