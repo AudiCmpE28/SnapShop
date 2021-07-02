@@ -28,3 +28,7 @@ npm install expo install expo-asset
 
 npm install expo install expo-sqlite@9.1.0
 
+## expo image picker
+npm install expo install expo-image-picker
+
+npm install @expo/react-native-action-sheet -S
