@@ -30,25 +30,52 @@ const results = [
   },
 ];
 
-function ResultScreen({ navigation }) {
+function ResultScreen({ navigation, route }) {
+  const { imageURL } = route.params;
+  const [listItems, setItemList] = useState('null');
+
+  console.log(imageURL);
+  const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=' + imageURL;
+  console.log(urlAPI);
+
+  fetch(urlAPI, {
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+    .then(async response => {
+      let data = await response.json();
+      if (data) {
+        console.log(data);
+        setItemList(data);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.card}>
         <Card
           title="Coke Can"
           //description="Test description"
-          image={require("../assets/coke.png")}
+          image={{ uri: imageURL }}
         />
       </View>
 
       <FlatList
-        data={results}
+        data={listItems}
         keyExtractor={(results) => results.id.toString()}
         renderItem={({ item }) => (
           <ItemLink
-            itemName={item.itemName}
-            webName={item.webName}
-            link={item.link}
+            // itemName={item.itemName}
+            // webName={item.webName}
+            // link={item.link}
+            // price={item.price}
+            itemName={item.name}
+            webName={item.store}
+            link={item.url}
             price={item.price}
             onPress={() => console.log("Clicked")}
           />
