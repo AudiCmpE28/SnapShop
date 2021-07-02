@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import Card from "../components/Card";
 
@@ -30,13 +30,37 @@ const results = [
   },
 ];
 
-function ResultScreen({ navigation, route }) {
-  const { imageURL } = route.params;
-  // const [listItems, setItemList] = useState([]);
+const internetItems = [
+  {
+    id: 1,
+    name: "404",
+    store: "ERROR",
+    url: "error",
+    price: "0.0",
+  },
+  {
+    id: 2,
+    name: "404",
+    store: "ERROR",
+    url: "error",
+    price: "0.0",
+  },
+  {
+    id: 3,
+    name: "404",
+    store: "ERROR",
+    url: "error",
+    price: "0.0",
+  },
+];
 
-  console.log(imageURL);
+
+function ResultScreen({ navigation, route }) {
+  // const { imageURL } = route.params; //dis one
+  const [listItems, setItemList] = useState({});
+
+  const imageURL = 'https://res.cloudinary.com/das4rbvo9/image/upload/v1625190596/h7fo2zjrmfgel0r3b1rq.jpg';
   const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=' + imageURL;
-  // const urlAPI = 'https://whispering-falls-08617.herokuapp.com/search?searchquery=https://res.cloudinary.com/das4rbvo9/image/upload/v1625187981/l23wsbgqllwgfcmgfwsv.jpg';
   console.log(urlAPI);
 
   fetch(urlAPI, {
@@ -45,31 +69,37 @@ function ResultScreen({ navigation, route }) {
     }
   })
     .then(async response => {
-      let data1 = await response.json();
-      if (data1) {
-        console.log(data1);
-        // setItemList(data1);
+      let dataObjects = await response.json();
+      if (dataObjects) {
+        // console.log(dataObjects);
+        setItemList(dataObjects);
+
+        const { name, price, store, url } = dataObjects[0];
+
+        // console.log(name);
+        // console.log(price);
       }
     })
     .catch(err => {
       console.log(err);
     });
 
+
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.card}>
         <Card
-          title="Coke Can"
+          title="Joe Mama"
           //description="Test description"
           image={{ uri: imageURL }}
-        // image={{ uri: 'https://res.cloudinary.com/das4rbvo9/image/upload/v1625187981/l23wsbgqllwgfcmgfwsv.jpg' }}
         />
       </View>
 
-      {/* <FlatList
-        data={listItems}
-        keyExtractor={(results) => results.id.toString()}
-        initialNumToRender={3}
+      <FlatList
+        data={internetItems}
+        keyExtractor={(internetItems) => internetItems.id.toString()}
+        // initialNumToRender={3}
         renderItem={({ item }) => (
           <ItemLink
             // itemName={item.itemName}
@@ -83,7 +113,7 @@ function ResultScreen({ navigation, route }) {
             onPress={() => console.log("Clicked")}
           />
         )}
-      /> */}
+      />
     </Screen>
   );
 }
@@ -99,3 +129,5 @@ const styles = StyleSheet.create({
 });
 
 export default ResultScreen;
+
+

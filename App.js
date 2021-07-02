@@ -32,13 +32,14 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
         <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Selecting" }} />
-        <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} /> */}
+        <Stack.Screen name="ResultScreen" component={ResultScreen} />
 
         {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}
-        <Stack.Screen name="ResultScreen" component={ResultScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
