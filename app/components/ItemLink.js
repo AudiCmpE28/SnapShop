@@ -1,8 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 
-import AppText from "./AppText";
-import HeadingText from "./HeadingText";
 import colors from "../config/colors";
 
 function ItemLink({ itemName, webName, link, price, onPress }) {
