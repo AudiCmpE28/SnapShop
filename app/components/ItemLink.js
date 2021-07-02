@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  TouchableHighlight,
-} from "react-native";
+import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 
 import AppText from "./AppText";
 import HeadingText from "./HeadingText";
@@ -17,12 +11,8 @@ function ItemLink({ itemName, webName, link, price, onPress }) {
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <View style={styles.headingContainer}>
-            <Text style={styles.headingText}>{webName}: </Text>
-            {itemName && <Text style={styles.headingText}>{itemName}</Text>}
-          </View>
-          <View style={styles.linkContainer}>
-            <AppText>Link: </AppText>
-            <Text style={styles.linkText}>{link}</Text>
+            <Text style={styles.storeText}>{webName}: </Text>
+            {itemName && <Text style={styles.linkText}>{itemName}</Text>}
           </View>
         </View>
         <View style={styles.priceContainer}>
@@ -68,10 +58,10 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   headingContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
   },
-  headingText: {
-    fontSize: 25,
+  storeText: {
+    fontSize: 21,
     fontFamily: "Roboto",
     fontWeight: "bold",
     textDecorationLine: "underline",
@@ -81,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   linkText: {
-    fontSize: 17,
+    fontSize: 19,
     textDecorationLine: "underline",
     color: "blue",
   },
@@ -90,14 +80,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     padding: 10,
-    flex: 0.7,
+    flex: 0.75,
   },
   priceContainer: {
     backgroundColor: colors.moneyGreen,
     justifyContent: "center",
     alignItems: "flex-start",
     padding: 10,
-    flex: 0.3,
+    flex: 0.25,
   },
 });
 
