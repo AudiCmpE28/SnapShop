@@ -74,10 +74,6 @@ function ResultScreen({ navigation, route }) {
         // console.log(dataObjects);
         setItemList(dataObjects);
 
-        const { name, price, store, url } = dataObjects[0];
-
-        // console.log(name);
-        // console.log(price);
       }
     })
     .catch(err => {
