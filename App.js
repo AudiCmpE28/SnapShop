@@ -3,7 +3,6 @@ import * as React from "react";
 import { StyleSheet, Text, SafeAreaView, View, Image, TouchableOpacity, ScrollView, Button, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import * as imgDB from "./database/SQLiteDB";
 
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";

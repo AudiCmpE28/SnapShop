@@ -8,7 +8,6 @@ import { Camera } from "expo-camera";
 import * as imgDB from "../../database/SQLiteDB";
 
 import colors from "../config/colors";
-import * as imgDB from '../../database/SQLiteDB';
 //adjusts things according to phone size
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
@@ -23,10 +22,12 @@ function cameraScreen({ navigation }) {
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [cameraFlash, setCameraFlash] = useState(Camera.Constants.FlashMode.off);
   const [isPreview, setIsPreview] = useState(false);
-  const [isImageDB, setImageDB] = useState(false);
+  // const [isImageDB, setImageDB] = useState(false); //unused
   const [isCameraReady, setIsCameraReady] = useState(false);
 
+  //cloudifay images
   const [urlVariable, setURLvar] = useState('No Image');
+  const [imageSource, setIMGsource] = useState('No Source')
 
   const cameraRef = useRef();
   useEffect(() => {
@@ -51,37 +52,7 @@ function cameraScreen({ navigation }) {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
         // console.log("picture source", source);
-
-
-        let base64Img = `data:image/jpg;base64,${source}`;
-        let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
-        let data = {
-          file: base64Img,
-          upload_preset: 'hskz2avq'
-        };
-
-        fetch(apiUrl, {
-          body: JSON.stringify(data),
-          headers: {
-            'content-type': 'application/json'
-          },
-          method: 'POST'
-        })
-          .then(async response => {
-            let data = await response.json();
-            if (data.secure_url) {
-              console.log(data.secure_url);
-              setURLvar(data.secure_url);
-
-              let dataurl = data.url;
-              imgDB.insertUrl(imgDB.db, dataurl);
-            }
-          })
-          .catch(err => {
-            // alert('Cannot upload');
-            console.log(err);
-          });
-        setImageDB(false);
+        setIMGsource(source);
       }
     }
   };
@@ -110,12 +81,43 @@ function cameraScreen({ navigation }) {
     );
   };
 
-  const saveImageDB = async () => {
-    <Text>{setTimeout(() => { navigation.navigate('ResultScreen', { imageURL: urlVariable }); }, 1000)}</Text>
+  const saveImage = async () => {
+    let base64Img = `data:image/jpg;base64,${imageSource}`;
+    let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
+    let data = {
+      file: base64Img,
+      upload_preset: 'hskz2avq'
+    };
+
+    fetch(apiUrl, {
+      body: JSON.stringify(data),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST'
+    })
+      .then(async response => {
+        let data = await response.json();
+        if (data.secure_url) {
+          // console.log(data.secure_url);
+          // setURLvar(data.secure_url);
+
+          let dataurl = data.url;
+          imgDB.insertUrl(imgDB.db, dataurl);
+
+          navigation.navigate('ResultScreen', { imageURL: data.secure_url });
+        }
+      })
+      .catch(err => {
+        // alert('Cannot upload');
+        console.log(err);
+      });
+
+    // <Text>{setTimeout(() => { navigation.navigate('ResultScreen', { imageURL: urlVariable }); }, 2000)}</Text>
   };
 
   const saveImagePreview = () => (
-    <TouchableOpacity onPress={saveImageDB} style={styles.saveButton}>
+    <TouchableOpacity onPress={saveImage} style={styles.saveButton}>
       <Text>Save Image</Text>
     </TouchableOpacity>
   );
