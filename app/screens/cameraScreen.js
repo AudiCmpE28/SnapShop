@@ -72,6 +72,7 @@ function cameraScreen({ navigation }) {
             if (data.secure_url) {
               console.log(data.secure_url);
               setURLvar(data.secure_url);
+
               let dataurl = data.url;
               imgDB.insertUrl(imgDB.db, dataurl);
             }
