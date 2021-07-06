@@ -6,11 +6,10 @@ import ItemLink from "../components/ItemLink";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 
-
 function ResultScreen({ navigation, route }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-
+  const { imageURL } = route.params;
   const urlAPI =
     "https://whispering-falls-08617.herokuapp.com/search?searchquery=https://i.ebayimg.com/images/g/HT0AAOSwCdResUW4/s-l640.jpg";
 
