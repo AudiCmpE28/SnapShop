@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import * as imgDB from "./database/SQLiteDB";
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import HomeScreen from "./app/screens/HomeScreen";
@@ -31,7 +30,7 @@ import Screen from "./app/components/Screen";
 import Icon from "./app/components/Icon";
 import ItemLink from "./app/components/ItemLink";
 import Card from "./app/components/Card";
-
+import * as imgDB from "./database/SQLiteDB";
 //for practice screen only
 import PracticeScreen from "./app/extraScreens/PracticeScreen";
 // stack of pages
