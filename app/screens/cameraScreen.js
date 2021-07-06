@@ -110,7 +110,7 @@ function cameraScreen({ navigation }) {
           // setURLvar(data.secure_url);
 
           let dataurl = data.url;
-          imgDB.database.insertUrl(data.secure_url);
+          imgDB.database.insertUrl(dataurl);
 
           navigation.navigate("ResultScreen", { imageURL: data.secure_url });
         }

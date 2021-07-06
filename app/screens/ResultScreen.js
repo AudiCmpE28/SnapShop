@@ -11,7 +11,8 @@ function ResultScreen({ navigation, route }) {
   const [data, setData] = useState([]);
   const { imageURL } = route.params;
   const urlAPI =
-    "https://whispering-falls-08617.herokuapp.com/search?searchquery=https://i.ebayimg.com/images/g/HT0AAOSwCdResUW4/s-l640.jpg";
+    "https://whispering-falls-08617.herokuapp.com/search?searchquery=" +
+    imageURL;
 
   useEffect(() => {
     fetch(urlAPI)

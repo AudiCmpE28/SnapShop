@@ -1,7 +1,7 @@
 import * as SQLite from "expo-sqlite";
 
 // create and return db object
-const db = SQLite.openDatabase("imgDB");
+export const db = SQLite.openDatabase("imgDB");
 
 /* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
@@ -39,7 +39,7 @@ export class database {
         tx.executeSql(
           "INSERT INTO RecentItems (ID, imageUrl) values (?,?)",
           [null, url],
-          (_, result) => resolve(result.rows._array),
+          (_, result) => resolve(result.insertId),
           (_, error) => reject(error)
         );
       });
@@ -54,7 +54,10 @@ export class database {
           tx.executeSql(
             "SELECT * FROM RecentItems",
             [],
-            (_, result) => resolve(result.rows._array),
+            (_, result) => {
+              console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
             (_, error) => reject(error)
           );
         });
@@ -67,7 +70,10 @@ export class database {
           tx.executeSql(
             "SELECT * FROM RecentItems WHERE ID =?",
             [ID],
-            (_, result) => resolve(result.rows._array),
+            (_, result) => {
+              console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
             (_, error) => reject(error)
           );
         });
