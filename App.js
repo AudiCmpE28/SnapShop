@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { StyleSheet, Text, SafeAreaView, View, Image, TouchableOpacity, ScrollView, Button, TextInput } from "react-native";
+import { Button, Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -28,7 +28,7 @@ import * as imgDB from './database/SQLiteDB';
 // stack of pages
 const Stack = createStackNavigator();
 
-function App() {
+function App({ navigation }) {
   imgDB.initDB();
   //test retrieving all items
   imgDB.getItemwithID(imgDB.db, -1);
@@ -36,13 +36,36 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} /> */}
-        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ title: "Snap Picture" }} />
-        <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Selecting" }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{
+          title: "Snap",
+          navigationOptions: ({ navigate, navigation }) => ({
+            headerRight: (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('HomeScreen')}>
+                <Text>Click</Text>
+              </TouchableOpacity>
+            )
+          }),
+          // headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          //   <Text>Home</Text>
+          //   {/* <Icon style={{ paddingLeft: 10 }} name="arrow-left" size={26} color="black" /> */}
+          // </TouchableOpacity>,
+        }} />
+        <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Select" }} />
         <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ResultScreen" component={ResultScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ResultScreen" component={ResultScreen} options={{
+          // headerShown: false,
+          title: "Results",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+              <Text>Click</Text>
+            </TouchableOpacity>
+          ),
+        }} />
 
-        {/* <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} /> */}
+
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>
