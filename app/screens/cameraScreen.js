@@ -101,7 +101,6 @@ function cameraScreen({ navigation }) {
         if (data.secure_url) {
           // console.log(data.secure_url);
           // setURLvar(data.secure_url);
-
           let dataurl = data.url;
           imgDB.insertUrl(imgDB.db, dataurl);
 
@@ -112,14 +111,18 @@ function cameraScreen({ navigation }) {
         // alert('Cannot upload');
         console.log(err);
       });
-
     // <Text>{setTimeout(() => { navigation.navigate('ResultScreen', { imageURL: urlVariable }); }, 2000)}</Text>
   };
 
-  const saveImagePreview = () => (
-    <TouchableOpacity onPress={saveImage} style={styles.saveButton}>
-      <Text>Save Image</Text>
-    </TouchableOpacity>
+  const renderImagePreview = () => (
+    <SafeAreaView style={styles.buttonsContainer}>
+      <TouchableOpacity onPress={saveImage} style={styles.saveButton}>
+        <Text>Save</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={cancelPreview} style={styles.closePreviewButton}>
+        <Text>Cancel</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 
   const cancelPreview = async () => {
@@ -127,11 +130,6 @@ function cameraScreen({ navigation }) {
     setIsPreview(false);
   };
 
-  const renderCancelPreviewButton = () => (
-    <TouchableOpacity onPress={cancelPreview} style={styles.closeButton}>
-      <Text>Retake Image</Text>
-    </TouchableOpacity>
-  );
 
   const renderCaptureControl = () => (
     <View style={styles.buttonsContainer}>
@@ -172,7 +170,9 @@ function cameraScreen({ navigation }) {
         onCameraReady={onCameraReady}
       />
       <View style={styles.container}>
-        {isPreview && renderCancelPreviewButton() && saveImagePreview()}
+        {/* Preview of picture taken with save and cancel buttons */}
+        {isPreview && renderImagePreview()}
+        {/* Camera screen with flip and flash buttons */}
         {!isPreview && renderCaptureControl()}
       </View>
     </SafeAreaView>
@@ -188,15 +188,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
   },
-  closeButton: {
-    position: "relative",
-    flexDirection: "row",
-    bottom: "5%",
-    alignItems: "center",
-    justifyContent: "center",
-    alignContent: "center",
-    color: "yellow",
-    backgroundColor: "white",
+  closePreviewButton: {
+    color: "#E9D105",
+    margin: 5,
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.black,
+    height: 20,
+    width: 60,
+    textAlign: "center",
   },
   buttonsContainer: {
     position: "absolute",
@@ -207,14 +208,15 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   saveButton: {
-    position: "relative",
-    flexDirection: "row",
-    bottom: "5%",
-    alignItems: "center",
-    justifyContent: "center",
-    alignContent: "center",
-    color: "yellow",
-    backgroundColor: "white",
+    color: "#E9D105",
+    margin: 5,
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.black,
+    height: 20,
+    width: 60,
+    textAlign: "center",
   },
   captureButton: {
     backgroundColor: colors.white,

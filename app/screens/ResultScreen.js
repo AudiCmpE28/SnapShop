@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, FlatList, StyleSheet, View, Linking } from "react-native";
+import { Text, FlatList, StyleSheet, View, Linking, ActivityIndicator } from "react-native";
 import Card from "../components/Card";
 
 import ItemLink from "../components/ItemLink";
@@ -27,7 +27,10 @@ function ResultScreen({ navigation, route }) {
   return (
     <Screen style={styles.screen}>
       {isLoading ? (
-        <Text> Loading... </Text>
+        // <Text> Loading... </Text>
+        <View style={[styles.loading, styles.loading_horizontal]}>
+          <ActivityIndicator size="large" color="blue" />
+        </View>
       ) : (
         <>
           <View style={styles.card}>
@@ -40,7 +43,7 @@ function ResultScreen({ navigation, route }) {
 
           <FlatList
             data={data}
-            //keyExtractor={(results) => results.id.toString()}
+            // keyExtractor={(results) => results.id.toString()}
             initialNumToRender={3}
             renderItem={({ item }) => (
               <ItemLink
@@ -65,6 +68,16 @@ const styles = StyleSheet.create({
   card: {
     margin: 10,
     backgroundColor: colors.primary,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: "center",
+    marginTop: 120,
+  },
+  loading_horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
   },
 });
 
