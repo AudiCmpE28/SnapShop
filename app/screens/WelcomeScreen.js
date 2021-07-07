@@ -8,37 +8,39 @@ import Screen from "../components/Screen";
 function WelcomeScreen({ navigation }) {
   return (
     <Screen style={styles.background}>
-      <View style={styles.logoContainer}>
+      <Screen style={styles.logoContainer}>
         <Image style={styles.logo} source={require("../assets/logo.png")} />
-        <Text
-          style={{
-            fontFamily: "Roboto",
-            fontSize: 30,
-            fontStyle: "italic",
-            fontWeight: "bold",
-            color: colors.white,
-            textAlign: "left",
-            marginLeft: 20,
-            marginBottom: 20,
-            textTransform: "capitalize",
-          }}
-        >
-          Snap a shot,
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Roboto",
-            fontSize: 30,
-            fontStyle: "italic",
-            fontWeight: "bold",
-            color: colors.white,
-            textAlign: "right",
-            marginRight: 20,
-            textTransform: "capitalize",
-          }}
-        >
-          Shop on the spot.
-        </Text>
+        <View>
+          <Text
+            style={{
+              fontFamily: "Roboto",
+              fontSize: 30,
+              fontStyle: "italic",
+              fontWeight: "bold",
+              color: colors.white,
+              textAlign: "left",
+              marginLeft: 20,
+              marginBottom: 20,
+              textTransform: "capitalize",
+            }}
+          >
+            Snap a shot,
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Roboto",
+              fontSize: 30,
+              fontStyle: "italic",
+              fontWeight: "bold",
+              color: colors.white,
+              textAlign: "right",
+              marginRight: 20,
+              textTransform: "capitalize",
+            }}
+          >
+            Shop on the spot.
+          </Text>
+        </View>
         <View style={styles.loading}>
           <WelcomeIndicator />
         </View>
@@ -47,7 +49,7 @@ function WelcomeScreen({ navigation }) {
             navigation.navigate("HomeScreen");
           }, 2000)}
         </Text>
-      </View>
+      </Screen>
     </Screen>
   );
 }
@@ -56,20 +58,16 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: colors.cartBlue,
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    alignContent: "center",
   },
   logoContainer: {
-    // marginTop: "10%",
+    justifyContent: "space-evenly",
+    alignContent: "center",
     flex: 1,
-    margin: 10,
   },
   logo: {
     width: "100%",
     height: undefined,
     aspectRatio: 1,
-    margin: 0,
   },
   loading: {
     width: "100%",
