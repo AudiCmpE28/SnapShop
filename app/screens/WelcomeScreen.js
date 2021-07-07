@@ -44,7 +44,7 @@ function WelcomeScreen({ navigation }) {
         <Text>
           {setTimeout(() => {
             navigation.navigate("HomeScreen");
-          }, 1000)}
+          }, 3000)}
         </Text>
       </View>
     </View>
