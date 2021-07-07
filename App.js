@@ -14,63 +14,68 @@ import imgGalleryScreen from "./app/screens/imgGalleryScreen";
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
-import RecentItem from "./app/components/RecentItem";
+import RecentItemCard from "./app/components/RecentItemCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Screen from "./app/components/Screen";
 import Icon from "./app/components/Icon";
 import ItemLink from "./app/components/ItemLink";
 import Card from "./app/components/Card";
 
-//for practice screen only
-import PracticeScreen from "./app/extraScreens/PracticeScreen";
-import * as imgDB from "./database/SQLiteDB";
-// stack of pages
-const Stack = createStackNavigator();
+// //for practice screen only
+// import PracticeScreen from "./app/extraScreens/PracticeScreen";
+// import * as imgDB from "./database/SQLiteDB";
+// // stack of pages
+// const Stack = createStackNavigator();
 
-function App({ navigation }) {
-  imgDB.initDB();
-  //test retrieving all items
-  imgDB.getItemwithID(imgDB.db, -1);
+// function App({ navigation }) {
+//   imgDB.initDB();
+//   //test retrieving all items
+//   imgDB.getItemwithID(imgDB.db, -1);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="WelcomeScreen"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="cameraScreen"
-          component={cameraScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ImageSelection"
-          component={ImageSelection}
-          options={{ title: "Select" }}
-        />
-        <Stack.Screen
-          name="imgGalleryScreen"
-          component={imgGalleryScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ResultScreen"
-          component={ResultScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         <Stack.Screen
+//           name="WelcomeScreen"
+//           component={WelcomeScreen}
+//           options={{ headerShown: false }}
+//         />
+//         <Stack.Screen
+//           name="HomeScreen"
+//           component={HomeScreen}
+//           options={{ headerShown: false }}
+//         />
+//         <Stack.Screen
+//           name="cameraScreen"
+//           component={cameraScreen}
+//           options={{ headerShown: false }}
+//         />
+//         <Stack.Screen
+//           name="ImageSelection"
+//           component={ImageSelection}
+//           options={{ title: "Select" }}
+//         />
+//         <Stack.Screen
+//           name="imgGalleryScreen"
+//           component={imgGalleryScreen}
+//           options={{ headerShown: false }}
+//         />
+//         <Stack.Screen
+//           name="ResultScreen"
+//           component={ResultScreen}
+//           options={{ headerShown: false }}
+//         />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
+
+// export default App;
+
+// Used to test screens
+export default function App() {
+  return <HomeScreen />;
 }
-
-export default App;
 
 // // Used to test screens
 // export default function App() {
