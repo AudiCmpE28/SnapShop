@@ -58,8 +58,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignContent: "center",
+    margin: 10,
   },
   logoContainer: {
+    marginTop: 10,
     margin: 10,
   },
   logo: {
