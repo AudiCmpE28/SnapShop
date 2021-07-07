@@ -111,7 +111,6 @@ function cameraScreen({ navigation }) {
         // alert('Cannot upload');
         console.log(err);
       });
-    // <Text>{setTimeout(() => { navigation.navigate('ResultScreen', { imageURL: urlVariable }); }, 2000)}</Text>
   };
 
   const renderImagePreview = () => (
