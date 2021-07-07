@@ -4,7 +4,6 @@ import { Button, Text, TouchableOpacity } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import cameraScreen from "./app/screens/cameraScreen";
@@ -24,7 +23,7 @@ import Card from "./app/components/Card";
 
 //for practice screen only
 import PracticeScreen from "./app/extraScreens/PracticeScreen";
-import * as imgDB from './database/SQLiteDB';
+import * as imgDB from "./database/SQLiteDB";
 // stack of pages
 const Stack = createStackNavigator();
 
@@ -36,20 +35,42 @@ function App({ navigation }) {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Select" }} />
-        <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ResultScreen" component={ResultScreen} options={{ headerShown: false }} />
-
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="cameraScreen"
+          component={cameraScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ImageSelection"
+          component={ImageSelection}
+          options={{ title: "Select" }}
+        />
+        <Stack.Screen
+          name="imgGalleryScreen"
+          component={imgGalleryScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ResultScreen"
+          component={ResultScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 export default App;
-
 
 // // Used to test screens
 // export default function App() {
