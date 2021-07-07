@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Button, Text, TouchableOpacity } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 
@@ -36,36 +36,12 @@ function App({ navigation }) {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{
-          title: "Snap",
-          navigationOptions: ({ navigate, navigation }) => ({
-            headerRight: (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('HomeScreen')}>
-                <Text>Click</Text>
-              </TouchableOpacity>
-            )
-          }),
-          // headerLeft: () => <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-          //   <Text>Home</Text>
-          //   {/* <Icon style={{ paddingLeft: 10 }} name="arrow-left" size={26} color="black" /> */}
-          // </TouchableOpacity>,
-        }} />
+        <Stack.Screen name="cameraScreen" component={cameraScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ImageSelection" component={ImageSelection} options={{ title: "Select" }} />
         <Stack.Screen name="imgGalleryScreen" component={imgGalleryScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ResultScreen" component={ResultScreen} options={{
-          // headerShown: false,
-          title: "Results",
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-              <Text>Click</Text>
-            </TouchableOpacity>
-          ),
-        }} />
-
-
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ResultScreen" component={ResultScreen} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>
