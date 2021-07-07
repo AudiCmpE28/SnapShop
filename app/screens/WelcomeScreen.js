@@ -3,10 +3,11 @@ import { Image, Text, StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
 import WelcomeIndicator from "../components/WelcomeIndicator";
+import Screen from "../components/Screen";
 
 function WelcomeScreen({ navigation }) {
   return (
-    <View style={styles.background}>
+    <Screen style={styles.background}>
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require("../assets/logo.png")} />
         <Text
@@ -47,7 +48,7 @@ function WelcomeScreen({ navigation }) {
           }, 2000)}
         </Text>
       </View>
-    </View>
+    </Screen>
   );
 }
 
@@ -58,10 +59,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignContent: "center",
-    margin: 10,
   },
   logoContainer: {
-    marginTop: 10,
+    marginTop: "5%",
     margin: 10,
   },
   logo: {
