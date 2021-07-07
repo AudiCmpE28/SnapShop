@@ -118,6 +118,7 @@ function cameraScreen({ navigation }) {
       <TouchableOpacity onPress={saveImage} style={styles.saveButton}>
         <Text>Save</Text>
       </TouchableOpacity>
+
       <TouchableOpacity onPress={cancelPreview} style={styles.closePreviewButton}>
         <Text>Cancel</Text>
       </TouchableOpacity>

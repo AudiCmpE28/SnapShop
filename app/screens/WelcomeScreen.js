@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   logoContainer: {
-    marginTop: "5%",
+    // marginTop: "10%",
+    flex: 1,
     margin: 10,
   },
   logo: {
