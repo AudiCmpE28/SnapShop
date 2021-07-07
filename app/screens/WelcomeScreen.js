@@ -44,7 +44,7 @@ function WelcomeScreen({ navigation }) {
         <Text>
           {setTimeout(() => {
             navigation.navigate("HomeScreen");
-          }, 3000)}
+          }, 2000)}
         </Text>
       </View>
     </View>
@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cartBlue,
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
   },
   logoContainer: {
     margin: 10,
