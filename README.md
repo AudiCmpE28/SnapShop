@@ -36,4 +36,4 @@ npm install @expo/react-native-action-sheet -S
 
 ## Animations
 
-expo install lottie-react-native
+npm install expo install lottie-react-native
