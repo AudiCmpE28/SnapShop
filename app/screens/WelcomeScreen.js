@@ -1,7 +1,8 @@
 import * as React from "react";
-import { ActivityIndicator, Image, Text, StyleSheet, View } from "react-native";
+import { Image, Text, StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
+import WelcomeIndicator from "../components/WelcomeIndicator";
 
 function WelcomeScreen({ navigation }) {
   return (
@@ -14,9 +15,10 @@ function WelcomeScreen({ navigation }) {
             fontSize: 30,
             fontStyle: "italic",
             fontWeight: "bold",
-            color: "blue",
+            color: colors.white,
             textAlign: "left",
-            margin: 20,
+            marginLeft: 20,
+            marginBottom: 20,
             textTransform: "capitalize",
           }}
         >
@@ -28,19 +30,22 @@ function WelcomeScreen({ navigation }) {
             fontSize: 30,
             fontStyle: "italic",
             fontWeight: "bold",
-            color: "#E9D105",
+            color: colors.white,
             textAlign: "right",
             marginRight: 20,
-            marginBottom: 20,
             textTransform: "capitalize",
           }}
         >
-          Shop on the spot
+          Shop on the spot.
         </Text>
-        <View style={[styles.loading, styles.loading_horizontal]}>
-          <ActivityIndicator size="large" color="blue" />
+        <View style={styles.loading}>
+          <WelcomeIndicator />
         </View>
-        <Text>{setTimeout(() => { navigation.navigate('HomeScreen'); }, 1000)}</Text>
+        <Text>
+          {setTimeout(() => {
+            navigation.navigate("HomeScreen");
+          }, 3000)}
+        </Text>
       </View>
     </View>
   );
@@ -48,33 +53,25 @@ function WelcomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.cartBlue,
     flex: 1,
     alignItems: "center",
   },
-  logo: {
-    width: 320,
-    height: 200,
-    margin: 20,
-  },
   logoContainer: {
-    position: "absolute",
-    top: "15%",
+    margin: 10,
   },
-  cart: {
-    alignSelf: "center",
-    width: 200,
-    height: 200,
+  logo: {
+    width: "100%",
+    height: undefined,
+    aspectRatio: 1,
+    margin: 0,
   },
   loading: {
-    flex: 1,
-    justifyContent: "center",
-    marginTop: 120,
-  },
-  loading_horizontal: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    padding: 10
+    width: "100%",
+    height: undefined,
+    aspectRatio: 1,
+    transform: [{ scale: 2 }],
+    marginTop: "-10%",
   },
 });
 
