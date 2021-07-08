@@ -28,8 +28,7 @@ import Screen from "./app/components/Screen";
 import Icon from "./app/components/Icon";
 import ItemLink from "./app/components/ItemLink";
 import Card from "./app/components/Card";
-import * as imgDB from "./database/SQLiteDB";
-//for practice screen only
+
 import * as imgDB from "./database/SQLiteDB";
 
 
@@ -38,13 +37,14 @@ import * as imgDB from "./database/SQLiteDB";
 const Stack = createStackNavigator();
 
 function App() {
-  imgDB.database.initDB();
+  imgDB.database.dbinit();
   //test retrieving all items
   imgDB.database.getItemwithID(-1);
 
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen"> {/* initial Route name = <first screen to show> */}
+      <Stack.Navigator initialRouteName="HomeScreen">
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
@@ -74,6 +74,7 @@ function App() {
     </NavigationContainer>
   );
 }
+
 export default App;
 
 // // Used to test screens

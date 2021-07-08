@@ -12,9 +12,11 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+
 import { Camera } from "expo-camera";
 import * as imgDB from "../../database/SQLiteDB";
 import colors from "../config/colors";
+
 //adjusts things according to phone size
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
@@ -33,10 +35,10 @@ function cameraScreen({ navigation }) {
   const [isCameraReady, setIsCameraReady] = useState(false);
 
   //cloudifay images
-  const [urlVariable, setURLvar] = useState("No Image");
   const [imageSource, setIMGsource] = useState("No Source");
-  const [imageid, setimageID] = useState(0);
+
   const cameraRef = useRef();
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -106,23 +108,20 @@ function cameraScreen({ navigation }) {
       .then(async (response) => {
         let data = await response.json();
         if (data.secure_url) {
-          // console.log(data.secure_url);
-          // setURLvar(data.secure_url);
-
           let dataurl = data.url;
-          const returnedid = await imgDB.database.insertUrl_RecentItems(dataurl);
-          // setimageID(returnedid);
-          console.log('returnedid: %d',returnedid);
+          const returnedID = await imgDB.database.insertUrl_RecentItems(dataurl);
+          // console.log(data.secure_url);
+          console.log('returnedID (Camera Screen): %d', returnedID);
 
-          setimageID(returnedid);
           navigation.navigate("ResultScreen", {
             imageURL: data.secure_url,
-            imageID: imageid,
+            imageID: returnedID,
           });
         }
       })
       .catch((err) => {
         // alert('Cannot upload');
+        // console.log('Cannot upload');
         console.log(err);
       });
   };

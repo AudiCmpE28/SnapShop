@@ -13,16 +13,16 @@ import Card from "../components/Card";
 import ItemLink from "../components/ItemLink";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
-import * as imgDB from '../../database/SQLiteDB'
+import * as imgDB from '../../database/SQLiteDB';
+
 function ResultScreen({ navigation, route }) {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
   const { imageURL, imageID } = route.params;
 
-  const urlAPI =
-    "https://whispering-falls-08617.herokuapp.com/search?searchquery=" +
-    imageURL;
-    console.log('imageURL: %s',imageURL);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const urlAPI = "https://whispering-falls-08617.herokuapp.com/search?searchquery=" + imageURL;
+  // console.log('imageURL: %s', imageURL);
 
   useEffect(() => {
     fetch(urlAPI)
@@ -32,10 +32,10 @@ function ResultScreen({ navigation, route }) {
       .finally(() => setLoading(false));
   }, []);
   console.log(data);
-  console.log('in result screen imageID: %d',imageID);
+  console.log('in result screen imageID: %d', imageID);
   //Pass the data into the database 
   //@TODO: imgDB.database.insert_ItemDetails(url,name,store,price,imageID)
-  
+
   return (
     <Screen style={styles.screen}>
       {isLoading ? (
