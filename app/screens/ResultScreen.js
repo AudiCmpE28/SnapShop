@@ -32,9 +32,18 @@ function ResultScreen({ navigation, route }) {
       .finally(() => setLoading(false));
   }, []);
   console.log(data);
+  for(var i =0; i<data.length;i++)
+    {
+      console.log("name: %s",data[i].name)
+      console.log("price: %s",data[i].price);
+      console.log("store:%s",data[i].store);
+      console.log("url:%s",data[i].url);
+      imgDB.database.insert_ItemDetails(data[i].url,data[i].name,data[i].store,data[i].price,imageID); 
+    }
   console.log('in result screen imageID: %d', imageID);
   //Pass the data into the database 
-  //@TODO: imgDB.database.insert_ItemDetails(url,name,store,price,imageID)
+  //@TODO figure out where and how to add ->imgDB.database.insert_ItemDetails(item.url,item.name,item.store,item.price,imageID); 
+
 
   return (
     <Screen style={styles.screen}>
@@ -68,6 +77,7 @@ function ResultScreen({ navigation, route }) {
                 link={item.url}
                 price={item.price}
                 onPress={() => Linking.openURL(item.url)}
+                
               />
             )}
           />
