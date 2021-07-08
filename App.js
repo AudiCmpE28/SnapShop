@@ -10,7 +10,6 @@ import cameraScreen from "./app/screens/cameraScreen";
 import ResultScreen from "./app/screens/ResultScreen";
 import Viewshoot from "./app/extraScreens/cameraBackup";
 import ImageSelection from "./app/screens/ImageSelection";
-import imgGalleryScreen from "./app/screens/imgGalleryScreen";
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
@@ -34,7 +33,7 @@ function App({ navigation }) {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="HomeScreen">
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
@@ -53,11 +52,6 @@ function App({ navigation }) {
         <Stack.Screen
           name="ImageSelection"
           component={ImageSelection}
-          options={{ title: "Select" }}
-        />
-        <Stack.Screen
-          name="imgGalleryScreen"
-          component={imgGalleryScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

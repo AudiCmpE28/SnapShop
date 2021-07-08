@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Platform, Text, Image } from 'react-native';
+import { Button, Image, View, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
-
+import * as imgDB from "../../database/SQLiteDB";
 
 function ImageSelection({ navigation }) {
     const [image, setImage] = useState(null);
+    const [imageSource, setIMGsource] = useState('No Source');
 
     useEffect(() => {
         (async () => {
@@ -19,56 +19,52 @@ function ImageSelection({ navigation }) {
     }, []);
 
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let phoneGallery = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
+            quality: 0.7,
+            base64: true,
         });
+        const result = phoneGallery.base64;
 
-        // console.log(result);
 
-        if (!result.cancelled) {
-            setImage(result.uri);
-            // navigation.navigate('imgGalleryScreen', { imageName: result.uri });
-        }
+        console.log("img source:", result);
+        let base64Img = `data:image/jpg;base64,${result}`;
+        let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
+        let data = {
+            file: base64Img,
+            upload_preset: 'hskz2avq'
+        };
+
+        fetch(apiUrl, {
+            body: JSON.stringify(data),
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'POST'
+        })
+            .then(async response => {
+                let data = await response.json();
+                if (data.secure_url) {
+                    let dataurl = data.url;
+                    imgDB.insertUrl(imgDB.db, dataurl);
+
+                    setIMGsource(data.secure_url);
+                    navigation.navigate('ResultScreen', { imageURL: data.secure_url });
+                }
+            })
+            .catch(err => {
+                // alert('Cannot upload');
+                console.log(err);
+            });
+
     };
 
     return (
-        <View style={styles.container}>
-            {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
-            <Text>{!image && setTimeout(() => { pickImage() }, 10)}</Text>
-            {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
-            {image && navigation.navigate('imgGalleryScreen', { imageName: 'image' })}
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Button title="Pick an image from camera roll" onPress={pickImage} />
         </View>
+        // <Text>{pickImage()}</Text>
     );
 }
-
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    button: {
-        backgroundColor: 'blue',
-        padding: 20,
-        borderRadius: 5,
-    },
-    buttonText: {
-        fontSize: 20,
-        color: '#fff',
-    },
-    imageDisplay: {
-        width: 300,
-        height: 300,
-        resizeMode: 'contain',
-    },
-});
-
-
 
 export default ImageSelection;

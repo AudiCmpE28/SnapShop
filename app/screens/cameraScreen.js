@@ -27,7 +27,7 @@ function cameraScreen({ navigation }) {
 
   //cloudifay images
   const [urlVariable, setURLvar] = useState('No Image');
-  const [imageSource, setIMGsource] = useState('No Source')
+  const [imageSource, setIMGsource] = useState('No Source');
 
   const cameraRef = useRef();
   useEffect(() => {
@@ -101,6 +101,7 @@ function cameraScreen({ navigation }) {
         if (data.secure_url) {
           // console.log(data.secure_url);
           // setURLvar(data.secure_url);
+
           let dataurl = data.url;
           imgDB.insertUrl(imgDB.db, dataurl);
 
