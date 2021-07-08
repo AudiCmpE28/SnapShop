@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Button, Text, TouchableOpacity } from "react-native";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
@@ -21,6 +21,9 @@ import Card from "./app/components/Card";
 
 //for practice screen only
 import * as imgDB from "./database/SQLiteDB";
+
+
+
 // stack of pages
 const Stack = createStackNavigator();
 
@@ -31,7 +34,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator initialRouteName="HomeScreen"> {/* initial Route name = <first screen to show> */}
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
@@ -62,6 +65,7 @@ function App() {
   );
 }
 export default App;
+
 // // Used to test screens
 // export default function App() {
 //   return <HomeScreen />;
