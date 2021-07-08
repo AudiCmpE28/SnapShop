@@ -13,18 +13,18 @@ import ImageSelection from "./app/screens/ImageSelection";
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
-import RecentItem from "./app/components/RecentItem";
+import RecentItemCard from "./app/components/RecentItemCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Screen from "./app/components/Screen";
 import Icon from "./app/components/Icon";
 import ItemLink from "./app/components/ItemLink";
 import Card from "./app/components/Card";
 
-//for practice screen only
-import PracticeScreen from "./app/extraScreens/PracticeScreen";
-import * as imgDB from "./database/SQLiteDB";
-// stack of pages
-const Stack = createStackNavigator();
+// //for practice screen only
+// import PracticeScreen from "./app/extraScreens/PracticeScreen";
+// import * as imgDB from "./database/SQLiteDB";
+// // stack of pages
+// const Stack = createStackNavigator();
 
 function App({ navigation }) {
   imgDB.initDB();
@@ -64,7 +64,10 @@ function App({ navigation }) {
   );
 }
 
-export default App;
+// // Used to test screens
+// export default function App() {
+//   return <HomeScreen />;
+// }
 
 // // Used to test screens
 // export default function App() {
