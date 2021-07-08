@@ -37,6 +37,7 @@ import PracticeScreen from "./app/extraScreens/PracticeScreen";
 const Stack = createStackNavigator();
 
 function App() {
+  // imgDB.database.reset();
   imgDB.database.dbinit();
   //test retrieving all items
   imgDB.database.getItemwithID(-1);

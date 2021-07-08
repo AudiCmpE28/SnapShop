@@ -35,7 +35,7 @@ function cameraScreen({ navigation }) {
   //cloudifay images
   const [urlVariable, setURLvar] = useState("No Image");
   const [imageSource, setIMGsource] = useState("No Source");
-
+  const [imageid, setimageID] = useState(0);
   const cameraRef = useRef();
   useEffect(() => {
     (async () => {
@@ -109,9 +109,15 @@ function cameraScreen({ navigation }) {
           // console.log(data.secure_url);
           // setURLvar(data.secure_url);
           let dataurl = data.url;
-          imgDB.database.insertUrl(dataurl);
+          const returnedid = await imgDB.database.insertUrl_RecentItems(dataurl);
+          // setimageID(returnedid);
+          console.log('returnedid: %d',returnedid);
 
-          navigation.navigate("ResultScreen", { imageURL: data.secure_url });
+          setimageID(returnedid);
+          navigation.navigate("ResultScreen", {
+            imageURL: data.secure_url,
+            imageID: imageid,
+          });
         }
       })
       .catch((err) => {
@@ -126,7 +132,10 @@ function cameraScreen({ navigation }) {
       <TouchableOpacity onPress={saveImage} style={styles.saveButton}>
         <Text>Save</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={cancelPreview} style={styles.closePreviewButton}>
+      <TouchableOpacity
+        onPress={cancelPreview}
+        style={styles.closePreviewButton}
+      >
         <Text>Cancel</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -136,7 +145,6 @@ function cameraScreen({ navigation }) {
     await cameraRef.current.resumePreview();
     setIsPreview(false);
   };
-
 
   const renderCaptureControl = () => (
     <View style={styles.buttonsContainer}>
