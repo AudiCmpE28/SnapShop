@@ -108,6 +108,7 @@ function cameraScreen({ navigation }) {
         if (data.secure_url) {
           // console.log(data.secure_url);
           // setURLvar(data.secure_url);
+
           let dataurl = data.url;
           const returnedid = await imgDB.database.insertUrl_RecentItems(dataurl);
           // setimageID(returnedid);
@@ -124,7 +125,6 @@ function cameraScreen({ navigation }) {
         // alert('Cannot upload');
         console.log(err);
       });
-    // <Text>{setTimeout(() => { navigation.navigate('ResultScreen', { imageURL: urlVariable }); }, 2000)}</Text>
   };
 
   const renderImagePreview = () => (
@@ -132,10 +132,8 @@ function cameraScreen({ navigation }) {
       <TouchableOpacity onPress={saveImage} style={styles.saveButton}>
         <Text>Save</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={cancelPreview}
-        style={styles.closePreviewButton}
-      >
+
+      <TouchableOpacity onPress={cancelPreview} style={styles.closePreviewButton}>
         <Text>Cancel</Text>
       </TouchableOpacity>
     </SafeAreaView>

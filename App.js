@@ -18,13 +18,11 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import cameraScreen from "./app/screens/cameraScreen";
 import ResultScreen from "./app/screens/ResultScreen";
-import Viewshoot from "./app/extraScreens/cameraBackup";
 import ImageSelection from "./app/screens/ImageSelection";
-import imgGalleryScreen from "./app/screens/imgGalleryScreen";
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
-import RecentItem from "./app/components/RecentItem";
+import RecentItemCard from "./app/components/RecentItemCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Screen from "./app/components/Screen";
 import Icon from "./app/components/Icon";
@@ -32,19 +30,26 @@ import ItemLink from "./app/components/ItemLink";
 import Card from "./app/components/Card";
 import * as imgDB from "./database/SQLiteDB";
 //for practice screen only
-import PracticeScreen from "./app/extraScreens/PracticeScreen";
+import * as imgDB from "./database/SQLiteDB";
+
+
+
 // stack of pages
 const Stack = createStackNavigator();
 
 function App() {
-  // imgDB.database.reset();
-  imgDB.database.dbinit();
+  imgDB.database.initDB();
   //test retrieving all items
   imgDB.database.getItemwithID(-1);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="HomeScreen"> {/* initial Route name = <first screen to show> */}
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
@@ -53,16 +58,11 @@ function App() {
         <Stack.Screen
           name="cameraScreen"
           component={cameraScreen}
-          options={{ title: "Snap Picture" }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ImageSelection"
           component={ImageSelection}
-          options={{ title: "Selecting" }}
-        />
-        <Stack.Screen
-          name="imgGalleryScreen"
-          component={imgGalleryScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -75,3 +75,8 @@ function App() {
   );
 }
 export default App;
+
+// // Used to test screens
+// export default function App() {
+//   return <HomeScreen />;
+// }
