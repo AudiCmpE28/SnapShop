@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   FlatList,
   Platform,
-  Button
 } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import * as imgDB from "../../database/SQLiteDB";
@@ -155,12 +154,8 @@ function HomeScreen({ navigation }) {
         <TouchableOpacity
           onPress={() => navigation.navigate("cameraScreen")}
           onLongPress={pickImage}
-        // onLongPress={() => navigation.navigate("ImageSelection")}
         >
-          <Image
-            style={styles.camCartImage}
-            source={require("../assets/cart_cam.png")}
-          />
+          <Image style={styles.camCartImage} source={require("../assets/cart_cam.png")} />
         </TouchableOpacity>
       </View>
     </Screen>
