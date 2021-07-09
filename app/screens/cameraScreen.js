@@ -174,6 +174,8 @@ function cameraScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+
+
       <Camera
         ref={cameraRef}
         style={styles.container}
@@ -181,7 +183,11 @@ function cameraScreen({ navigation }) {
         flashMode={cameraFlash}
         onCameraReady={onCameraReady}
       />
+
       <View style={styles.container}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+          <Image style={styles.homeButton} source={require("../assets/cart_cam.png")} />
+        </TouchableOpacity> */}
         {/* Preview of picture taken with save and cancel buttons */}
         {isPreview && renderImagePreview()}
         {/* Camera screen with flip and flash buttons */}
@@ -197,6 +203,11 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",
     justifyContent: "center",
+    alignContent: "center",
+  },
+  homeButton: {
+    width: 100,
+    height: 100,
     alignContent: "center",
   },
   closePreviewButton: {
