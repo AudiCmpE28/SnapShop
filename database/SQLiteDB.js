@@ -118,6 +118,40 @@ export class database {
       });
     }
   }
+  static getItemDetailsv2(ID) {
+    if (ID == -1) {
+      console.log("Inside getitemDetails ALL");
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
+            [],
+            (_, result) => {
+              console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+    if (ID > -1) {
+      console.log("Inside getitemDetails %d", ID);
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
+            [ID],
+            (_, result) => {
+              console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+  }
   static getRecentItem(ID) {
     if (ID == -1) {
       console.log("Inside getRecentItem ALL");
