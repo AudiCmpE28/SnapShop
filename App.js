@@ -32,7 +32,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="cameraScreen">
+      <Stack.Navigator initialRouteName="WelcomeScreen">
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}

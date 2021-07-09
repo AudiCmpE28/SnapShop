@@ -72,10 +72,6 @@ function ResultScreen({ navigation, route }) {
             initialNumToRender={3}
             renderItem={({ item }) => (
               <ItemLink
-                // itemName={item.itemName}
-                // webName={item.webName}
-                // link={item.link}
-                // price={item.price}
                 itemName={item.name}
                 webName={item.store}
                 link={item.url}
