@@ -72,22 +72,55 @@ export class database {
       db.transaction((tx) => {
         tx.executeSql(
           "INSERT INTO ItemDetails (iID, itemUrl, itemName, storeName, price, referenceID) values (?,?,?,?,?,?)",
-          [null, itemurl, itemname, storename, price, referenceID],
+          [1, itemurl, itemname, storename, price, referenceID],
           (_, result) => resolve(result.insertId),
           (_, error) => reject(error)
         );
       });
     });
   }
-
-
+//JOIN WITH ItemDetails TABLE TO RETURN ALL columns with constraint rID==referenceID
+  static getitemDetails(ID){
+    if (ID == -1) {
+      console.log("Inside getItemwithID ALL");
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON ItemDetails.referenceID=RecentItems.rID", 
+            [],
+            (_, result) => {
+              console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+    if (ID > -1) {
+      console.log("Inside getItemwithID %d", ID);
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON ItemDetails.referenceID=RecentItems.rID where ItemDetails.rID=?", 
+            [ID],
+            (_, result) => {
+              console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+  }
   static getItemwithID(ID) {
     if (ID == -1) {
       console.log("Inside getItemwithID ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM RecentItems", //JOIN WITH ItemDetails TABLE TO RETURN ALL columns with constraint rID==referenceID
+            "SELECT * FROM RecentItems", 
             [],
             (_, result) => {
               console.log(result.rows._array);
