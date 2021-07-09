@@ -1,21 +1,27 @@
 import * as SQLite from "expo-sqlite";
 
 // create and return db object
-const db = SQLite.openDatabase("imgDB2");
-
+const db = SQLite.openDatabase("imgDB", 1.2);
+db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () =>
+  console.log('Foreign keys turned on')
+);
 /* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
 
-// db.transaction((tx) => {
-//   tx.executeSql("DROP TABLE IF EXISTS RecentItems"); //reset of db on each startup, temporary
-// });
 export class database {
+
   static reset() {
     console.log("inside reset");
-    db.transaction((tx) => {
-      tx.executeSql("DROP TABLE IF EXISTS RecentItems"); //reset of db on each startup, temporary
-      tx.executeSql("DROP TABLE IF EXISTS ItemDetails");
-    });
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql("DROP TABLE IF EXISTS ItemDetails", [],
+          () => { console.log("Dropped ItemDetails"); resolve },
+          (_, error) => reject(error));
+        tx.executeSql("DROP TABLE IF EXISTS RecentItems", [],
+          () => { console.log("Dropped RecentItems"); resolve },
+          (_, error) => reject(error)); //reset of db on each startup, temporary
+      });
+    })
   }
   /**
    * Creates a table RecentItems containing:
@@ -30,14 +36,14 @@ export class database {
    *  @param referenceID Foreignkey referencing table1 rID
    * */
   static dbinit() {
-    // console.log("Inside initDB");
+    console.log("Inside initDB");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         // console.log("now creating recentitems table");
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT)",
+          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY AUTOINCREMENT, imageUrl TEXT PRIMARY KEY)",
           [],
-          resolve,
+          () => { console.log("Created RecentItems"); resolve },
           (_, error) => reject(error)
         );
         // console.log("...finished");
@@ -45,7 +51,7 @@ export class database {
         tx.executeSql(
           "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID))",
           [],
-          resolve,
+          () => { console.log("Created ItemDetails"); resolve },
           (_, error) => reject(error)
         );
         // console.log("...finished");
@@ -54,13 +60,15 @@ export class database {
   }
 
   static insertUrl_RecentItems(imageurl) {
-    console.log("Inside insertUrl, inserting...");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
           "INSERT INTO RecentItems (rID, imageUrl) values (?,?)",
           [null, imageurl],
-          (_, result) => resolve(result.insertId),
+          (_, result) => {
+            console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
+            resolve(result.insertId)
+          },
           (_, error) => reject(error)
         );
       });
@@ -72,21 +80,20 @@ export class database {
       db.transaction((tx) => {
         tx.executeSql(
           "INSERT INTO ItemDetails (iID, itemUrl, itemName, storeName, price, referenceID) values (?,?,?,?,?,?)",
-          [1, itemurl, itemname, storename, price, referenceID],
+          [null, itemurl, itemname, storename, price, referenceID],
           (_, result) => resolve(result.insertId),
           (_, error) => reject(error)
         );
       });
     });
   }
-//JOIN WITH ItemDetails TABLE TO RETURN ALL columns with constraint rID==referenceID
-  static getitemDetails(ID){
+  static getItemDetails(ID) {
     if (ID == -1) {
-      console.log("Inside getItemwithID ALL");
+      console.log("Inside getitemDetails ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON ItemDetails.referenceID=RecentItems.rID", 
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
             [],
             (_, result) => {
               console.log(result.rows._array);
@@ -98,11 +105,11 @@ export class database {
       });
     }
     if (ID > -1) {
-      console.log("Inside getItemwithID %d", ID);
+      console.log("Inside getitemDetails %d", ID);
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON ItemDetails.referenceID=RecentItems.rID where ItemDetails.rID=?", 
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
             [ID],
             (_, result) => {
               console.log(result.rows._array);
@@ -114,13 +121,13 @@ export class database {
       });
     }
   }
-  static getItemwithID(ID) {
+  static getRecentItem(ID) {
     if (ID == -1) {
-      console.log("Inside getItemwithID ALL");
+      console.log("Inside getRecentItem ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM RecentItems", 
+            "SELECT * FROM RecentItems",
             [],
             (_, result) => {
               console.log(result.rows._array);
@@ -132,11 +139,11 @@ export class database {
       });
     }
     if (ID > -1) {
-      console.log("Inside getItemwithID %d", ID);
+      console.log("Inside getRecentItem %d", ID);
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM RecentItems WHERE ID =?",
+            "SELECT * FROM RecentItems WHERE rID =?",
             [ID],
             (_, result) => {
               console.log(result.rows._array);
