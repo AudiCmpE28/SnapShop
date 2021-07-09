@@ -25,8 +25,8 @@ import * as imgDB from "./database/SQLiteDB";
 const Stack = createStackNavigator();
 
 function App() {
-  // imgDB.database.reset();
-  imgDB.database.dbinit();
+  imgDB.database.reset();
+  // imgDB.database.dbinit();
   //test retrieving all items
   imgDB.database.getRecentItem(-1);
   imgDB.database.getItemDetails(-1);

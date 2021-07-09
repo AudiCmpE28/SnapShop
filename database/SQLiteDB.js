@@ -1,25 +1,34 @@
 import * as SQLite from "expo-sqlite";
 
-// create and return db object
-const db = SQLite.openDatabase("imgDB", 1.2);
-db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () =>
-  console.log('Foreign keys turned on')
-);
+
 /* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
+  // create and return db object
+const db = SQLite.openDatabase("imgDB", 1.2);
+db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () =>console.log('Foreign keys turned on'));
 
 export class database {
+  static resetTable1() {
+    db.transaction((tx) => {
+        tx.executeSql("DROP TABLE IF EXISTS ItemDetails;", [],
+          () => { console.log("Dropped Tables");},
+          (_, error) => reject(error));
+  })
+  }
+  static resetTable2() {
+    db.transaction((tx) => {
+        tx.executeSql("  DROP TABLE IF EXISTS RecentItems;", [],
+          () => { console.log("Dropped Tables");},
+          (_, error) => reject(error));
+  })
+}
 
   static reset() {
-    console.log("inside reset");
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql("DROP TABLE IF EXISTS ItemDetails;DROP TABLE IF EXISTS RecentItems", [],
-          () => { console.log("Dropped Tables"); resolve },
-          (_, error) => reject(error));
-      });
-    })
-  }
+    this.resetTable1();
+    this.resetTable2();
+    }
+
+
   /**
    * Creates a table RecentItems containing:
    * @param rID The Id of the picture
