@@ -185,9 +185,9 @@ function cameraScreen({ navigation }) {
       />
 
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
           <Image style={styles.homeButton} source={require("../assets/cart_cam.png")} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* Preview of picture taken with save and cancel buttons */}
         {isPreview && renderImagePreview()}
         {/* Camera screen with flip and flash buttons */}

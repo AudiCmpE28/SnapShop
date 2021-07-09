@@ -78,10 +78,10 @@ function HomeScreen({ navigation }) {
 
     console.log("img source:", result);
     let base64Img = `data:image/jpg;base64,${result}`;
-    let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
+    let apiUrl = 'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
     let data = {
       file: base64Img,
-      upload_preset: 'hskz2avq'
+      upload_preset: 'snapshop'
     };
 
     fetch(apiUrl, {
@@ -96,7 +96,7 @@ function HomeScreen({ navigation }) {
         if (data.secure_url) {
           let dataurl = data.url;
           const returnedID = await imgDB.database.insertUrl_RecentItems(dataurl);
-          // console.log(data.secure_url);
+          // console.log(data.result);
           console.log('returnedID (ImageSelection Screen): %d', returnedID);
 
           navigation.navigate('ResultScreen', { imageURL: data.secure_url, imageID: returnedID });
