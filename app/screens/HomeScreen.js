@@ -78,10 +78,10 @@ function HomeScreen({ navigation }) {
 
     console.log("img source:", result);
     let base64Img = `data:image/jpg;base64,${result}`;
-    let apiUrl = 'https://api.cloudinary.com/v1_1/das4rbvo9/image/upload';
+    let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
     let data = {
       file: base64Img,
-      upload_preset: 'snapshop'
+      upload_preset: 'hskz2avq'
     };
 
     fetch(apiUrl, {
