@@ -1,16 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Button,
-  TextInput,
-} from "react-native";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -18,7 +7,6 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import cameraScreen from "./app/screens/cameraScreen";
 import ResultScreen from "./app/screens/ResultScreen";
-import ImageSelection from "./app/screens/ImageSelection";
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
@@ -44,7 +32,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator initialRouteName="WelcomeScreen">
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
@@ -58,11 +46,6 @@ function App() {
         <Stack.Screen
           name="cameraScreen"
           component={cameraScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ImageSelection"
-          component={ImageSelection}
           options={{ headerShown: false }}
         />
         <Stack.Screen
