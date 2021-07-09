@@ -14,12 +14,9 @@ export class database {
     console.log("inside reset");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
-        tx.executeSql("DROP TABLE IF EXISTS ItemDetails", [],
-          () => { console.log("Dropped ItemDetails"); resolve },
+        tx.executeSql("DROP TABLE IF EXISTS ItemDetails;DROP TABLE IF EXISTS RecentItems", [],
+          () => { console.log("Dropped Tables"); resolve },
           (_, error) => reject(error));
-        tx.executeSql("DROP TABLE IF EXISTS RecentItems", [],
-          () => { console.log("Dropped RecentItems"); resolve },
-          (_, error) => reject(error)); //reset of db on each startup, temporary
       });
     })
   }
@@ -32,8 +29,8 @@ export class database {
    * @param itemUrl item url
    * @param itemName product image refers to
    * @param storeName Name of store where said item can be purchased
-   *  @param price Price of said item
-   *  @param referenceID Foreignkey referencing table1 rID
+   * @param price Price of said item
+   * @param referenceID Foreignkey referencing table1 rID
    * */
   static dbinit() {
     console.log("Inside initDB");
@@ -41,7 +38,7 @@ export class database {
       db.transaction((tx) => {
         // console.log("now creating recentitems table");
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY AUTOINCREMENT, imageUrl TEXT PRIMARY KEY)",
+          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT)",
           [],
           () => { console.log("Created RecentItems"); resolve },
           (_, error) => reject(error)
@@ -49,7 +46,7 @@ export class database {
         // console.log("...finished");
         // console.log("now creating itemdetails table");
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID))",
+          "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER PRIMARY KEY AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID))",
           [],
           () => { console.log("Created ItemDetails"); resolve },
           (_, error) => reject(error)
