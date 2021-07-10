@@ -16,6 +16,8 @@ import {
 import { Camera } from "expo-camera";
 import * as imgDB from "../../database/SQLiteDB";
 import colors from "../config/colors";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 //adjusts things according to phone size
 const WINDOW_HEIGHT = Dimensions.get("window").height;
@@ -83,6 +85,7 @@ function cameraScreen({ navigation }) {
     if (isPreview) {
       return;
     }
+
     setCameraFlash((prevCameraFlash) =>
       prevCameraFlash === Camera.Constants.FlashMode.off
         ? Camera.Constants.FlashMode.on
@@ -109,9 +112,11 @@ function cameraScreen({ navigation }) {
         let data = await response.json();
         if (data.secure_url) {
           let dataurl = data.url;
-          const returnedID = await imgDB.database.insertUrl_RecentItems(dataurl);
+          const returnedID = await imgDB.database.insertUrl_RecentItems(
+            dataurl
+          );
           // console.log(data.secure_url);
-          console.log('returnedID (Camera Screen): %d', returnedID);
+          console.log("returnedID (Camera Screen): %d", returnedID);
 
           navigation.navigate("ResultScreen", {
             imageURL: data.secure_url,
@@ -127,15 +132,18 @@ function cameraScreen({ navigation }) {
   };
 
   const renderImagePreview = () => (
-    <SafeAreaView style={styles.buttonsContainer}>
-      <TouchableOpacity onPress={saveImage} style={styles.saveButton}>
-        <Text>Save</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={cancelPreview} style={styles.closePreviewButton}>
-        <Text>Cancel</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+    <View style={styles.saveCancelContainer}>
+      <View>
+        <TouchableOpacity onPress={cancelPreview}>
+          <MaterialIcons name="close" size={50} color={colors.white} />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity onPress={saveImage}>
+          <MaterialIcons name="done" size={50} color={colors.white} />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 
   const cancelPreview = async () => {
@@ -147,7 +155,13 @@ function cameraScreen({ navigation }) {
     <View style={styles.buttonsContainer}>
       {/* flip to back or front camera */}
       <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
-        <Text style={styles.flipText}>FLIP</Text>
+        <View style={styles.Icons}>
+          <MaterialIcons
+            name="flip-camera-android"
+            size={35}
+            color={colors.black}
+          />
+        </View>
       </TouchableOpacity>
 
       {/* capture image button */}
@@ -160,7 +174,14 @@ function cameraScreen({ navigation }) {
 
       {/* flash mode button */}
       <TouchableOpacity disabled={!isCameraReady} onPress={flashingMode}>
-        <Text style={styles.flashText}>FLASH</Text>
+        {/* <Text style={styles.flashText}>FLASH</Text> */}
+        <View style={styles.Icons}>
+          {cameraFlash ? (
+            <MaterialIcons name="flash-on" size={35} color={colors.black} />
+          ) : (
+            <MaterialIcons name="flash-off" size={35} color={colors.black} />
+          )}
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -174,8 +195,6 @@ function cameraScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-
-
       <Camera
         ref={cameraRef}
         style={styles.container}
@@ -250,27 +269,24 @@ const styles = StyleSheet.create({
     borderRadius: Math.floor(captureSize / 2),
     marginHorizontal: 31,
   },
-  flipText: {
-    color: "#E9D105",
-    margin: 5,
+  Icons: {
     backgroundColor: colors.white,
-    borderRadius: 10,
+    width: 44,
+    height: 44,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 22,
     borderWidth: 2,
     borderColor: colors.black,
-    height: 20,
-    width: 60,
-    textAlign: "center",
   },
-  flashText: {
-    color: "blue",
-    margin: 5,
-    backgroundColor: colors.white,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: colors.black,
-    height: 20,
-    width: 60,
-    textAlign: "center",
+  saveCancelContainer: {
+    flex: 1,
+    width: "90%",
+    height: undefined,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    top: "7%",
   },
 });
 
