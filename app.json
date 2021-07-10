@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./app/assets/SnapShopApp.png",
     "splash": {
-      "image": "./app/assets/SnapShopSplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#055183"
     },
