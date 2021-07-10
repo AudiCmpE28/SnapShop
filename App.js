@@ -19,17 +19,15 @@ import Card from "./app/components/Card";
 
 import * as imgDB from "./database/SQLiteDB";
 
-
-
 // stack of pages
 const Stack = createStackNavigator();
 
 function App() {
-  // imgDB.database.reset();
-  imgDB.database.dbinit();
-  // //test retrieving all items
-  imgDB.database.getRecentItem(-1);
-  imgDB.database.getItemDetails(-1);
+  imgDB.database.reset();
+  // imgDB.database.dbinit();
+  // // //test retrieving all items
+  // imgDB.database.getRecentItem(-1);
+  // imgDB.database.getItemDetails(-1);
 
   return (
     <NavigationContainer>
