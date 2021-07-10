@@ -21,7 +21,6 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 
 //adjusts things according to phone size
 const WINDOW_HEIGHT = Dimensions.get("window").height;
-const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
 const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
 
 //main function for camera screen
@@ -153,6 +152,9 @@ function cameraScreen({ navigation }) {
 
   const renderCaptureControl = () => (
     <View style={styles.buttonsContainer}>
+      <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+        <Image style={styles.homeButton} source={require("../assets/cart_cam.png")} />
+      </TouchableOpacity>
       {/* flip to back or front camera */}
       <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
         <View style={styles.Icons}>
@@ -204,9 +206,7 @@ function cameraScreen({ navigation }) {
       />
 
       <View style={styles.container}>
-        {/* <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-          <Image style={styles.homeButton} source={require("../assets/cart_cam.png")} />
-        </TouchableOpacity> */}
+
         {/* Preview of picture taken with save and cancel buttons */}
         {isPreview && renderImagePreview()}
         {/* Camera screen with flip and flash buttons */}
