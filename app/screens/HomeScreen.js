@@ -22,21 +22,21 @@ import HeadingText from "../components/HeadingText";
 import Screen from "../components/Screen";
 
 const itemList = [
-  {
-    id: 1,
-    itemName: "Item 1",
-    image: require("../assets/vas.png"),
-  },
-  {
-    id: 2,
-    itemName: "Item 2",
-    image: require("../assets/coke.png"),
-  },
-  {
-    id: 3,
-    itemName: "Item 3",
-    image: require("../assets/coke.png"),
-  },
+  // {
+  //   id: 1,
+  //   itemName: "Item 1",
+  //   image: require("../assets/vas.png"),
+  // },
+  // {
+  //   id: 2,
+  //   itemName: "Item 2",
+  //   image: require("../assets/coke.png"),
+  // },
+  // {
+  //   id: 3,
+  //   itemName: "Item 3",
+  //   image: require("../assets/coke.png"),
+  // },
 ];
 
 // const IMAGE_OPTIONS = [
@@ -45,6 +45,9 @@ const itemList = [
 // ];
 
 function HomeScreen({ navigation }) {
+  // imgDB.database.getRecentItem(-1);
+  // imgDB.database.getItemDetails(-1);
+
   const EmptyListDisplay = () => {
     return (
       <View style={styles.emptyListContainer}>
