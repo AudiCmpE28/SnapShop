@@ -151,40 +151,44 @@ function cameraScreen({ navigation }) {
   };
 
   const renderCaptureControl = () => (
-    <View style={styles.buttonsContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-        <Image style={styles.homeButton} source={require("../assets/cart_cam.png")} />
-      </TouchableOpacity>
-      {/* flip to back or front camera */}
-      <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
-        <View style={styles.Icons}>
-          <MaterialIcons
-            name="flip-camera-android"
-            size={35}
-            color={colors.black}
-          />
-        </View>
-      </TouchableOpacity>
+    <View style={styles.mainContainer}>
+      <View style={styles.xContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+          <MaterialIcons name="close" size={50} color={colors.white} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonsContainer}>
+        {/* flip to back or front camera */}
+        <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
+          <View style={styles.Icons}>
+            <MaterialIcons
+              name="flip-camera-android"
+              size={35}
+              color={colors.black}
+            />
+          </View>
+        </TouchableOpacity>
 
-      {/* capture image button */}
-      <TouchableOpacity
-        activeOpacity={0.7}
-        disabled={!isCameraReady}
-        onPress={takePicture}
-        style={styles.captureButton}
-      />
+        {/* capture image button */}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          disabled={!isCameraReady}
+          onPress={takePicture}
+          style={styles.captureButton}
+        />
 
-      {/* flash mode button */}
-      <TouchableOpacity disabled={!isCameraReady} onPress={flashingMode}>
-        {/* <Text style={styles.flashText}>FLASH</Text> */}
-        <View style={styles.Icons}>
-          {cameraFlash ? (
-            <MaterialIcons name="flash-on" size={35} color={colors.black} />
-          ) : (
-            <MaterialIcons name="flash-off" size={35} color={colors.black} />
-          )}
-        </View>
-      </TouchableOpacity>
+        {/* flash mode button */}
+        <TouchableOpacity disabled={!isCameraReady} onPress={flashingMode}>
+          {/* <Text style={styles.flashText}>FLASH</Text> */}
+          <View style={styles.Icons}>
+            {cameraFlash ? (
+              <MaterialIcons name="flash-on" size={35} color={colors.black} />
+            ) : (
+              <MaterialIcons name="flash-off" size={35} color={colors.black} />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -206,7 +210,6 @@ function cameraScreen({ navigation }) {
       />
 
       <View style={styles.container}>
-
         {/* Preview of picture taken with save and cancel buttons */}
         {isPreview && renderImagePreview()}
         {/* Camera screen with flip and flash buttons */}
@@ -224,29 +227,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
   },
-  homeButton: {
-    width: 100,
-    height: 100,
-    alignContent: "center",
+  mainContainer: {
+    width: "100%",
+    height: undefined,
+    flex: 1,
+    justifyContent: "space-between",
   },
-  closePreviewButton: {
-    color: "#E9D105",
-    margin: 5,
-    backgroundColor: colors.white,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: colors.black,
-    height: 20,
-    width: 60,
-    textAlign: "center",
+  xContainer: {
+    margin: 10,
   },
   buttonsContainer: {
-    position: "absolute",
     flexDirection: "row",
-    bottom: "5%",
+    margin: 10,
     alignItems: "center",
-    justifyContent: "center",
-    alignContent: "center",
+    justifyContent: "space-evenly",
   },
   saveButton: {
     color: "#E9D105",
@@ -263,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 5,
     borderWidth: 5,
-    borderColor: colors.grey,
+    borderColor: colors.cartBlue,
     height: captureSize,
     width: captureSize,
     borderRadius: Math.floor(captureSize / 2),
@@ -277,7 +271,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 22,
     borderWidth: 2,
-    borderColor: colors.black,
+    borderColor: colors.cartBlue,
   },
   saveCancelContainer: {
     flex: 1,
