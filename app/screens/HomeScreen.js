@@ -132,6 +132,7 @@ function HomeScreen({ navigation }) {
                 itemName={item.itemName}
                 image={item.image}
                 onPress={() => console.log("Message selected", item)}
+              // onPress={() => navigation.navigate("ResultScreenDB", {imageURL: <DBurl>, databaseID: <dbID>,});}
               />
             )}
           />
