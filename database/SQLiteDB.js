@@ -49,7 +49,7 @@ export class database {
         tx.executeSql(
           "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT)",
           [],
-          () => { console.log("Created RecentItems"); resolve },
+          () => { console.log("Created Table RecentItems"); resolve },
           (_, error) => reject(error)
         );
         // console.log("...finished");
@@ -57,7 +57,8 @@ export class database {
         tx.executeSql(
           "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER PRIMARY KEY AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID))",
           [],
-          () => { console.log("Created ItemDetails"); resolve },
+          () => { console.log("Created Table ItemDetails"); 
+          resolve },
           (_, error) => reject(error)
         );
         // console.log("...finished");
@@ -72,7 +73,7 @@ export class database {
           "INSERT INTO RecentItems (rID, imageUrl) values (?,?)",
           [null, imageurl],
           (_, result) => {
-            console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
+            // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
             resolve(result.insertId)
           },
           (_, error) => reject(error)
@@ -80,6 +81,7 @@ export class database {
       });
     });
   }
+
   static insert_ItemDetails(itemurl, itemname, storename, price, referenceID) {
     console.log("Inside insertUrl");
     return new Promise((resolve, reject) => {
@@ -93,6 +95,11 @@ export class database {
       });
     });
   }
+  /**
+   * This function takes the ID referencing the RecentItem table and returns rows which correspond to it
+   * @param {*} ID (-1 to return all)
+   * @returns All columns from both tables
+   */
   static getItemDetails(ID) {
     if (ID == -1) {
       console.log("Inside getitemDetails ALL");
@@ -127,6 +134,16 @@ export class database {
       });
     }
   }
+
+  /**
+   * This version only returns the columns from ItemDetails table:
+  * @ iID
+  * @ itemUrl
+  * @ itemname
+  * @ storeName
+  * @ price
+  * @ referenceID
+  * */
   static getItemDetailsv2(ID) {
     if (ID == -1) {
       console.log("Inside getitemDetails ALL");
@@ -161,6 +178,11 @@ export class database {
       });
     }
   }
+  /**
+   * Returns the cloudinary link and ID of the image with specified ID, -1 to return all.
+   * @param {*} ID 
+   * @returns 
+   */
   static getRecentItem(ID) {
     if (ID == -1) {
       console.log("Inside getRecentItem ALL");

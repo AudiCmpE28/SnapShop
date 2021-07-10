@@ -41,9 +41,6 @@ function ResultScreen({ navigation, route }) {
     imgDB.database.insert_ItemDetails(data[i].url, data[i].name, data[i].store, data[i].price, imageID);
   }
   console.log('in result screen imageID: %d', imageID);
-  //Pass the data into the database 
-  //@TODO figure out where and how to add ->imgDB.database.insert_ItemDetails(item.url,item.name,item.store,item.price,imageID); 
-
 
   return (
     <Screen style={styles.screen}>
