@@ -47,7 +47,7 @@ export class database {
       db.transaction((tx) => {
         // console.log("now creating recentitems table");
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT)",
+          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT, imgName TEXT)",
           [],
           () => { console.log("Created Table RecentItems"); resolve },
           (_, error) => reject(error)
@@ -66,12 +66,12 @@ export class database {
     });
   }
 
-  static insertUrl_RecentItems(imageurl) {
+  static insertUrl_RecentItems(imageurl,imgname) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "INSERT INTO RecentItems (rID, imageUrl) values (?,?)",
-          [null, imageurl],
+          "INSERT INTO RecentItems (rID, imageUrl) values (?,?,?)",
+          [null, imageurl,imgname],
           (_, result) => {
             // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
             resolve(result.insertId)
