@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
     width: "100%",
-    height: 80,
     flexDirection: "row",
     borderWidth: 5,
     borderColor: colors.black,
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   linkText: {
-    fontSize: 19,
+    fontSize: 17,
     textDecorationLine: "underline",
     color: "blue",
   },
@@ -75,9 +74,10 @@ const styles = StyleSheet.create({
   priceContainer: {
     backgroundColor: colors.moneyGreen,
     alignItems: "flex-start",
-    justifyContent: "center",
-    width: 110,
+    justifyContent: "flex-start",
     padding: 7,
+    flexBasis: 120,
+    flexWrap: "nowrap",
   },
 });
 
