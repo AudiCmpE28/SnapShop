@@ -3,30 +3,30 @@ import * as SQLite from "expo-sqlite";
 
 /* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
-  // create and return db object
+// create and return db object
 const db = SQLite.openDatabase("imgDB", 1.2);
-db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () =>console.log('Foreign keys turned on'));
+db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () => console.log('Foreign keys turned on'));
 
 export class database {
   static resetTable1() {
     db.transaction((tx) => {
-        tx.executeSql("DROP TABLE IF EXISTS ItemDetails;", [],
-          () => { console.log("Dropped Tables");},
-          (_, error) => reject(error));
-  })
+      tx.executeSql("DROP TABLE IF EXISTS ItemDetails;", [],
+        () => { console.log("Dropped Tables"); },
+        (_, error) => reject(error));
+    })
   }
   static resetTable2() {
     db.transaction((tx) => {
-        tx.executeSql("  DROP TABLE IF EXISTS RecentItems;", [],
-          () => { console.log("Dropped Tables");},
-          (_, error) => reject(error));
-  })
-}
+      tx.executeSql("  DROP TABLE IF EXISTS RecentItems;", [],
+        () => { console.log("Dropped Tables"); },
+        (_, error) => reject(error));
+    })
+  }
 
   static reset() {
     this.resetTable1();
     this.resetTable2();
-    }
+  }
 
 
   /**

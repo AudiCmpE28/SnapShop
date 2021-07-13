@@ -17,30 +17,21 @@ import colors from "../config/colors";
 import * as imgDB from '../../database/SQLiteDB';
 
 function ResultScreenDB({ navigation, route }) {
-    const { imageURL, imageID } = route.params;
-
-    const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [checkpoint, setCheckpoint] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+    const { imageURL, databaseID } = route.params;
 
-    const urlAPI = "https://whispering-falls-08617.herokuapp.com/search?searchquery=" + imageURL;
-    // console.log('imageURL: %s', imageURL);
-
-    useEffect(() => {
-        fetch(urlAPI)
-            .then((response) => response.json())
-            .then((json) => setData(json))
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
-    }, []);
-    console.log(data);
-    for (var i = 0; i < data.length; i++) {
-        console.log("name: %s", data[i].name)
-        console.log("price: %s", data[i].price);
-        console.log("store:%s", data[i].store);
-        console.log("url:%s", data[i].url);
-        imgDB.database.insert_ItemDetails(data[i].url, data[i].name, data[i].store, data[i].price, imageID);
+    if (!checkpoint) {
+        imgDB.database.getItemDetails(databaseID)
+            .then(response => { setData(response); })
+            .catch((err) => { console.log(err); })
+            .finally(() => setCheckpoint(true));
     }
-    console.log('in result screen imageID: %d', imageID);
+
+    console.log('results DB', data);
+
+    // console.log('in result screen imageID: %d', databaseID);
     //Pass the data into the database 
     //@TODO figure out where and how to add ->imgDB.database.insert_ItemDetails(item.url,item.name,item.store,item.price,imageID); 
 
@@ -72,11 +63,11 @@ function ResultScreenDB({ navigation, route }) {
                         initialNumToRender={3}
                         renderItem={({ item }) => (
                             <ItemLink
-                                itemName={item.name}
-                                webName={item.store}
-                                link={item.url}
+                                itemName={item.itemName}
+                                webName={item.storeName}
+                                link={item.itemUrl}
                                 price={item.price}
-                                onPress={() => Linking.openURL(item.url)}
+                                onPress={() => Linking.openURL(item.itemUrl)}
 
                             />
                         )}
