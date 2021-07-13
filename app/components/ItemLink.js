@@ -42,31 +42,24 @@ function ItemLink({ itemName, webName, link, price, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
-    margin: 10,
+    flex: 1,
+    backgroundColor: colors.white,
+    width: "100%",
+    height: 80,
     flexDirection: "row",
     borderWidth: 5,
     borderColor: colors.black,
     borderRadius: 5,
+    marginTop: 5,
+    marginBottom: 5,
+    justifyContent: "space-between",
   },
-  image: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    marginRight: 20,
-  },
-  headingContainer: {
-    flexDirection: "column",
-  },
+  headingContainer: {},
   storeText: {
     fontSize: 21,
     fontFamily: "Roboto",
     fontWeight: "bold",
     textDecorationLine: "underline",
-  },
-  linkContainer: {
-    flexDirection: "row",
-    alignItems: "center",
   },
   linkText: {
     fontSize: 19,
@@ -74,18 +67,17 @@ const styles = StyleSheet.create({
     color: "blue",
   },
   textContainer: {
-    backgroundColor: colors.primary,
     justifyContent: "center",
     alignItems: "flex-start",
     padding: 10,
-    flex: 0.75,
+    flex: 1,
   },
   priceContainer: {
     backgroundColor: colors.moneyGreen,
-    justifyContent: "center",
     alignItems: "flex-start",
-    padding: 10,
-    flex: 0.25,
+    justifyContent: "center",
+    width: 110,
+    padding: 7,
   },
 });
 
