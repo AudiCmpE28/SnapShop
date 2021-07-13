@@ -3,30 +3,30 @@ import * as SQLite from "expo-sqlite";
 
 /* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
-  // create and return db object
+// create and return db object
 const db = SQLite.openDatabase("imgDB", 1.2);
-db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () =>console.log('Foreign keys turned on'));
+db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () => console.log('Foreign keys turned on'));
 
 export class database {
   static resetTable1() {
     db.transaction((tx) => {
-        tx.executeSql("DROP TABLE IF EXISTS ItemDetails;", [],
-          () => { console.log("Dropped Tables");},
-          (_, error) => reject(error));
-  })
+      tx.executeSql("DROP TABLE IF EXISTS ItemDetails;", [],
+        () => { console.log("Dropped Tables"); },
+        (_, error) => reject(error));
+    })
   }
   static resetTable2() {
     db.transaction((tx) => {
-        tx.executeSql("  DROP TABLE IF EXISTS RecentItems;", [],
-          () => { console.log("Dropped Tables");},
-          (_, error) => reject(error));
-  })
-}
+      tx.executeSql("  DROP TABLE IF EXISTS RecentItems;", [],
+        () => { console.log("Dropped Tables"); },
+        (_, error) => reject(error));
+    })
+  }
 
   static reset() {
     this.resetTable1();
     this.resetTable2();
-    }
+  }
 
 
   /**
@@ -55,7 +55,7 @@ export class database {
         // console.log("...finished");
         // console.log("now creating itemdetails table");
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER PRIMARY KEY AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID))",
+          "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER PRIMARY KEY AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID) ON DELETE CASCADE)",
           [],
           () => { console.log("Created Table ItemDetails"); 
           resolve },
@@ -81,7 +81,45 @@ export class database {
       });
     });
   }
-
+  /**
+   * Returns the cloudinary link and ID of the image with specified ID, -1 to return all.
+   * @param {*} ID 
+   * @returns 
+   */
+   static getRecentItem(ID) {
+    if (ID == -1) {
+      console.log("Inside getRecentItem ALL");
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM RecentItems ORDER BY rID DESC LIMIT 10",
+            [],
+            (_, result) => {
+              // console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+    if (ID > -1) {
+      console.log("Inside getRecentItem %d", ID);
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM RecentItems WHERE rID =? ORDER BY rID DESC LIMIT 10",
+            [ID],
+            (_, result) => {
+              // console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+  }
   static insert_ItemDetails(itemurl, itemname, storename, price, referenceID) {
     console.log("Inside insertUrl");
     return new Promise((resolve, reject) => {
@@ -106,10 +144,10 @@ export class database {
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID ORDER BY referenceID DESC",
             [],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -122,10 +160,10 @@ export class database {
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=? ORDER BY referenceID DESC LIMIT 5",
             [ID],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -146,14 +184,14 @@ export class database {
   * */
   static getItemDetailsv2(ID) {
     if (ID == -1) {
-      console.log("Inside getitemDetails ALL");
+      console.log("Inside getitemDetailsv2 ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
+            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID ORDER BY referenceID DESC",
             [],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -162,14 +200,14 @@ export class database {
       });
     }
     if (ID > -1) {
-      console.log("Inside getitemDetails %d", ID);
+      console.log("Inside getitemDetailsv2 %d", ID);
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
+            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=? ORDER BY referenceID DESC LIMIT 5",
             [ID],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -179,42 +217,21 @@ export class database {
     }
   }
   /**
-   * Returns the cloudinary link and ID of the image with specified ID, -1 to return all.
-   * @param {*} ID 
-   * @returns 
+   * Cascading Delete of itemDetails and recentImage.
+   * @param {ID} ID rID of RecentItem
    */
-  static getRecentItem(ID) {
-    if (ID == -1) {
-      console.log("Inside getRecentItem ALL");
-      return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-          tx.executeSql(
-            "SELECT * FROM RecentItems",
-            [],
-            (_, result) => {
-              console.log(result.rows._array);
-              resolve(result.rows._array);
-            },
-            (_, error) => reject(error)
-          );
-        });
+  static imgDelete(ID){
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "DELETE FROM RecentItems where rID=?",[ID],
+          (_, result) => {
+            // console.log(result.rows._array);
+            resolve(result.rowsAffected);
+          },
+          (_, error) => reject(error)
+        );
       });
-    }
-    if (ID > -1) {
-      console.log("Inside getRecentItem %d", ID);
-      return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-          tx.executeSql(
-            "SELECT * FROM RecentItems WHERE rID =?",
-            [ID],
-            (_, result) => {
-              console.log(result.rows._array);
-              resolve(result.rows._array);
-            },
-            (_, error) => reject(error)
-          );
-        });
-      });
-    }
+    });
   }
 } //database
