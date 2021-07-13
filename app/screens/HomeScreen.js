@@ -107,7 +107,7 @@ function HomeScreen({ navigation }) {
             horizontal
             showsHorizontalScrollIndicator={false}
             data={itemList}
-            // keyExtractor={(items) => items.id.toString()}
+            keyExtractor={(items) => items.imageUrl.toString()}
             renderItem={({ item }) => (
               <RecentItemCard
                 style={styles.listBG}
