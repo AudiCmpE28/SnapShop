@@ -21,32 +21,17 @@ import colors from "../config/colors";
 import HeadingText from "../components/HeadingText";
 import Screen from "../components/Screen";
 
-const itemList = [
-  // {
-  //   id: 1,
-  //   itemName: "Item 1",
-  //   image: require("../assets/vas.png"),
-  // },
-  // {
-  //   id: 2,
-  //   itemName: "Item 2",
-  //   image: require("../assets/coke.png"),
-  // },
-  // {
-  //   id: 3,
-  //   itemName: "Item 3",
-  //   image: require("../assets/coke.png"),
-  // },
-];
-
-// const IMAGE_OPTIONS = [
-//   { id: 1, itemName: "Phone Camera", onPress: () => navigation.navigate('cameraScreen'), },
-//   { id: 2, itemName: "Image Gallery", onPress: () => navigation.navigate('googleImage'), },
-// ];
 
 function HomeScreen({ navigation }) {
-  // imgDB.database.getRecentItem(-1);
-  // imgDB.database.getItemDetails(-1);
+  const [itemList, setItemList] = useState([]);
+  const [checkpoint, setCheckpoint] = useState(false);
+
+  if (!checkpoint) {
+    imgDB.database.getRecentItem(-1)
+      .then(response => { setItemList(response); })
+      .catch((err) => { console.log(err); })
+      .finally(() => setCheckpoint(true));
+  }
 
   const EmptyListDisplay = () => {
     return (
@@ -55,6 +40,7 @@ function HomeScreen({ navigation }) {
       </View>
     );
   };
+
 
   // OPENS IMAGE GALLERY
   useEffect(() => {
@@ -78,8 +64,7 @@ function HomeScreen({ navigation }) {
     });
     const result = phoneGallery.base64;
 
-
-    console.log("img source:", result);
+    // console.log("img source:", result);
     let base64Img = `data:image/jpg;base64,${result}`;
     let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
     let data = {
@@ -99,9 +84,6 @@ function HomeScreen({ navigation }) {
         if (data.secure_url) {
           let dataurl = data.url;
           const returnedID = await imgDB.database.insertUrl_RecentItems(dataurl);
-          // console.log(data.result);
-          console.log('returnedID (ImageSelection Screen): %d', returnedID);
-
           navigation.navigate('ResultScreen', { imageURL: data.secure_url, imageID: returnedID });
         }
       })
@@ -125,13 +107,14 @@ function HomeScreen({ navigation }) {
             horizontal
             showsHorizontalScrollIndicator={false}
             data={itemList}
-            keyExtractor={(items) => items.id.toString()}
+            // keyExtractor={(items) => items.id.toString()}
             renderItem={({ item }) => (
               <RecentItemCard
                 style={styles.listBG}
-                itemName={item.itemName}
-                image={item.image}
-                onPress={() => console.log("Message selected", item)}
+                itemName="Hardcoded Name"
+                image={item.imageUrl}
+                // onPress={() => console.log("Message selected", item.rID)}
+                onPress={() => navigation.navigate("ResultScreenDB", { imageURL: item.imageUrl, databaseID: item.rID, })}
               />
             )}
           />

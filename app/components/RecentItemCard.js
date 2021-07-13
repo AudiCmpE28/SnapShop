@@ -15,7 +15,7 @@ function RecentItemCard({ itemName, image, onPress, style }) {
   return (
     <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
       <View style={[styles.container, style]}>
-        {image && <Image style={styles.image} source={image} />}
+        {image && <Image style={styles.image} source={{ uri: image }} />}
         <View
           style={{ borderTopColor: colors.black, borderTopWidth: 2 }}
         ></View>

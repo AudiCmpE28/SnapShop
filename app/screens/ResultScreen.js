@@ -34,7 +34,7 @@ function ResultScreen({ navigation, route }) {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-  console.log(data);
+  // console.log(data);
   for (var i = 0; i < data.length; i++) {
     console.log("name: %s", data[i].name);
     console.log("price: %s", data[i].price);

@@ -117,10 +117,7 @@ function cameraScreen({ navigation }) {
           // console.log(data.secure_url);
           console.log("returnedID (Camera Screen): %d", returnedID);
 
-          navigation.navigate("ResultScreen", {
-            imageURL: data.secure_url,
-            imageID: returnedID,
-          });
+          navigation.navigate("ResultScreen", { imageURL: data.secure_url, imageID: returnedID, });
         }
       })
       .catch((err) => {
