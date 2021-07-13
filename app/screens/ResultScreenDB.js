@@ -8,18 +8,16 @@ import {
     ActivityIndicator,
     ImageBackgroundBase,
     TouchableOpacity,
+    Text,
 } from "react-native";
-import Card from "../components/Card";
 
 import ItemLink from "../components/ItemLink";
-import Screen from "../components/Screen";
 import colors from "../config/colors";
 import * as imgDB from '../../database/SQLiteDB';
 
 function ResultScreenDB({ navigation, route }) {
     const [data, setData] = useState([]);
     const [checkpoint, setCheckpoint] = useState(false);
-    const [isLoading, setLoading] = useState(false);
     const { imageURL, databaseID } = route.params;
 
     if (!checkpoint) {
@@ -37,71 +35,155 @@ function ResultScreenDB({ navigation, route }) {
 
 
     return (
-        <Screen style={styles.screen}>
-            {isLoading ? (
-                // <Text> Loading... </Text>
-                <View style={[styles.loading, styles.loading_horizontal]}>
-                    <ActivityIndicator size="large" color="blue" />
-                </View>
-            ) : (
-                <>
-                    <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-                        <Image style={styles.homeButton} source={require("../assets/cart_cam.png")} />
-                    </TouchableOpacity>
+        <View style={styles.container}>
+            <View style={styles.nameContainer}>
+                <Text style={styles.nameText}>Title of Item</Text>
+            </View>
 
-                    <View style={styles.card}>
-                        <Card
-                            title="Hardcoded Title"
-                            description="Click a box below to open the link for purchase."
-                            image={{ uri: imageURL }}
+            <View style={styles.imageContainer}>
+                <Image
+                    style={styles.screenshot}
+                    source={{ uri: imageURL }}
+                />
+            </View>
+
+            <View style={styles.InstrContainer}>
+                <Text style={styles.InstrText}>Click on a box to open the URL</Text>
+            </View>
+
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={data}
+                    keyExtractor={(results) => results.itemName.toString()}
+                    // initialNumToRender={3}
+                    renderItem={({ item }) => (
+                        <ItemLink
+                            itemName={item.itemName}
+                            webName={item.storeName}
+                            link={item.itemUrl}
+                            price={item.price}
+                            onPress={() => Linking.openURL(item.itemUrl)}
                         />
-                    </View>
+                    )}
+                />
+            </View>
 
-                    <FlatList
-                        data={data}
-                        // keyExtractor={(results) => results.id.toString()}
-                        initialNumToRender={3}
-                        renderItem={({ item }) => (
-                            <ItemLink
-                                itemName={item.itemName}
-                                webName={item.storeName}
-                                link={item.itemUrl}
-                                price={item.price}
-                                onPress={() => Linking.openURL(item.itemUrl)}
+            <TouchableOpacity
+                style={{ bottom: 0 }}
+                onPress={() => navigation.navigate("HomeScreen")}
+            >
+                <View style={styles.homeButtonContainer}>
+                    <Text style={styles.homeText}>Return to Home</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
 
-                            />
-                        )}
-                    />
-                </>
-            )}
-        </Screen>
+
     );
 }
 
 const styles = StyleSheet.create({
-    screen: {
-        backgroundColor: colors.primary,
-    },
-    card: {
-        margin: 10,
-        backgroundColor: colors.primary,
-    },
-    loading: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        marginTop: 120,
-    },
-    loading_horizontal: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        padding: 10,
-    },
-    homeButton: {
-        width: 100,
-        height: 100,
+        backgroundColor: colors.cartBlue,
         alignItems: "center",
+    },
+    nameContainer: {
+        height: 30,
+        width: "94%",
+        backgroundColor: colors.white,
+        borderColor: colors.black,
+        borderWidth: 3,
         justifyContent: "center",
-        alignContent: "center",
+        alignItems: "center",
+        marginTop: "5%",
+    },
+    nameText: {
+        flex: 1,
+        textAlign: "center",
+        fontWeight: "bold",
+        fontFamily: "Roboto",
+        fontSize: 15,
+        color: colors.black,
+    },
+    imageContainer: {
+        width: "94%",
+        height: "35%",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderWidth: 4,
+        borderTopWidth: 0,
+        borderColor: colors.black,
+        overflow: "hidden",
+    },
+    screenshot: {
+        width: undefined,
+        height: undefined,
+        flex: 1,
+    },
+    listContainer: {
+        width: "94%",
+        height: "35%",
+        flexGrow: 1,
+    },
+    InstrContainer: {
+        flexDirection: "row",
+        height: 30,
+        width: "94%",
+        backgroundColor: colors.white,
+        borderColor: colors.black,
+        borderWidth: 3,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "5%",
+        marginBottom: "5%",
+    },
+    InstrText: {
+        flex: 1,
+        textAlign: "center",
+        fontWeight: "bold",
+        fontFamily: "Roboto",
+        fontSize: 15,
+        color: colors.black,
+    },
+    LoadingContainer: {
+        flex: 1,
+        backgroundColor: colors.cartBlue,
+        alignItems: "center",
+    },
+    LoadTextContainer: {
+        position: "absolute",
+        height: 30,
+        width: "94%",
+        backgroundColor: colors.white,
+        borderColor: colors.black,
+        borderWidth: 5,
+        marginTop: "5%",
+        marginBottom: "5%",
+        bottom: "10%",
+    },
+    LoadText: {
+        flex: 1,
+        textAlign: "center",
+        fontWeight: "bold",
+        fontFamily: "Roboto",
+        fontSize: 15,
+        color: colors.black,
+    },
+    homeText: {
+        textAlign: "center",
+        fontWeight: "bold",
+        fontFamily: "Roboto",
+        fontSize: 15,
+        color: colors.black,
+    },
+    homeButtonContainer: {
+        height: 30,
+        width: 200,
+        backgroundColor: colors.white,
+        borderColor: colors.black,
+        borderWidth: 3,
+        margin: 10,
     },
 });
 

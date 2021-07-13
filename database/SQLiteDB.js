@@ -72,7 +72,7 @@ export class database {
           "INSERT INTO RecentItems (rID, imageUrl) values (?,?)",
           [null, imageurl],
           (_, result) => {
-            console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
+            // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
             resolve(result.insertId)
           },
           (_, error) => reject(error)
@@ -102,7 +102,7 @@ export class database {
             "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
             [],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -118,7 +118,7 @@ export class database {
             "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
             [ID],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -136,7 +136,7 @@ export class database {
             "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
             [],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -152,7 +152,7 @@ export class database {
             "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
             [ID],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -170,7 +170,7 @@ export class database {
             "SELECT * FROM RecentItems",
             [],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)
@@ -186,7 +186,7 @@ export class database {
             "SELECT * FROM RecentItems WHERE rID =?",
             [ID],
             (_, result) => {
-              console.log(result.rows._array);
+              // console.log(result.rows._array);
               resolve(result.rows._array);
             },
             (_, error) => reject(error)

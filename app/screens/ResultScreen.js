@@ -10,7 +10,6 @@ import {
   ImageBackgroundBase,
   TouchableOpacity,
 } from "react-native";
-import Card from "../components/Card";
 
 import ItemLink from "../components/ItemLink";
 import colors from "../config/colors";
@@ -19,7 +18,7 @@ import LoadingCart from "../components/LoadingCart";
 
 function ResultScreen({ navigation, route }) {
   const { imageURL, imageID } = route.params;
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   const urlAPI =
@@ -72,7 +71,7 @@ function ResultScreen({ navigation, route }) {
           <View style={styles.imageContainer}>
             <Image
               style={styles.screenshot}
-              source={require("../assets/calc.png")}
+              source={{ uri: imageURL }}
             />
           </View>
 
@@ -101,7 +100,7 @@ function ResultScreen({ navigation, route }) {
 
           <TouchableOpacity
             style={{ bottom: 0 }}
-            onPress={() => console.log("Clicked")}
+            onPress={() => navigation.navigate("HomeScreen")}
           >
             <View style={styles.homeButtonContainer}>
               <Text style={styles.homeText}>Return to Home</Text>
@@ -155,7 +154,6 @@ const styles = StyleSheet.create({
   listContainer: {
     width: "94%",
     height: "35%",
-
     flexGrow: 1,
   },
   InstrContainer: {

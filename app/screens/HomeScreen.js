@@ -25,13 +25,15 @@ import Screen from "../components/Screen";
 function HomeScreen({ navigation }) {
   const [itemList, setItemList] = useState([]);
   const [checkpoint, setCheckpoint] = useState(false);
-
-  if (!checkpoint) {
-    imgDB.database.getRecentItem(-1)
-      .then(response => { setItemList(response); })
-      .catch((err) => { console.log(err); })
-      .finally(() => setCheckpoint(true));
-  }
+  imgDB.database.getRecentItem(-1)
+    .then(response => { setItemList(response); })
+    .catch((err) => { console.log(err); })
+  // if (!checkpoint) {
+  //   imgDB.database.getRecentItem(-1)
+  //     .then(response => { setItemList(response); })
+  //     .catch((err) => { console.log(err); })
+  //     .finally(() => setCheckpoint(true));
+  // }
 
   const EmptyListDisplay = () => {
     return (
