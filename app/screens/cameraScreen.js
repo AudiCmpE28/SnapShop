@@ -111,9 +111,7 @@ function cameraScreen({ navigation }) {
         let data = await response.json();
         if (data.secure_url) {
           let dataurl = data.url;
-          const returnedID = await imgDB.database.insertUrl_RecentItems(
-            dataurl
-          );
+          const returnedID = await imgDB.database.insertUrl_RecentItems(dataurl);
           // console.log(data.secure_url);
           console.log("returnedID (Camera Screen): %d", returnedID);
 

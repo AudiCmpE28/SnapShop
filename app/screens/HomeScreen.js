@@ -25,6 +25,7 @@ import Screen from "../components/Screen";
 function HomeScreen({ navigation }) {
   const [itemList, setItemList] = useState([]);
   const [checkpoint, setCheckpoint] = useState(false);
+
   imgDB.database.getRecentItem(-1)
     .then(response => { setItemList(response); })
     .catch((err) => { console.log(err); })
