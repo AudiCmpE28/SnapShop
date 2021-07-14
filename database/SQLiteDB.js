@@ -4,7 +4,7 @@ import * as SQLite from "expo-sqlite";
 /* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
 // create and return db object
-const db = SQLite.openDatabase("imgDB", 1.2);
+const db = SQLite.openDatabase("imgDB", 1.3);
 db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () => console.log('Foreign keys turned on'));
 
 export class database {
@@ -66,12 +66,12 @@ export class database {
     });
   }
 
-  static insertUrl_RecentItems(imageurl,imgname) {
+  static insertUrl_RecentItems(imageurl,imgName) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "INSERT INTO RecentItems (rID, imageUrl) values (?,?,?)",
-          [null, imageurl,imgname],
+          "INSERT INTO RecentItems (rID, imageUrl, imgName) values (?,?,?)",
+          [null, imageurl,imgName],
           (_, result) => {
             // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
             resolve(result.insertId)

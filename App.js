@@ -26,17 +26,18 @@ import * as imgDB from "./database/SQLiteDB";
 const Stack = createStackNavigator();
 
 function App() {
+  //Comment out the reset after first run
   imgDB.database.reset();
-  // imgDB.database.dbinit();
+  imgDB.database.dbinit();
 
 
   // //test retrieving all items
-  // imgDB.database.getRecentItem(-1);
+  imgDB.database.getRecentItem(-1);
   // imgDB.database.getItemDetails(-1);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator initialRouteName="WelcomeScreen">
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}

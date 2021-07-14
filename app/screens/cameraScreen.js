@@ -111,13 +111,15 @@ function cameraScreen({ navigation }) {
         let data = await response.json();
         if (data.secure_url) {
           let dataurl = data.url;
+          let imgname= data.original_filename
           const returnedID = await imgDB.database.insertUrl_RecentItems(
-            dataurl
+            dataurl,"name"
+            //"name" is placeholder
           );
           // console.log(data.secure_url);
           console.log("returnedID (Camera Screen): %d", returnedID);
 
-          navigation.navigate("ResultScreen", { imageURL: data.secure_url, imageID: returnedID, });
+          navigation.navigate("ResultScreen", { imageURL: data.secure_url, imageID: returnedID, imageName: imgname});
         }
       })
       .catch((err) => {
