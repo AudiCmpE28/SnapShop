@@ -233,4 +233,17 @@ export class database {
       });
     });
   }
+  static update_imgName(ID,imgName){
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "UPDATE RecentItems SET imgName=? WHERE rID=?",[imgName,ID],
+          (_, result) => {
+            resolve;
+          },
+          (_, error) => reject(error)
+        );
+      });
+    });
+  }
 } //database
