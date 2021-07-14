@@ -27,17 +27,16 @@ const Stack = createStackNavigator();
 
 function App() {
   //Comment out the reset after first run
-  imgDB.database.reset();
+  // imgDB.database.reset();
   imgDB.database.dbinit();
 
-
   // //test retrieving all items
-  imgDB.database.getRecentItem(-1);
+  // imgDB.database.getRecentItem(-1);
   // imgDB.database.getItemDetails(-1);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="WelcomeScreen">
+      <Stack.Navigator initialRouteName="HomeScreen">
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}

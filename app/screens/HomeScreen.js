@@ -38,7 +38,6 @@ function HomeScreen({ navigation }) {
   //     .catch((err) => { console.log(err); })
   //     .finally(() => setCheckpoint(true));
   // }
-  console.log(itemList);
 
   const EmptyListDisplay = () => {
     return (
@@ -129,7 +128,8 @@ function HomeScreen({ navigation }) {
                     databaseID: item.rID,
                   })
                 }
-                // onXPress={() => } // Add the onpress instruction for the X here.
+                onXPress={() => imgDB.database.imgDelete(item.rID)}
+              // onXPress={() => } // Add the onpress instruction for the X here.
               />
             )}
           />
