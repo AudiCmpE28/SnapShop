@@ -17,7 +17,7 @@ import * as imgDB from "../../database/SQLiteDB";
 import LoadingCart from "../components/LoadingCart";
 
 function ResultScreen({ navigation, route }) {
-  const { imageURL, imageID } = route.params;
+  const { imageURL, imageID, imageName } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -35,10 +35,10 @@ function ResultScreen({ navigation, route }) {
   }, []);
   // console.log(data);
   for (var i = 0; i < data.length; i++) {
-    console.log("name: %s", data[i].name);
-    console.log("price: %s", data[i].price);
-    console.log("store:%s", data[i].store);
-    console.log("url:%s", data[i].url);
+    // console.log("name: %s", data[i].name);
+    // console.log("price: %s", data[i].price);
+    // console.log("store:%s", data[i].store);
+    // console.log("url:%s", data[i].url);
     imgDB.database.insert_ItemDetails(
       data[i].url,
       data[i].name,
@@ -47,9 +47,7 @@ function ResultScreen({ navigation, route }) {
       imageID
     );
   }
-  console.log("in result screen imageID: %d", imageID);
-  //Pass the data into the database
-  //@TODO figure out where and how to add ->imgDB.database.insert_ItemDetails(item.url,item.name,item.store,item.price,imageID);
+  console.log('in result screen imageID: %d', imageID);
 
   return (
     <>
@@ -65,7 +63,8 @@ function ResultScreen({ navigation, route }) {
       ) : (
         <View style={styles.container}>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>Title of Item</Text>
+            {/* Below is where you would put the imageName (after determining it from tags) */}
+            <Text style={styles.nameText}>The image name goes here</Text>
           </View>
 
           <View style={styles.imageContainer}>

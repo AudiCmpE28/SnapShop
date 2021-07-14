@@ -4,7 +4,7 @@ import * as SQLite from "expo-sqlite";
 /* See https://docs.expo.io/versions/latest/sdk/sqlite/ for SQLite Docs */
 // tx.executeSql(sqlStatement, arguments, success(transaction, ResultSet), error(transaction, errorobj))
 // create and return db object
-const db = SQLite.openDatabase("imgDB", 1.2);
+const db = SQLite.openDatabase("imgDB", 1.3);
 db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () => console.log('Foreign keys turned on'));
 
 export class database {
@@ -42,22 +42,23 @@ export class database {
    * @param referenceID Foreignkey referencing table1 rID
    * */
   static dbinit() {
-    console.log("Inside initDB");
+    // console.log("Inside initDB");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         // console.log("now creating recentitems table");
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT)",
+          "CREATE TABLE IF NOT EXISTS RecentItems (rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT, imgName TEXT)",
           [],
-          () => { console.log("Created RecentItems"); resolve },
+          () => { console.log("Created Table RecentItems"); resolve },
           (_, error) => reject(error)
         );
         // console.log("...finished");
         // console.log("now creating itemdetails table");
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER PRIMARY KEY AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID))",
+          "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER PRIMARY KEY AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID) ON DELETE CASCADE)",
           [],
-          () => { console.log("Created ItemDetails"); resolve },
+          () => { console.log("Created Table ItemDetails"); 
+          resolve },
           (_, error) => reject(error)
         );
         // console.log("...finished");
@@ -65,12 +66,12 @@ export class database {
     });
   }
 
-  static insertUrl_RecentItems(imageurl) {
+  static insertUrl_RecentItems(imageurl,imgName) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "INSERT INTO RecentItems (rID, imageUrl) values (?,?)",
-          [null, imageurl],
+          "INSERT INTO RecentItems (rID, imageUrl, imgName) values (?,?,?)",
+          [null, imageurl,imgName],
           (_, result) => {
             // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
             resolve(result.insertId)
@@ -80,8 +81,47 @@ export class database {
       });
     });
   }
+  /**
+   * Returns the cloudinary link and ID of the image with specified ID, -1 to return all.
+   * @param {*} ID 
+   * @returns 
+   */
+   static getRecentItem(ID) {
+    if (ID == -1) {
+      // console.log("Inside getRecentItem ALL");
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM RecentItems ORDER BY rID DESC LIMIT 10",
+            [],
+            (_, result) => {
+              // console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+    if (ID > -1) {
+      // console.log("Inside getRecentItem %d", ID);
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM RecentItems WHERE rID =? ORDER BY rID DESC LIMIT 10",
+            [ID],
+            (_, result) => {
+              // console.log(result.rows._array);
+              resolve(result.rows._array);
+            },
+            (_, error) => reject(error)
+          );
+        });
+      });
+    }
+  }
   static insert_ItemDetails(itemurl, itemname, storename, price, referenceID) {
-    console.log("Inside insertUrl");
+    // console.log("Inside insertUrl");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -93,13 +133,18 @@ export class database {
       });
     });
   }
+  /**
+   * This function takes the ID referencing the RecentItem table and returns rows which correspond to it
+   * @param {*} ID (-1 to return all)
+   * @returns All columns from both tables
+   */
   static getItemDetails(ID) {
     if (ID == -1) {
-      console.log("Inside getitemDetails ALL");
+      // console.log("Inside getitemDetails ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID ORDER BY referenceID DESC",
             [],
             (_, result) => {
               // console.log(result.rows._array);
@@ -111,11 +156,11 @@ export class database {
       });
     }
     if (ID > -1) {
-      console.log("Inside getitemDetails %d", ID);
+      // console.log("Inside getitemDetails %d", ID);
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
+            "SELECT * FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=? ORDER BY referenceID DESC LIMIT 5",
             [ID],
             (_, result) => {
               // console.log(result.rows._array);
@@ -127,13 +172,23 @@ export class database {
       });
     }
   }
+
+  /**
+   * This version only returns the columns from ItemDetails table:
+  * @ iID
+  * @ itemUrl
+  * @ itemname
+  * @ storeName
+  * @ price
+  * @ referenceID
+  * */
   static getItemDetailsv2(ID) {
     if (ID == -1) {
-      console.log("Inside getitemDetails ALL");
+      console.log("Inside getitemDetailsv2 ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID",
+            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID ORDER BY referenceID DESC",
             [],
             (_, result) => {
               // console.log(result.rows._array);
@@ -145,11 +200,11 @@ export class database {
       });
     }
     if (ID > -1) {
-      console.log("Inside getitemDetails %d", ID);
+      console.log("Inside getitemDetailsv2 %d", ID);
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
-            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=?",
+            "SELECT iID, itemUrl, itemName, storeName, price, referenceID FROM ItemDetails FROM ItemDetails INNER JOIN RecentItems ON referenceID=rID where rID=? ORDER BY referenceID DESC LIMIT 5",
             [ID],
             (_, result) => {
               // console.log(result.rows._array);
@@ -161,38 +216,21 @@ export class database {
       });
     }
   }
-  static getRecentItem(ID) {
-    if (ID == -1) {
-      console.log("Inside getRecentItem ALL");
-      return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-          tx.executeSql(
-            "SELECT * FROM RecentItems",
-            [],
-            (_, result) => {
-              // console.log(result.rows._array);
-              resolve(result.rows._array);
-            },
-            (_, error) => reject(error)
-          );
-        });
+  /**
+   * Cascading Delete of itemDetails and recentImage.
+   * @param {ID} ID rID of RecentItem
+   */
+  static imgDelete(ID){
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "DELETE FROM RecentItems where rID=?",[ID],
+          (_, result) => {
+            resolve(result.rowsAffected);
+          },
+          (_, error) => reject(error)
+        );
       });
-    }
-    if (ID > -1) {
-      console.log("Inside getRecentItem %d", ID);
-      return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-          tx.executeSql(
-            "SELECT * FROM RecentItems WHERE rID =?",
-            [ID],
-            (_, result) => {
-              // console.log(result.rows._array);
-              resolve(result.rows._array);
-            },
-            (_, error) => reject(error)
-          );
-        });
-      });
-    }
+    });
   }
 } //database
