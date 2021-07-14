@@ -55,7 +55,7 @@ function cameraScreen({ navigation }) {
   //function to capture the image
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0.7, base64: true };
+      const options = { quality: 0.7, base64: true, };
       const data = await cameraRef.current.takePictureAsync(options);
       const source = data.base64;
       if (source) {
@@ -111,15 +111,15 @@ function cameraScreen({ navigation }) {
         let data = await response.json();
         if (data.secure_url) {
           let dataurl = data.url;
-          let imgname= data.original_filename
+          let imgname = data.original_filename
           const returnedID = await imgDB.database.insertUrl_RecentItems(
-            dataurl,"name"
+            dataurl, "name"
             //"name" is placeholder
           );
           // console.log(data.secure_url);
           console.log("returnedID (Camera Screen): %d", returnedID);
 
-          navigation.navigate("ResultScreen", { imageURL: data.secure_url, imageID: returnedID, imageName: imgname});
+          navigation.navigate("ResultScreen", { imageURL: data.secure_url, imageID: returnedID, imageName: imgname });
         }
       })
       .catch((err) => {

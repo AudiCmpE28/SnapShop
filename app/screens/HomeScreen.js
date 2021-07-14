@@ -2,7 +2,7 @@
 This is the new homeScreen combining Simon's elements with my lists.
 */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,22 +12,26 @@ import {
   FlatList,
   Platform,
 } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import * as imgDB from "../../database/SQLiteDB";
-
 
 import RecentItemCard from "../components/RecentItemCard";
 import colors from "../config/colors";
 import HeadingText from "../components/HeadingText";
 import Screen from "../components/Screen";
 
-
 function HomeScreen({ navigation }) {
   const [itemList, setItemList] = useState([]);
   const [checkpoint, setCheckpoint] = useState(false);
-  imgDB.database.getRecentItem(-1)
-    .then(response => { setItemList(response); })
-    .catch((err) => { console.log(err); })
+
+  imgDB.database
+    .getRecentItem(-1)
+    .then((response) => {
+      setItemList(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   // if (!checkpoint) {
   //   imgDB.database.getRecentItem(-1)
   //     .then(response => { setItemList(response); })
@@ -42,7 +46,6 @@ function HomeScreen({ navigation }) {
       </View>
     );
   };
-
 
   // OPENS IMAGE GALLERY
   useEffect(() => {
@@ -68,33 +71,36 @@ function HomeScreen({ navigation }) {
 
     // console.log("img source:", result);
     let base64Img = `data:image/jpg;base64,${result}`;
-    let apiUrl = 'https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload';
+    let apiUrl = "https://api.cloudinary.com/v1_1/dzr34w1dd/image/upload";
     let data = {
       file: base64Img,
-      upload_preset: 'hskz2avq'
+      upload_preset: "hskz2avq",
     };
 
     fetch(apiUrl, {
       body: JSON.stringify(data),
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json",
       },
-      method: 'POST'
+      method: "POST",
     })
-      .then(async response => {
+      .then(async (response) => {
         let data = await response.json();
         if (data.secure_url) {
           let dataurl = data.url;
-          const returnedID = await imgDB.database.insertUrl_RecentItems(dataurl);
-          navigation.navigate('ResultScreen', { imageURL: data.secure_url, imageID: returnedID });
+          const returnedID = await imgDB.database.insertUrl_RecentItems(
+            dataurl
+          );
+          navigation.navigate("ResultScreen", {
+            imageURL: data.secure_url,
+            imageID: returnedID,
+          });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-
   };
-
 
   return (
     <Screen style={styles.container}>
@@ -116,7 +122,14 @@ function HomeScreen({ navigation }) {
                 itemName="Hardcoded Name"
                 image={item.imageUrl}
                 // onPress={() => console.log("Message selected", item.rID)}
-                onPress={() => navigation.navigate("ResultScreenDB", { imageURL: item.imageUrl, databaseID: item.rID, })}
+                onPress={() =>
+                  navigation.navigate("ResultScreenDB", {
+                    imageURL: item.imageUrl,
+                    databaseID: item.rID,
+                  })
+                }
+                onXPress={() => imgDB.database.imgDelete(item.rID)}
+              // onXPress={() => } // Add the onpress instruction for the X here.
               />
             )}
           />
@@ -143,14 +156,15 @@ function HomeScreen({ navigation }) {
           onPress={() => navigation.navigate("cameraScreen")}
           onLongPress={pickImage}
         >
-          <Image style={styles.camCartImage} source={require("../assets/cart_cam.png")} />
+          <Image
+            style={styles.camCartImage}
+            source={require("../assets/cart_cam.png")}
+          />
         </TouchableOpacity>
       </View>
     </Screen>
   );
 }
-
-
 
 //// Format STYLE
 const styles = StyleSheet.create({

@@ -21,9 +21,7 @@ function ResultScreen({ navigation, route }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const urlAPI =
-    "https://whispering-falls-08617.herokuapp.com/search?searchquery=" +
-    imageURL;
+  const urlAPI = "https://whispering-falls-08617.herokuapp.com/search?searchquery=" + imageURL;
   console.log("imageURL: %s", imageURL);
 
   useEffect(() => {
