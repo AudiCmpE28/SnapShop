@@ -55,7 +55,7 @@ function cameraScreen({ navigation }) {
   //function to capture the image
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0.7, base64: true };
+      const options = { quality: 0.7, base64: true, };
       const data = await cameraRef.current.takePictureAsync(options);
       const source = data.base64;
       if (source) {
