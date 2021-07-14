@@ -5,13 +5,15 @@ import {
   Image,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 
 import AppText from "./AppText";
 import HeadingText from "./HeadingText";
 import colors from "../config/colors";
+import { MaterialIcons } from "@expo/vector-icons";
 
-function RecentItemCard({ itemName, image, onPress, style }) {
+function RecentItemCard({ itemName, image, onPress, style, onXPress }) {
   return (
     <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
       <View style={[styles.container, style]}>
@@ -24,6 +26,11 @@ function RecentItemCard({ itemName, image, onPress, style }) {
             <Text style={styles.itemName}>{itemName}</Text>
           </View>
         )}
+        <View style={styles.xContainer}>
+          <TouchableOpacity onPress={onXPress}>
+            <MaterialIcons name="close" size={40} color={colors.black} />
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableHighlight>
   );
@@ -41,6 +48,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     justifyContent: "center",
     alignContent: "center",
+  },
+  xContainer: {
+    position: "absolute",
+    top: "0%",
+    right: "0%",
   },
   image: {
     width: undefined,
