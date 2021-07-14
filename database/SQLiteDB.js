@@ -42,7 +42,7 @@ export class database {
    * @param referenceID Foreignkey referencing table1 rID
    * */
   static dbinit() {
-    console.log("Inside initDB");
+    // console.log("Inside initDB");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         // console.log("now creating recentitems table");
@@ -88,7 +88,7 @@ export class database {
    */
    static getRecentItem(ID) {
     if (ID == -1) {
-      console.log("Inside getRecentItem ALL");
+      // console.log("Inside getRecentItem ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
@@ -104,7 +104,7 @@ export class database {
       });
     }
     if (ID > -1) {
-      console.log("Inside getRecentItem %d", ID);
+      // console.log("Inside getRecentItem %d", ID);
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
@@ -121,7 +121,7 @@ export class database {
     }
   }
   static insert_ItemDetails(itemurl, itemname, storename, price, referenceID) {
-    console.log("Inside insertUrl");
+    // console.log("Inside insertUrl");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -140,7 +140,7 @@ export class database {
    */
   static getItemDetails(ID) {
     if (ID == -1) {
-      console.log("Inside getitemDetails ALL");
+      // console.log("Inside getitemDetails ALL");
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
@@ -156,7 +156,7 @@ export class database {
       });
     }
     if (ID > -1) {
-      console.log("Inside getitemDetails %d", ID);
+      // console.log("Inside getitemDetails %d", ID);
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
           tx.executeSql(
@@ -226,7 +226,6 @@ export class database {
         tx.executeSql(
           "DELETE FROM RecentItems where rID=?",[ID],
           (_, result) => {
-            // console.log(result.rows._array);
             resolve(result.rowsAffected);
           },
           (_, error) => reject(error)
