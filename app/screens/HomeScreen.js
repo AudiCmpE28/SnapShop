@@ -35,6 +35,7 @@ function HomeScreen({ navigation }) {
   //     .catch((err) => { console.log(err); })
   //     .finally(() => setCheckpoint(true));
   // }
+  console.log(itemList);
 
   const EmptyListDisplay = () => {
     return (
