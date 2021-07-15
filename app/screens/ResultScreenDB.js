@@ -18,7 +18,7 @@ import * as imgDB from '../../database/SQLiteDB';
 function ResultScreenDB({ navigation, route }) {
     const [data, setData] = useState([]);
     const [checkpoint, setCheckpoint] = useState(false);
-    const { imageURL, databaseID } = route.params;
+    const { imageURL, databaseID, imageName } = route.params;
 
     if (!checkpoint) {
         imgDB.database.getItemDetails(databaseID)
@@ -27,17 +27,13 @@ function ResultScreenDB({ navigation, route }) {
             .finally(() => setCheckpoint(true));
     }
 
-    console.log('results DB', data);
-
-    // console.log('in result screen imageID: %d', databaseID);
-    //Pass the data into the database 
-    //@TODO figure out where and how to add ->imgDB.database.insert_ItemDetails(item.url,item.name,item.store,item.price,imageID); 
+    // console.log('results DB', data);
 
 
     return (
         <View style={styles.container}>
             <View style={styles.nameContainer}>
-                <Text style={styles.nameText}>Title of Item</Text>
+                <Text style={styles.nameText}>{imageName}</Text>
             </View>
 
             <View style={styles.imageContainer}>

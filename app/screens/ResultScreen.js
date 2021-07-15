@@ -45,8 +45,11 @@ function ResultScreen({ navigation, route }) {
       imageID
     );
   }
-  // imgDB.database.update_imgName(imageID); //updates titlew name (iz algorithm)
-  console.log('in result screen imageID: %d', imageID);
+
+
+  //algorithm
+  imgDB.database.update_imgName(imageID, "Placeholder"); //updates title name (iz algorithm)
+  // console.log('in result screen imageID: %d', imageID);
 
   return (
     <>
@@ -62,8 +65,8 @@ function ResultScreen({ navigation, route }) {
       ) : (
         <View style={styles.container}>
           <View style={styles.nameContainer}>
-            {/* Below is where you would put the imageName (after determining it from tags) */}
-            <Text style={styles.nameText}>The image name goes here</Text>
+            {/* Below is where you would put the imageName (after determining it from algorithm) */}
+            <Text style={styles.nameText}>{imageName}</Text>
           </View>
 
           <View style={styles.imageContainer}>

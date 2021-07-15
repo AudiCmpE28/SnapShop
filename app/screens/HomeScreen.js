@@ -22,16 +22,12 @@ import Screen from "../components/Screen";
 
 function HomeScreen({ navigation }) {
   const [itemList, setItemList] = useState([]);
-  const [checkpoint, setCheckpoint] = useState(false);
+  // const [checkpoint, setCheckpoint] = useState(false);
 
-  imgDB.database
-    .getRecentItem(-1)
-    .then((response) => {
-      setItemList(response);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  imgDB.database.getRecentItem(-1)
+    .then((response) => { setItemList(response); })
+    .catch((err) => { console.log(err); });
+  // console.log(itemList);
   // if (!checkpoint) {
   //   imgDB.database.getRecentItem(-1)
   //     .then(response => { setItemList(response); })
@@ -119,13 +115,14 @@ function HomeScreen({ navigation }) {
             renderItem={({ item }) => (
               <RecentItemCard
                 style={styles.listBG}
-                itemName="Hardcoded Name"
+                itemName={item.imgName}
                 image={item.imageUrl}
                 // onPress={() => console.log("Message selected", item.rID)}
                 onPress={() =>
                   navigation.navigate("ResultScreenDB", {
                     imageURL: item.imageUrl,
                     databaseID: item.rID,
+                    imageName: item.imgName,
                   })
                 }
                 onXPress={() => imgDB.database.imgDelete(item.rID)}
