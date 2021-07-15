@@ -45,6 +45,7 @@ function ResultScreen({ navigation, route }) {
       imageID
     );
   }
+  // imgDB.database.update_imgName(imageID); //updates titlew name (iz algorithm)
   console.log('in result screen imageID: %d', imageID);
 
   return (
