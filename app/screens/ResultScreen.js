@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  FlatList,
-  StyleSheet,
-  View,
-  Text,
-  Linking,
-  ActivityIndicator,
-  ImageBackgroundBase,
-  TouchableOpacity,
+  Image, FlatList, StyleSheet, View, Text, Linking,
+  ActivityIndicator, ImageBackgroundBase, TouchableOpacity,
 } from "react-native";
 
 import ItemLink from "../components/ItemLink";
@@ -17,12 +10,16 @@ import * as imgDB from "../../database/SQLiteDB";
 import LoadingCart from "../components/LoadingCart";
 
 function ResultScreen({ navigation, route }) {
-  const { imageURL, imageID, imageName } = route.params;
+  const { imageURL, imageID } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [itemsName, setNameOfItem] = useState("Unkown Name");
+  var arrayOfItemsNames = [];
+  var count = 0;
+
 
   const urlAPI = "https://whispering-falls-08617.herokuapp.com/search?searchquery=" + imageURL;
-  console.log("imageURL: %s", imageURL);
+  // console.log("imageURL: %s", imageURL);
 
   useEffect(() => {
     fetch(urlAPI)
@@ -31,12 +28,14 @@ function ResultScreen({ navigation, route }) {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-  // console.log(data);
+
+
   for (var i = 0; i < data.length; i++) {
     // console.log("name: %s", data[i].name);
     // console.log("price: %s", data[i].price);
     // console.log("store:%s", data[i].store);
     // console.log("url:%s", data[i].url);
+
     imgDB.database.insert_ItemDetails(
       data[i].url,
       data[i].name,
@@ -44,11 +43,37 @@ function ResultScreen({ navigation, route }) {
       data[i].price,
       imageID
     );
+    arrayOfItemsNames[i] = data[i].name; //store names into an array
+  }
+  // console.log(arrayOfItemsNames);
+
+  if (!isLoading && arrayOfItemsNames) {
+    // strings to uppercase
+    const str = arrayOfItemsNames.map(arrayOfItemsNames => arrayOfItemsNames.toUpperCase());
+
+    //sort the array to get the shortest element
+    str.sort((a, b) => a.length - b.length);
+
+    //take the first element/string and convert into array of words
+    const shortest = str[0].split(" ")
+
+    //iterate over entire strings and check whether it has an entry of short array
+    const result = shortest.filter(item => str.every(x => x.includes(item)))
+
+    function results(item) {
+      var results = " "; //empty string
+      for (var i = 0; i < item.length; i++) {
+        results += ' ' + item[i]; //add space and word to string
+      }
+      return results.trim(); //return the string formed
+    }
+
+    setNameOfItem(results(result));
+    imgDB.database.update_imgName(imageID, results(result)); //updates title name (iz algorithm) 
+    count++;
   }
 
-
-  //algorithm
-  imgDB.database.update_imgName(imageID, "Placeholder"); //updates title name (iz algorithm)
+  // imgDB.database.update_imgName(imageID, "Placeholder"); //updates title name (iz algorithm)
   // console.log('in result screen imageID: %d', imageID);
 
   return (
@@ -66,7 +91,7 @@ function ResultScreen({ navigation, route }) {
         <View style={styles.container}>
           <View style={styles.nameContainer}>
             {/* Below is where you would put the imageName (after determining it from algorithm) */}
-            <Text style={styles.nameText}>{imageName}</Text>
+            <Text style={styles.nameText}> {itemsName} </Text>
           </View>
 
           <View style={styles.imageContainer}>

@@ -26,6 +26,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Senior Project",
+    "githubUrl": "https://github.com/AudiCmpE28/SnapShop/blob/0b29a778618ba7d9ce6db97c96f2ac8630764443/app/screens/ResultScreen.js"
   }
 }
