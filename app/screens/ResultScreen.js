@@ -21,7 +21,9 @@ function results(item) {
   for (var i = 0; i < item.length; i++) {
     results += " " + item[i]; //add space and word to string
   }
-  return results.trim(); //return the string formed
+
+  if (results.length < 2) return "Unidentified String";
+  else return results.trim(); //return the string formed
 }
 
 function ResultScreen({ navigation, route }) {
@@ -38,8 +40,17 @@ function ResultScreen({ navigation, route }) {
   // console.log("imageURL: %s", imageURL);
 
   useEffect(() => {
-    fetch(urlAPI)
-      .then((response) => response.json())
+    fetch(urlAPI, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
       .then((json) => setData(json))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
@@ -63,6 +74,7 @@ function ResultScreen({ navigation, route }) {
 
   if (!setName && !isLoading) {
     // strings to uppercase
+    var shortest, result;
     const str = arrayOfItemsNames.map((arrayOfItemsNames) =>
       arrayOfItemsNames.toUpperCase()
     );
@@ -70,15 +82,16 @@ function ResultScreen({ navigation, route }) {
     //sort the array to get the shortest element
     str.sort((a, b) => a.length - b.length);
     //take the first element/string and convert into array of words
-    const shortest = str[0].split(" ");
-
-    //iterate over entire strings and check whether it has an entry of short array
-    const result = shortest.filter((item) =>
-      str.every((x) => x.includes(item))
-    );
+    if (typeof str[0] == "undefined") {
+      result = "Unidentified Item";
+    } else {
+      shortest = str[0].split(" ");
+      //iterate over entire strings and check whether it has an entry of short array
+      result = shortest.filter((item) => str.every((x) => x.includes(item)));
+    }
 
     itemsName = results(result);
-    imgDB.database.update_imgName(imageID, results(result)); //updates title name (iz algorithm)
+    imgDB.database.update_imgName(imageID, itemsName); //updates title name (iz algorithm)
     setName = true;
   }
 
@@ -100,7 +113,9 @@ function ResultScreen({ navigation, route }) {
         <View style={styles.container}>
           <View style={styles.nameContainer}>
             {/* Below is where you would put the imageName (after determining it from algorithm) */}
-            <Text style={styles.nameText}> {itemsName} </Text>
+            <Text style={styles.nameText} adjustsFontSizeToFit>
+              {itemsName}
+            </Text>
           </View>
 
           <View style={styles.imageContainer}>
