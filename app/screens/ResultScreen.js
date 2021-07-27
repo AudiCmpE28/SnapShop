@@ -71,7 +71,6 @@ function ResultScreen({ navigation, route }) {
     );
     arrayOfItemsNames[i] = data[i].name; //store names into an array
   }
-  // console.log(arrayOfItemsNames);
 
   if (!setName && !isLoading) {
     // strings to uppercase
@@ -82,7 +81,6 @@ function ResultScreen({ navigation, route }) {
 
     //sort the array to get the shortest element
     str.sort((a, b) => a.length - b.length);
-
     //take the first element/string and convert into array of words
     if (typeof str[0] == "undefined") {
       result = "Unidentified Item";
