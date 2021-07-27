@@ -17,13 +17,15 @@ import * as imgDB from "../../database/SQLiteDB";
 import LoadingCart from "../components/LoadingCart";
 
 function results(item) {
-  var results = " "; //empty string
-  for (var i = 0; i < item.length; i++) {
-    results += " " + item[i]; //add space and word to string
-  }
+  if (item.length < 2) return "Unidentified String";
+  else {
+    var results = " "; //empty string
+    for (var i = 0; i < item.length; i++) {
+      results += " " + item[i]; //add space and word to string
+    }
 
-  if (results.length < 2) return "Unidentified String";
-  else return results.trim(); //return the string formed
+    return results.trim(); //return the string formed
+  }
 }
 
 function ResultScreen({ navigation, route }) {
@@ -38,6 +40,16 @@ function ResultScreen({ navigation, route }) {
     "https://whispering-falls-08617.herokuapp.com/search?searchquery=" +
     imageURL;
   // console.log("imageURL: %s", imageURL);
+
+  const EmptyListDisplay = () => {
+    return (
+      <View style={styles.emptyListContainer}>
+        <Text style={styles.emptyListText}>
+          An unexpected error occurred with the server, please try again later!
+        </Text>
+      </View>
+    );
+  };
 
   useEffect(() => {
     fetch(urlAPI, {
@@ -75,9 +87,9 @@ function ResultScreen({ navigation, route }) {
   if (!setName && !isLoading) {
     // strings to uppercase
     var shortest, result;
-    const str = arrayOfItemsNames.map((arrayOfItemsNames) =>
-      arrayOfItemsNames.toUpperCase()
-    );
+    // var str = arrayOfItemsNames.slice(0, 2);
+    // str = str.map((x) => x.toUpperCase());
+    str = arrayOfItemsNames.slice(0, 2).map((x) => x.toUpperCase()); // Potential shortcut
 
     //sort the array to get the shortest element
     str.sort((a, b) => a.length - b.length);
@@ -128,6 +140,7 @@ function ResultScreen({ navigation, route }) {
 
           <View style={styles.listContainer}>
             <FlatList
+              ListEmptyComponent={EmptyListDisplay}
               data={data}
               keyExtractor={(results) => results.url.toString()}
               // initialNumToRender={3}
@@ -160,6 +173,29 @@ function ResultScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  emptyListContainer: {
+    height: 200,
+    width: "95%",
+    backgroundColor: colors.white,
+
+    borderWidth: 2,
+    borderRadius: 10,
+
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+
+    padding: 10,
+    margin: 10,
+  },
+  emptyListText: {
+    flexShrink: 1,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontFamily: "Roboto",
+    textTransform: "capitalize",
+    fontSize: 30,
+  },
   container: {
     flex: 1,
     backgroundColor: colors.cartBlue,
