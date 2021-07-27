@@ -13,9 +13,9 @@ function ResultScreen({ navigation, route }) {
   const { imageURL, imageID } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [count, setCount] = useState(true);
   const [itemsName, setNameOfItem] = useState("Unkown Name");
   var arrayOfItemsNames = [];
-  var count = 0;
 
 
   const urlAPI = "https://whispering-falls-08617.herokuapp.com/search?searchquery=" + imageURL;
@@ -29,36 +29,38 @@ function ResultScreen({ navigation, route }) {
       .finally(() => setLoading(false));
   }, []);
 
+  if (count && !isLoading) {
+    for (var i = 0; i < data.length; i++) {
+      // console.log("name: %s", data[i].name);
+      // console.log("price: %s", data[i].price);
+      // console.log("store:%s", data[i].store);
+      // console.log("url:%s", data[i].url);
 
-  for (var i = 0; i < data.length; i++) {
-    // console.log("name: %s", data[i].name);
-    // console.log("price: %s", data[i].price);
-    // console.log("store:%s", data[i].store);
-    // console.log("url:%s", data[i].url);
-
-    imgDB.database.insert_ItemDetails(
-      data[i].url,
-      data[i].name,
-      data[i].store,
-      data[i].price,
-      imageID
-    );
-    arrayOfItemsNames[i] = data[i].name; //store names into an array
+      imgDB.database.insert_ItemDetails(
+        data[i].url,
+        data[i].name,
+        data[i].store,
+        data[i].price,
+        imageID
+      );
+      arrayOfItemsNames[i] = data[i].name; //store names into an array
+    }
+    if (data.length > 3) {
+      setCount(false);
+    }
   }
-  // console.log(arrayOfItemsNames);
 
-  if (!isLoading && arrayOfItemsNames) {
+  if (!count) {
+    // if (!isLoading && arrayOfItemsNames.length > 2) {
     // strings to uppercase
     const str = arrayOfItemsNames.map(arrayOfItemsNames => arrayOfItemsNames.toUpperCase());
-
     //sort the array to get the shortest element
     str.sort((a, b) => a.length - b.length);
-
     //take the first element/string and convert into array of words
     const shortest = str[0].split(" ")
-
     //iterate over entire strings and check whether it has an entry of short array
     const result = shortest.filter(item => str.every(x => x.includes(item)))
+
 
     function results(item) {
       var results = " "; //empty string
@@ -69,8 +71,9 @@ function ResultScreen({ navigation, route }) {
     }
 
     setNameOfItem(results(result));
+    console.log("In results of name picker: ", results(result));
     imgDB.database.update_imgName(imageID, results(result)); //updates title name (iz algorithm) 
-    count++;
+
   }
 
   // imgDB.database.update_imgName(imageID, "Placeholder"); //updates title name (iz algorithm)
