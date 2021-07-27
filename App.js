@@ -20,8 +20,6 @@ import Card from "./app/components/Card";
 
 import * as imgDB from "./database/SQLiteDB";
 
-
-
 // stack of pages
 const Stack = createStackNavigator();
 

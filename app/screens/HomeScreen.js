@@ -12,6 +12,7 @@ import {
   FlatList,
   Platform,
 } from "react-native";
+
 import * as ImagePicker from "expo-image-picker";
 import * as imgDB from "../../database/SQLiteDB";
 
@@ -24,9 +25,14 @@ function HomeScreen({ navigation }) {
   const [itemList, setItemList] = useState([]);
   // const [checkpoint, setCheckpoint] = useState(false);
 
-  imgDB.database.getRecentItem(-1)
-    .then((response) => { setItemList(response); })
-    .catch((err) => { console.log(err); });
+  imgDB.database
+    .getRecentItem(-1)
+    .then((response) => {
+      setItemList(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   // console.log(itemList);
   // if (!checkpoint) {
   //   imgDB.database.getRecentItem(-1)
@@ -126,7 +132,7 @@ function HomeScreen({ navigation }) {
                   })
                 }
                 onXPress={() => imgDB.database.imgDelete(item.rID)}
-              // onXPress={() => } // Add the onpress instruction for the X here.
+                // onXPress={() => } // Add the onpress instruction for the X here.
               />
             )}
           />

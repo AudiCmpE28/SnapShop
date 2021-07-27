@@ -37,3 +37,9 @@ npm install @expo/react-native-action-sheet -S
 ## Animations
 
 npm install expo install lottie-react-native
+
+
+## NOT USE ATM
+<!-- ## measure text sizes and length
+
+npm install react-native-text-size -->

@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  Image, FlatList, StyleSheet, View, Text, Linking,
-  ActivityIndicator, ImageBackgroundBase, TouchableOpacity,
+  Image,
+  FlatList,
+  StyleSheet,
+  View,
+  Text,
+  Linking,
+  ActivityIndicator,
+  ImageBackgroundBase,
+  TouchableOpacity,
 } from "react-native";
 
 import ItemLink from "../components/ItemLink";
@@ -9,26 +16,57 @@ import colors from "../config/colors";
 import * as imgDB from "../../database/SQLiteDB";
 import LoadingCart from "../components/LoadingCart";
 
+function results(item) {
+  if (item.length < 2) return "Unidentified String";
+  else {
+    var results = " "; //empty string
+    for (var i = 0; i < item.length; i++) {
+      results += " " + item[i]; //add space and word to string
+    }
+
+    return results.trim(); //return the string formed
+  }
+}
+
 function ResultScreen({ navigation, route }) {
   const { imageURL, imageID } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [itemsName, setNameOfItem] = useState("Unkown Name");
   var arrayOfItemsNames = [];
-  var count = 0;
+  var setName = false;
+  var itemsName = "Unidentified Item";
 
-
-  const urlAPI = "https://whispering-falls-08617.herokuapp.com/search?searchquery=" + imageURL;
+  const urlAPI =
+    "https://whispering-falls-08617.herokuapp.com/search?searchquery=" +
+    imageURL;
   // console.log("imageURL: %s", imageURL);
 
+  const EmptyListDisplay = () => {
+    return (
+      <View style={styles.emptyListContainer}>
+        <Text style={styles.emptyListText}>
+          An unexpected error occurred with the server, please try again later!
+        </Text>
+      </View>
+    );
+  };
+
   useEffect(() => {
-    fetch(urlAPI)
-      .then((response) => response.json())
+    fetch(urlAPI, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
       .then((json) => setData(json))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-
 
   for (var i = 0; i < data.length; i++) {
     // console.log("name: %s", data[i].name);
@@ -45,32 +83,29 @@ function ResultScreen({ navigation, route }) {
     );
     arrayOfItemsNames[i] = data[i].name; //store names into an array
   }
-  // console.log(arrayOfItemsNames);
 
-  if (!isLoading && arrayOfItemsNames) {
+
+  if (!setName && !isLoading) {
     // strings to uppercase
-    const str = arrayOfItemsNames.map(arrayOfItemsNames => arrayOfItemsNames.toUpperCase());
+    var shortest, result;
+    // var str = arrayOfItemsNames.slice(0, 2);
+    // str = str.map((x) => x.toUpperCase());
+    str = arrayOfItemsNames.slice(0, 2).map((x) => x.toUpperCase()); // Potential shortcut
 
     //sort the array to get the shortest element
     str.sort((a, b) => a.length - b.length);
-
     //take the first element/string and convert into array of words
-    const shortest = str[0].split(" ")
-
-    //iterate over entire strings and check whether it has an entry of short array
-    const result = shortest.filter(item => str.every(x => x.includes(item)))
-
-    function results(item) {
-      var results = " "; //empty string
-      for (var i = 0; i < item.length; i++) {
-        results += ' ' + item[i]; //add space and word to string
-      }
-      return results.trim(); //return the string formed
+    if (typeof str[0] == "undefined") {
+      result = "Unidentified Item";
+    } else {
+      shortest = str[0].split(" ");
+      //iterate over entire strings and check whether it has an entry of short array
+      result = shortest.filter((item) => str.every((x) => x.includes(item)));
     }
 
-    setNameOfItem(results(result));
-    imgDB.database.update_imgName(imageID, results(result)); //updates title name (iz algorithm) 
-    count++;
+    itemsName = results(result);
+    imgDB.database.update_imgName(imageID, itemsName); //updates title name (iz algorithm)
+    setName = true;
   }
 
   // imgDB.database.update_imgName(imageID, "Placeholder"); //updates title name (iz algorithm)
@@ -91,14 +126,13 @@ function ResultScreen({ navigation, route }) {
         <View style={styles.container}>
           <View style={styles.nameContainer}>
             {/* Below is where you would put the imageName (after determining it from algorithm) */}
-            <Text style={styles.nameText}> {itemsName} </Text>
+            <Text style={styles.nameText} adjustsFontSizeToFit>
+              {itemsName}
+            </Text>
           </View>
 
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.screenshot}
-              source={{ uri: imageURL }}
-            />
+            <Image style={styles.screenshot} source={{ uri: imageURL }} />
           </View>
 
           <View style={styles.InstrContainer}>
@@ -107,8 +141,9 @@ function ResultScreen({ navigation, route }) {
 
           <View style={styles.listContainer}>
             <FlatList
+              ListEmptyComponent={EmptyListDisplay}
               data={data}
-              keyExtractor={(results) => results.name.toString()}
+              keyExtractor={(results) => results.url.toString()}
               // initialNumToRender={3}
               renderItem={({ item }) => (
                 <ItemLink
@@ -139,6 +174,29 @@ function ResultScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  emptyListContainer: {
+    height: 200,
+    width: "95%",
+    backgroundColor: colors.white,
+
+    borderWidth: 2,
+    borderRadius: 10,
+
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+
+    padding: 10,
+    margin: 10,
+  },
+  emptyListText: {
+    flexShrink: 1,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontFamily: "Roboto",
+    textTransform: "capitalize",
+    fontSize: 30,
+  },
   container: {
     flex: 1,
     backgroundColor: colors.cartBlue,
