@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import AppText from "./AppText";
-import HeadingText from "./HeadingText";
 import colors from "../config/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -23,7 +21,9 @@ function RecentItemCard({ itemName, image, onPress, style, onXPress }) {
         ></View>
         {itemName && (
           <View style={styles.textContainer}>
-            <Text style={styles.itemName}>{itemName}</Text>
+            <Text style={styles.itemName} adjustsFontSizeToFit>
+              {itemName}
+            </Text>
           </View>
         )}
         <View style={styles.xContainer}>
@@ -63,12 +63,15 @@ const styles = StyleSheet.create({
   textContainer: {
     alignSelf: "center",
     justifyContent: "center",
+    alignItems: "center",
+    margin: 2,
     flex: 1,
   },
   itemName: {
     fontSize: 20,
     fontFamily: "Roboto",
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
