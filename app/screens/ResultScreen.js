@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  Image, FlatList, StyleSheet, View, Text, Linking,
-  ActivityIndicator, ImageBackgroundBase, TouchableOpacity,
+  Image,
+  FlatList,
+  StyleSheet,
+  View,
+  Text,
+  Linking,
+  ActivityIndicator,
+  ImageBackgroundBase,
+  TouchableOpacity,
 } from "react-native";
 
 import ItemLink from "../components/ItemLink";
@@ -9,16 +16,25 @@ import colors from "../config/colors";
 import * as imgDB from "../../database/SQLiteDB";
 import LoadingCart from "../components/LoadingCart";
 
+function results(item) {
+  var results = " "; //empty string
+  for (var i = 0; i < item.length; i++) {
+    results += " " + item[i]; //add space and word to string
+  }
+  return results.trim(); //return the string formed
+}
+
 function ResultScreen({ navigation, route }) {
   const { imageURL, imageID } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [itemsName, setNameOfItem] = useState("Unkown Name");
   var arrayOfItemsNames = [];
-  var count = 0;
+  var setName = false;
+  var itemsName = "Unidentified Item";
 
-
-  const urlAPI = "https://whispering-falls-08617.herokuapp.com/search?searchquery=" + imageURL;
+  const urlAPI =
+    "https://whispering-falls-08617.herokuapp.com/search?searchquery=" +
+    imageURL;
   // console.log("imageURL: %s", imageURL);
 
   useEffect(() => {
@@ -28,7 +44,6 @@ function ResultScreen({ navigation, route }) {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-
 
   for (var i = 0; i < data.length; i++) {
     // console.log("name: %s", data[i].name);
@@ -47,30 +62,26 @@ function ResultScreen({ navigation, route }) {
   }
   // console.log(arrayOfItemsNames);
 
-  if (!isLoading && arrayOfItemsNames) {
+  if (!setName && !isLoading) {
     // strings to uppercase
-    const str = arrayOfItemsNames.map(arrayOfItemsNames => arrayOfItemsNames.toUpperCase());
+    const str = arrayOfItemsNames.map((arrayOfItemsNames) =>
+      arrayOfItemsNames.toUpperCase()
+    );
 
     //sort the array to get the shortest element
     str.sort((a, b) => a.length - b.length);
 
     //take the first element/string and convert into array of words
-    const shortest = str[0].split(" ")
+    const shortest = str[0].split(" ");
 
     //iterate over entire strings and check whether it has an entry of short array
-    const result = shortest.filter(item => str.every(x => x.includes(item)))
+    const result = shortest.filter((item) =>
+      str.every((x) => x.includes(item))
+    );
 
-    function results(item) {
-      var results = " "; //empty string
-      for (var i = 0; i < item.length; i++) {
-        results += ' ' + item[i]; //add space and word to string
-      }
-      return results.trim(); //return the string formed
-    }
-
-    setNameOfItem(results(result));
-    imgDB.database.update_imgName(imageID, results(result)); //updates title name (iz algorithm) 
-    count++;
+    itemsName = results(result);
+    imgDB.database.update_imgName(imageID, results(result)); //updates title name (iz algorithm)
+    setName = true;
   }
 
   // imgDB.database.update_imgName(imageID, "Placeholder"); //updates title name (iz algorithm)
@@ -95,10 +106,7 @@ function ResultScreen({ navigation, route }) {
           </View>
 
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.screenshot}
-              source={{ uri: imageURL }}
-            />
+            <Image style={styles.screenshot} source={{ uri: imageURL }} />
           </View>
 
           <View style={styles.InstrContainer}>
@@ -108,7 +116,7 @@ function ResultScreen({ navigation, route }) {
           <View style={styles.listContainer}>
             <FlatList
               data={data}
-              keyExtractor={(results) => results.name.toString()}
+              keyExtractor={(results) => results.url.toString()}
               // initialNumToRender={3}
               renderItem={({ item }) => (
                 <ItemLink
