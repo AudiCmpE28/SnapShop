@@ -233,6 +233,11 @@ export class database {
       });
     });
   }
+  /**
+   * Pass in ID from RecentImage table, and the imgName you would like to give it.
+   * @param {*} ID 
+   * @param {*} imgName  
+   */
   static update_imgName(ID,imgName){
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
