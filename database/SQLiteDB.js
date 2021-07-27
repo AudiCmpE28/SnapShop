@@ -63,12 +63,12 @@ export class database {
           },
           (_, error) => reject(error)
         );
-        // tx.executeSql(
-        //   "CREATE TRIGGER recent_limited AFTER INSERT ON tablename BEGIN DELETE FROM RecentItems WHERE rID = (SELECT MIN(rID) FROM RecentItems WHERE (SELECT COUNT(rID) FROM RecentItems) >= 6); END",
-        //   [],
-        //   () => { console.log("Triggered Limit of Items"); resolve },
-        //   (_, error) => reject(error)
-        // );
+        tx.executeSql(
+          "CREATE TRIGGER recent_limited AFTER INSERT ON RecentItems BEGIN DELETE FROM RecentItems WHERE rID = (SELECT MIN(rID) FROM RecentItems WHERE (SELECT COUNT(rID) FROM RecentItems) >= 6); END",
+          [],
+          () => { console.log("Triggered Limit of Items"); resolve },
+          (_, error) => reject(error)
+        );
         // console.log("...finished");
       });
     });
@@ -241,6 +241,11 @@ export class database {
       });
     });
   }
+  /**
+   * Pass in ID from RecentImage table, and the imgName you would like to give it.
+   * @param {*} ID 
+   * @param {*} imgName  
+   */
   static update_imgName(ID, imgName) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
