@@ -57,8 +57,16 @@ export class database {
         tx.executeSql(
           "CREATE TABLE IF NOT EXISTS ItemDetails (iID INTEGER PRIMARY KEY AUTOINCREMENT , itemUrl TEXT, itemName TEXT, storeName TEXT, price REAL, referenceID INTEGER, FOREIGN KEY(referenceID) REFERENCES RecentItems(rID) ON DELETE CASCADE)",
           [],
-          () => { console.log("Created Table ItemDetails"); 
-          resolve },
+          () => {
+            console.log("Created Table ItemDetails");
+            resolve
+          },
+          (_, error) => reject(error)
+        );
+        tx.executeSql(
+          "CREATE TRIGGER recent_limited AFTER INSERT ON tablename BEGIN DELETE FROM RecentItems WHERE rID = (SELECT MIN(rID) FROM RecentItems ORDER BY rID DESC LIMIT 6); END",
+          [],
+          () => { console.log("Triggered Limit of Items"); resolve },
           (_, error) => reject(error)
         );
         // console.log("...finished");
@@ -66,12 +74,12 @@ export class database {
     });
   }
 
-  static insertUrl_RecentItems(imageurl,imgName) {
+  static insertUrl_RecentItems(imageurl, imgName) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
           "INSERT INTO RecentItems (rID, imageUrl, imgName) values (?,?,?)",
-          [null, imageurl,imgName],
+          [null, imageurl, imgName],
           (_, result) => {
             // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
             resolve(result.insertId)
@@ -86,7 +94,7 @@ export class database {
    * @param {*} ID 
    * @returns 
    */
-   static getRecentItem(ID) {
+  static getRecentItem(ID) {
     if (ID == -1) {
       // console.log("Inside getRecentItem ALL");
       return new Promise((resolve, reject) => {
@@ -220,11 +228,11 @@ export class database {
    * Cascading Delete of itemDetails and recentImage.
    * @param {ID} ID rID of RecentItem
    */
-  static imgDelete(ID){
+  static imgDelete(ID) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "DELETE FROM RecentItems where rID=?",[ID],
+          "DELETE FROM RecentItems where rID=?", [ID],
           (_, result) => {
             resolve(result.rowsAffected);
           },
@@ -233,11 +241,11 @@ export class database {
       });
     });
   }
-  static update_imgName(ID,imgName){
+  static update_imgName(ID, imgName) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "UPDATE RecentItems SET imgName=? WHERE rID=?",[imgName,ID],
+          "UPDATE RecentItems SET imgName=? WHERE rID=?", [imgName, ID],
           (_, result) => {
             resolve;
           },

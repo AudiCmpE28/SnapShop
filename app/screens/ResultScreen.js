@@ -84,6 +84,7 @@ function ResultScreen({ navigation, route }) {
     arrayOfItemsNames[i] = data[i].name; //store names into an array
   }
 
+
   if (!setName && !isLoading) {
     // strings to uppercase
     var shortest, result;
