@@ -41,15 +41,17 @@ function ResultScreen({ navigation, route }) {
     imageURL;
   // console.log("imageURL: %s", imageURL);
 
-  // const EmptyListDisplay = () => {
-  //   return (
-  //     <View style={styles.emptyListContainer}>
-  //       <Text style={styles.emptyListText}>
-  //         An unexpected error occurred with the server, please try again later!
-  //       </Text>
-  //     </View>
-  //   );
-  // };
+  imgDB.database.limittrigger();
+
+  const EmptyListDisplay = () => {
+    return (
+      <View style={styles.emptyListContainer}>
+        <Text style={styles.emptyListText}>
+          An unexpected error occurred with the server, please try again later!
+        </Text>
+      </View>
+    );
+  };
 
   useEffect(() => {
     fetch(urlAPI, {
