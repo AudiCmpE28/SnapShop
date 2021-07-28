@@ -2,7 +2,7 @@
 This is the new homeScreen combining Simon's elements with my lists.
 */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   FlatList,
   Platform,
+  Post,
 } from "react-native";
 
 import * as ImagePicker from "expo-image-picker";
@@ -104,6 +105,28 @@ function HomeScreen({ navigation }) {
       });
   };
 
+  const renderItem = useCallback(
+    ({ item }) => (
+      <RecentItemCard
+        style={styles.listBG}
+        itemName={item.imgName}
+        image={item.imageUrl}
+        // onPress={() => console.log("Message selected", item.rID)}
+        onPress={() =>
+          navigation.navigate("ResultScreenDB", {
+            imageURL: item.imageUrl,
+            databaseID: item.rID,
+            imageName: item.imgName,
+          })
+        }
+        onXPress={() => imgDB.database.imgDelete(item.rID)}
+      />
+    ),
+    []
+  );
+
+  const keyExtractor = useCallback((item) => item.imageUrl.toString(), []);
+
   return (
     <Screen style={styles.container}>
       <View style={styles.capturesContainer}>
@@ -114,34 +137,19 @@ function HomeScreen({ navigation }) {
         <View style={styles.list}>
           <FlatList
             ListEmptyComponent={EmptyListDisplay}
+            initialNumToRender={5}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={itemList}
-            keyExtractor={(items) => items.imageUrl.toString()}
-            renderItem={({ item }) => (
-              <RecentItemCard
-                style={styles.listBG}
-                itemName={item.imgName}
-                image={item.imageUrl}
-                // onPress={() => console.log("Message selected", item.rID)}
-                onPress={() =>
-                  navigation.navigate("ResultScreenDB", {
-                    imageURL: item.imageUrl,
-                    databaseID: item.rID,
-                    imageName: item.imgName,
-                  })
-                }
-                onXPress={() => imgDB.database.imgDelete(item.rID)}
-                // onXPress={() => } // Add the onpress instruction for the X here.
-              />
-            )}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
           />
         </View>
       </View>
 
       <View style={styles.captureInstrContainer}>
         <Text style={styles.captureInstrText}>
-          Click on an item to search it again.
+          Click on a recent item to search it again.
         </Text>
       </View>
 

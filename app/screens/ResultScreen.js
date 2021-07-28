@@ -41,15 +41,15 @@ function ResultScreen({ navigation, route }) {
     imageURL;
   // console.log("imageURL: %s", imageURL);
 
-  const EmptyListDisplay = () => {
-    return (
-      <View style={styles.emptyListContainer}>
-        <Text style={styles.emptyListText}>
-          An unexpected error occurred with the server, please try again later!
-        </Text>
-      </View>
-    );
-  };
+  // const EmptyListDisplay = () => {
+  //   return (
+  //     <View style={styles.emptyListContainer}>
+  //       <Text style={styles.emptyListText}>
+  //         An unexpected error occurred with the server, please try again later!
+  //       </Text>
+  //     </View>
+  //   );
+  // };
 
   useEffect(() => {
     fetch(urlAPI, {
@@ -83,7 +83,6 @@ function ResultScreen({ navigation, route }) {
     );
     arrayOfItemsNames[i] = data[i].name; //store names into an array
   }
-
 
   if (!setName && !isLoading) {
     // strings to uppercase
@@ -141,7 +140,7 @@ function ResultScreen({ navigation, route }) {
 
           <View style={styles.listContainer}>
             <FlatList
-              ListEmptyComponent={EmptyListDisplay}
+              // ListEmptyComponent={EmptyListDisplay}
               data={data}
               keyExtractor={(results) => results.url.toString()}
               // initialNumToRender={3}
