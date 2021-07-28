@@ -253,7 +253,7 @@ export class database {
    * @param {*} ID 
    * @param {*} imgName  
    */
-  static update_imgName(ID,imgName){
+  static update_imgName(ID, imgName) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
