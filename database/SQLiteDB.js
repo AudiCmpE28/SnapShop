@@ -72,14 +72,16 @@ export class database {
     // console.log("Inside initDB");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
-  tx.executeSql(
-    "CREATE TRIGGER recent_limited AFTER INSERT ON RecentItems BEGIN DELETE FROM RecentItems WHERE rID = (SELECT MIN(rID) FROM RecentItems WHERE (SELECT COUNT(rID) FROM RecentItems) >= 6); END",
-    [],
-    () => { console.log("Triggered Limit of Items"); resolve },
-    (_, error) => reject(error)
-  );
+        tx.executeSql(
+          "CREATE TRIGGER recent_limited AFTER INSERT ON RecentItems BEGIN DELETE FROM RecentItems WHERE rID = (SELECT MIN(rID) FROM RecentItems WHERE (SELECT COUNT(*) FROM RecentItems) >= 6); END",
+          [],
+          () => { console.log("Triggered Limit of Items"); resolve },
+          (_, error) => reject(error)
+        );
+      }
+      )
+    })
   }
-      )})}
 
   static insertUrl_RecentItems(imageurl, imgName) {
     return new Promise((resolve, reject) => {

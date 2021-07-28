@@ -41,6 +41,7 @@ function HomeScreen({ navigation }) {
   //     .finally(() => setCheckpoint(true));
   // }
 
+
   const EmptyListDisplay = () => {
     return (
       <View style={styles.emptyListContainer}>
@@ -132,7 +133,7 @@ function HomeScreen({ navigation }) {
                   })
                 }
                 onXPress={() => imgDB.database.imgDelete(item.rID)}
-                // onXPress={() => } // Add the onpress instruction for the X here.
+              // onXPress={() => } // Add the onpress instruction for the X here.
               />
             )}
           />

@@ -41,6 +41,8 @@ function ResultScreen({ navigation, route }) {
     imageURL;
   // console.log("imageURL: %s", imageURL);
 
+  imgDB.database.limittrigger();
+
   const EmptyListDisplay = () => {
     return (
       <View style={styles.emptyListContainer}>
