@@ -27,13 +27,16 @@ function App() {
   //Comment out the reset after first run
   // imgDB.database.reset();
   imgDB.database.dbinit();
+
+  // imgDB.database.limittrigger();
   // //test retrieving all items
   // imgDB.database.getRecentItem(-1);
   // imgDB.database.getItemDetails(-1);
+  imgDB.database.limittrigger();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator initialRouteName="WelcomeScreen">
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
