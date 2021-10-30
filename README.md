@@ -5,6 +5,7 @@ Downloading the following packages required:
 ## used for stack and navigating through pages
 
 npm install --save react-native-navigation
+ 
 
 ## another navigation library
 
