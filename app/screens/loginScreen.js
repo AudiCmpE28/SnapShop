@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 
-export default function App() {
+export default function loginScreen({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 

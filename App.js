@@ -8,6 +8,8 @@ import HomeScreen from "./app/screens/HomeScreen";
 import cameraScreen from "./app/screens/cameraScreen";
 import ResultScreen from "./app/screens/ResultScreen";
 import ResultScreenDB from "./app/screens/ResultScreenDB";
+import loginScreen from "./app/screens/loginScreen";
+
 
 import AppText from "./app/components/AppText";
 import HeadingText from "./app/components/HeadingText";
@@ -36,7 +38,13 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="WelcomeScreen">
+      <Stack.Navigator initialRouteName="loginScreen">
+        <Stack.Screen
+          name="loginScreen"
+          component={loginScreen}
+          options={{ headerShown: false }}
+
+        />
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
