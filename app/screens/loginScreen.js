@@ -57,7 +57,7 @@ export default function loginScreen({ navigation }) {
         </View>
     );
 }
-//background color of the login
+
 const styles = StyleSheet.create({
     //when we use stylesheet, we create an object
     // as CONTAINER
