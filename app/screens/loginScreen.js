@@ -1,6 +1,6 @@
 // import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import React, { useState } from "react";//useState allows componets to change over time, such as email and pword
+//import React, { useState } from "react";//useState allows componets to change over time, such as email and pword
 import {
     StyleSheet,
     Text,
@@ -42,6 +42,7 @@ export default function loginScreen({ navigation }) {
                 />
             </View>
             {/* TouchableOpacity allows to change the condition when pressed */}
+            {/* allows us to reduce the opacity when we touch button "touchableOpacity" */}
             <TouchableOpacity>
                 <Text style={styles.forgot_button}>Forgot Password?</Text>
             </TouchableOpacity>
@@ -52,8 +53,10 @@ export default function loginScreen({ navigation }) {
         </View>
     );
 }
-
+//background color of the login
 const styles = StyleSheet.create({
+    //when we use stylesheet, we create an object
+    // as CONTAINER
     container: {
         flex: 1,
         backgroundColor: colors.cartBlue,
