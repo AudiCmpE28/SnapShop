@@ -51,7 +51,7 @@ export default function loginScreen({ navigation }) {
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
             <Text>
-                {setTimeout(() => { navigation.navigate("loginScreen"); }, 5000)}
+                {setTimeout(() => { navigation.navigate("loginScreen"); }, 20000)}
             </Text>
         </View>
     );
