@@ -1,6 +1,6 @@
 // import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-//import React, { useState } from "react";//useState allows componets to change over time, such as email and pword
+import React, { useState } from "react";//useState allows componets to change over time, such as email and pword
 import {
     StyleSheet,
     Text,
