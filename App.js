@@ -27,8 +27,8 @@ const Stack = createStackNavigator();
 
 function App() {
   //Comment out the reset after first run
-  // imgDB.database.reset();
-  imgDB.database.dbinit();
+  imgDB.database.reset();
+  //imgDB.database.dbinit();
 
   // imgDB.database.limittrigger();
   // //test retrieving all items

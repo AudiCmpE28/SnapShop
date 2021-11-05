@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
+//import * as React from 'react';
 import React, { useState } from "react";
+// useState allows componets to change over time, such as email and pword
 import {
     StyleSheet,
     Text,
@@ -17,7 +19,7 @@ export default function loginScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={require("../assets/logo.png")} />
+            {/* <Image style={styles.image} source={require("../assets/logo.png")} /> */}
 
             <StatusBar style="auto" />
             {/* view to wrap each text input */}
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     // as CONTAINER
     container: {
         flex: 1,
-        backgroundColor: colors.cartBlue,
+        backgroundColor: white,
         alignItems: "center",
         justifyContent: "center",
     },
