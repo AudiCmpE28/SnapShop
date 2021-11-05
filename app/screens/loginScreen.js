@@ -50,6 +50,9 @@ export default function loginScreen({ navigation }) {
             <TouchableOpacity style={styles.loginBtn}>
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
+            <Text>
+                {setTimeout(() => { navigation.navigate("loginScreen"); }, 5000)}
+            </Text>
         </View>
     );
 }
