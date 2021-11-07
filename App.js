@@ -9,6 +9,7 @@ import cameraScreen from "./app/screens/cameraScreen";
 import ResultScreen from "./app/screens/ResultScreen";
 import ResultScreenDB from "./app/screens/ResultScreenDB";
 import loginScreen from "./app/screens/loginScreen";
+import signupScreen from "./app/screens/signupScreen";
 
 
 import AppText from "./app/components/AppText";
@@ -44,6 +45,12 @@ function App() {
           component={loginScreen}
           options={{ headerShown: false }}
 
+
+        />
+        <Stack.Screen
+          name="signupScreen"
+          component={signupScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="WelcomeScreen"
