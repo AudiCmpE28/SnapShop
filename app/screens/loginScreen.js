@@ -20,7 +20,7 @@ export default function loginScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            {/* <Image style={styles.image} source={require("../assets/logo.png")} /> */}
+            {/* <Image style={styles.image} source={require("../assets/SnapShopApp.png")} /> */}
 
             <StatusBar style="auto" />
             {/* view to wrap each text input */}
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        height: 100,
-        width: "100",
+        height: 20,
+        width: "20",
         marginBottom: 40,
     },
 
