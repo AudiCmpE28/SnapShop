@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 //import * as React from 'react';
+//allows are functional componets to be 
+//stateful such as text inp
 import React, { useState } from "react";
 // useState allows componets to change over time, such as email and pword
 import {
@@ -8,7 +10,6 @@ import {
     View,
     Image,
     TextInput,
-    Button,
     TouchableOpacity,
 } from "react-native";
 import colors from "../config/colors";
@@ -26,7 +27,7 @@ export default function loginScreen({ navigation }) {
             <View style={styles.inputView}>
                 <TextInput
                     style={styles.TextInput}
-                    placeholder="Email."
+                    placeholder="Username"
                     placeholderTextColor="#003f5c"
                     onChangeText={(email) => setEmail(email)}
                 />
@@ -35,7 +36,7 @@ export default function loginScreen({ navigation }) {
             <View style={styles.inputView}>
                 <TextInput
                     style={styles.TextInput}
-                    placeholder="Password."
+                    placeholder="Password"
                     placeholderTextColor="#003f5c"
                     // set to true, so it can hide text, that user enters.
                     secureTextEntry={true}
@@ -45,14 +46,14 @@ export default function loginScreen({ navigation }) {
             {/* TouchableOpacity allows to change the condition when pressed */}
             {/* allows us to reduce the opacity when we touch button "touchableOpacity" */}
             <TouchableOpacity>
-                <Text style={styles.forgot_button}>Forgot Password?</Text>
+                <Text style={styles.signUp}>Sign Up?</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.loginBtn}>
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
             <Text>
-                {setTimeout(() => { navigation.navigate("loginScreen"); }, 20000)}
+                {setTimeout(() => { navigation.navigate("HomeScreen"); }, 20000)}
             </Text>
         </View>
     );
@@ -69,6 +70,8 @@ const styles = StyleSheet.create({
     },
 
     image: {
+        height: 20,
+        width: "20",
         marginBottom: 40,
     },
 
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
 
-    forgot_button: {
+    signUp: {
         height: 30,
         marginBottom: 30,
     },

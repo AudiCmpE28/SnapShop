@@ -8,13 +8,12 @@ import {
     View,
     Image,
     TextInput,
-    Button,
     TouchableOpacity,
 } from "react-native";
 import colors from "../config/colors";
 
 export default function signupScreen({ navigation }) {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     return (
@@ -28,7 +27,7 @@ export default function signupScreen({ navigation }) {
                     style={styles.TextInput}
                     placeholder="Username."
                     placeholderTextColor="#003f5c"
-                    onChangeText={(email) => setEmail(email)}
+                    onChangeText={(username) => setUsername(username)}
                 />
             </View>
 
@@ -44,15 +43,11 @@ export default function signupScreen({ navigation }) {
             </View>
             {/* TouchableOpacity allows to change the condition when pressed */}
             {/* allows us to reduce the opacity when we touch button "touchableOpacity" */}
-            <TouchableOpacity>
-                <Text style={styles.forgot_button}>Sign In</Text>
-            </TouchableOpacity>
-
             <TouchableOpacity style={styles.loginBtn}>
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
             <Text>
-                {setTimeout(() => { navigation.navigate("signupScreen"); }, 20000)}
+                {setTimeout(() => { navigation.navigate("HomeScreen"); }, 20000)}
             </Text>
         </View>
     );
@@ -69,8 +64,11 @@ const styles = StyleSheet.create({
     },
 
     image: {
+        height: 20,
+        width: "20",
         marginBottom: 40,
     },
+
 
     inputView: {
         backgroundColor: colors.white,
@@ -87,11 +85,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         marginLeft: 20,
-    },
-
-    forgot_button: {
-        height: 30,
-        marginBottom: 30,
     },
 
     loginBtn: {
