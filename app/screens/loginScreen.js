@@ -63,8 +63,9 @@ const styles = StyleSheet.create({
     //when we use stylesheet, we create an object
     // as CONTAINER
     container: {
+
         flex: 1,
-        backgroundColor: colors.white,
+        backgroundColor: colors.cartBlue,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
         width: "70%",
         height: 45,
         marginBottom: 20,
-
+        justifyContent: "center",
         alignItems: "center",
     },
 
