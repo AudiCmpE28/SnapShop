@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     container: {
 
         flex: 1,
-        backgroundColor: blue,
+        backgroundColor: colors.cartBlue,
         alignItems: "center",
         justifyContent: "center",
     },
