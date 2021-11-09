@@ -11,21 +11,36 @@ export class database {
   static resetTable1() {
     db.transaction((tx) => {
       tx.executeSql("DROP TABLE IF EXISTS ItemDetails;", [],
-        () => { console.log("Dropped Tables"); },
+        () => { console.log("Dropped ItemDetails"); },
         (_, error) => reject(error));
     })
   }
   static resetTable2() {
     db.transaction((tx) => {
       tx.executeSql("  DROP TABLE IF EXISTS RecentItems;", [],
-        () => { console.log("Dropped Tables"); },
+        () => { console.log("Dropped RecentItems"); },
         (_, error) => reject(error));
     })
   }
-
+  static resetTable3() {
+    db.transaction((tx) => {
+      tx.executeSql("  DROP TABLE IF EXISTS UserDetails;", [],
+        () => { console.log("Dropped UserDetails"); },
+        (_, error) => reject(error));
+    })
+  }
+  static resetTable4() {
+    db.transaction((tx) => {
+      tx.executeSql("  DROP TABLE IF EXISTS UserRecentItems;", [],
+        () => { console.log("Dropped UserRecentItems"); },
+        (_, error) => reject(error));
+    })
+  }
   static reset() {
     this.resetTable1();
     this.resetTable2();
+    this.resetTable3();
+    this.resetTable4();
   }
 
 
@@ -63,13 +78,30 @@ export class database {
           },
           (_, error) => reject(error)
         );
+        tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS UserDetails (uID INTEGER PRIMARY KEY , userName TEXT, userEmail TEXT, userPass TEXT)",
+          [],
+          () => {
+            console.log("Created Table UserDetails");
+            resolve
+          },
+          (_, error) => reject(error)
+        );
+        tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS UserRecentItems (uID INTEGER PRIMARY KEY , rID INTEGER PRIMARY KEY, FOREIGN KEY(uID) REFERENCES UserDetails(uID), FOREIGN KEY(rID) REFERENCES RecentItems(rID) ON DELETE CASCADE)",
+          [],
+          () => {
+            console.log("Created Table UserRecentItems");
+            resolve
+          },
+          (_, error) => reject(error)
+        );
 
         // console.log("...finished");
       });
     });
   }
   static limittrigger() {
-    // console.log("Inside initDB");
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -82,7 +114,25 @@ export class database {
       )
     })
   }
-
+  // static additemtrigger() {
+  //   return new Promise((resolve, reject) => {
+  //     db.transaction((tx) => {
+  //       tx.executeSql(
+  //         "CREATE TRIGGER autoadditem AFTER INSERT ON RecentItems BEGIN INSERT INTO userItems (rID) = (SELECT MN(rID) FROM RecentItems WHERE (SELECT COUNT(*) FROM RecentItems) >= 7); END",
+  //         [],
+  //         () => { console.log("Triggered Limit of Items"); resolve },
+  //         (_, error) => reject(error)
+  //       );
+  //     }
+  //     )
+  //   })
+  // }
+  /**
+   * Inserts the cloudinary link of specified item to RecentItems database
+   * @param {*} imageurl 
+   * @param {*} imgName 
+   * @returns 
+   */
   static insertUrl_RecentItems(imageurl, imgName) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
@@ -137,6 +187,15 @@ export class database {
       });
     }
   }
+  /**
+   * Self explanatory
+   * @param {*} itemurl 
+   * @param {*} itemname 
+   * @param {*} storename 
+   * @param {*} price 
+   * @param {*} referenceID 
+   * @returns 
+   */
   static insert_ItemDetails(itemurl, itemname, storename, price, referenceID) {
     // console.log("Inside insertUrl");
     return new Promise((resolve, reject) => {
@@ -268,4 +327,113 @@ export class database {
       });
     });
   }
+  /**
+   * Adds username to database with given parameters
+   * @param {*} username 
+   * @param {*} email 
+   * @param {*} pass 
+   * @returns the id of newly added user
+   */
+  static registerUser(uid,username,email,pass) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "INSERT INTO UserDetails (uID, userName, userEmail, userPass) values (?,?,?,?)",
+          [uid, username,email,pass],
+          (_, result) => {
+            resolve(result.insertId)
+          },
+          (_, error) => reject(error)
+        );
+      });
+    });
+  }
+  /**
+   * INSERTS userID and recentItem ids 
+   * @param {*} uID 
+   * @param {*} rID 
+   * @returns 
+   */
+  static adduseritems(uID,rID) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "INSERT INTO UserRecentItems (uID, rID) values (?,?)",
+          [uID,rID],
+          (_, result) => {
+            resolve(result.insertId)
+          },
+          (_, error) => reject(error)
+        );
+      });
+    });
+  }
+  /**
+   * get the userdetails when given an ID
+   * @param {*} uID 
+   * @returns 
+   */
+  static getuserwithID(uID) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM userDetails where uID=(?)",
+          [uID],
+          (_, result) => {
+            resolve(result.insertId)
+          },
+          (_, error) => reject(error)
+        );
+      });
+    });
+  }
+  /**
+   * Returns the userID (to be used as a session token?) when the correct username and password(hashed) are inserted
+   * @param {*} userName 
+   * @param {*} userPass 
+   * @returns 
+   */
+  static getuser(userName,userPass) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT uID FROM userDetails where userName=(?) AND userPass=(?)",
+          [userName,userPass],
+          (_, result) => {
+            resolve(result.insertId)
+          },
+          (_, error) => reject(error)
+        );
+      });
+    });
+  }
+  /**
+   * Gets all recent items of a specified userid
+   * @param {*} uID 
+   * @returns 
+   */
+  static getuseritems(uID) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT rID FROM userItems where uID=(?)",
+          [uID],
+          (_, result) => {
+            resolve(result.insertId)
+          },
+          (_, error) => reject(error)
+        );
+      });
+    });
+  }
+
+
+
+
+
+
+
+
+
+
 } //database
