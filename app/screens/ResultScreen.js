@@ -65,7 +65,13 @@ function ResultScreen({ navigation, route }) {
       })
       .then((json) => setData(json))
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        const current= new Date();
+        const date= current.toLocaleString();
+        console.log("Result Log End: ");
+        console.log(date);
+        setLoading(false)
+      });
   }, []);
 
   for (var i = 0; i < data.length; i++) {

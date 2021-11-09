@@ -118,7 +118,10 @@ function cameraScreen({ navigation }) {
           );
           // console.log(data.secure_url);
           console.log("returnedID (Camera Screen): %d", returnedID);
-
+          const current= new Date();
+          const date= current.toLocaleString();
+          console.log("Result Log Start: ");
+          console.log(date);
           navigation.navigate("ResultScreen", { imageURL: data.secure_url, imageID: returnedID, imageName: imgname });
         }
       })
