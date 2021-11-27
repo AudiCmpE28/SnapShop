@@ -24,7 +24,7 @@ import Screen from "../components/Screen";
 
 function HomeScreen({ navigation, route }) {
     const { User_ID } = route.params;
-    console.log(User_ID);
+    // console.log(User_ID);
     const [itemList, setItemList] = useState([]);
     // const [checkpoint, setCheckpoint] = useState(false);
 
