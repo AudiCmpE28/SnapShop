@@ -25,7 +25,7 @@ const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
 
 //main function for camera screen
 function cameraScreen({ navigation, route }) {
-    const { User_ID } = route.params;
+    const { User_ID_local } = route.params;
     // conditions to keep track when using camera such as flip and flash modes
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
@@ -114,7 +114,7 @@ function cameraScreen({ navigation, route }) {
                     let dataurl = data.url;
                     let imgname = data.original_filename
                     const returnedID = await imgDB.database.insertUrl_RecentItems(
-                        User_ID, dataurl, "name"
+                        User_ID_local, dataurl, "name"
                         //"name" is placeholder
                     );
                     // console.log(data.secure_url);
@@ -123,7 +123,7 @@ function cameraScreen({ navigation, route }) {
                     const date = current.toLocaleString();
                     console.log("Result Log Start: ");
                     console.log(date);
-                    navigation.navigate("ResultScreen", { User_ID: User_ID, imageURL: data.secure_url, imageID: returnedID });
+                    navigation.navigate("ResultScreen", { User_ID: User_ID_local, imageURL: data.secure_url, imageID: returnedID });
                 }
             })
             .catch((err) => {

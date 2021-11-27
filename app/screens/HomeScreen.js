@@ -24,6 +24,7 @@ import Screen from "../components/Screen";
 
 function HomeScreen({ navigation, route }) {
     const { User_ID } = route.params;
+    console.log(User_ID);
     const [itemList, setItemList] = useState([]);
     // const [checkpoint, setCheckpoint] = useState(false);
 
@@ -35,13 +36,7 @@ function HomeScreen({ navigation, route }) {
         .catch((err) => {
             console.log(err);
         });
-    // console.log(itemList);
-    // if (!checkpoint) {
-    //   imgDB.database.getRecentItem(-1)
-    //     .then(response => { setItemList(response); })
-    //     .catch((err) => { console.log(err); })
-    //     .finally(() => setCheckpoint(true));
-    // }
+
 
     const EmptyListDisplay = () => {
         return (
@@ -167,7 +162,7 @@ function HomeScreen({ navigation, route }) {
                 <HeadingText style={styles.imageText}>Snap it!</HeadingText>
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("cameraScreen", { User_ID: User_ID })}
+                    onPress={() => navigation.navigate("cameraScreen", { User_ID_local: User_ID })}
                     onLongPress={pickImage}
                 >
                     <Image

@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 // import colors from "../config/colors";
-// import * as imgDB from "../../database/SQLiteDB";
+import * as imgDB from "../../database/SQLiteDB";
 
 
 
@@ -83,13 +83,19 @@ export default function signupScreen({ navigation }) {
     makingCall = () => {
 
         if (this.validateField()) {
-            // imgDB.database.registerUser(username, email, password)
-            // let User_db_ID = imgDB.database.getuser(username, password)
-            // //not finished
-            // //*navigation.navigate("homeScreen") ex:database ID 
+            imgDB.database.registerUser(username, email, password)
 
-            navigation.navigate("ResultScreen", { User_ID: User_db_ID });
-            // //*
+            // imgDB.database
+            //     .getuser(User_ID, -1)
+            //     .then((response) => {
+            //         setItemList(response);
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //     });
+
+            let User_db_ID = imgDB.database.getuser(username, password)
+            navigation.navigate("HomeScreen", { User_ID: User_db_ID });
 
         }
 

@@ -400,7 +400,7 @@ export class database {
                     "SELECT uID FROM UserDetails where userName=(?) AND userPass=(?)",
                     [userName, userPass],
                     (_, result) => {
-                        resolve(result.insertId)
+                        resolve(result.rows._array)
                     },
                     (_, error) => reject(error)
                 );
