@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 // import colors from "../config/colors";
-import * as imgDB from "../../database/SQLiteDB";
+// import * as imgDB from "../../database/SQLiteDB";
 
 
 
@@ -22,23 +22,60 @@ export default function signupScreen({ navigation }) {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 
+
+    //user credentials function
     validateField = () => {
 
+        if (!(email.includes('.com'))) {
 
-        // if (email != "@") {
-        //   alert("Incorrect email")
-        //   return false
-        // }
+            alert("you are missing .com")
+            return false
+
+        }
+        if (!(email.includes('@'))) {
+            alert("Incorrect email")
+            return false
+        }
         if (username == "") {
             alert("Fill Username")
             return false
+
         }
-        else if (password == "") {
+        if (username.length < 7) {
+
+            alert("Username must be at least 7 characters")
+            return false
+        }
+        if (password == "") {
 
             alert("Fill in password")
             return false
         }
+        if (password.length < 7) {
+            alert("Password must be at least 7 characters long")
+            return false
+        }
+        if (password.search(/[A-Z]/) < 0) {
 
+            alert("Password must have at least one upper case letter")
+            return false
+
+        }
+        if (password.search(/[a-z]/) < 0) {
+
+            alert("Password must have at least one lower case letter")
+            return false
+
+        }
+        else if (password.search(/(?=.*[~`!@#$%^&*()])/)) {
+
+            alert("Your password must have a special character")
+            return false
+        }
+
+
+        // navigation.navigate("HomeScreen", { User_ID: User_db_ID });
+        //*
         return true
 
     }
@@ -46,13 +83,13 @@ export default function signupScreen({ navigation }) {
     makingCall = () => {
 
         if (this.validateField()) {
-            imgDB.database.registerUser(username, email, password)
-            let User_db_ID = imgDB.database.getuser(username, password)
-            //not finished
-            //*navigation.navigate("homeScreen") ex:database ID 
+            // imgDB.database.registerUser(username, email, password)
+            // let User_db_ID = imgDB.database.getuser(username, password)
+            // //not finished
+            // //*navigation.navigate("homeScreen") ex:database ID 
 
-            navigation.navigate("HomeScreen", { User_ID: User_db_ID });
-            //*
+            navigation.navigate("ResultScreen", { User_ID: User_db_ID });
+            // //*
 
         }
 
