@@ -27,59 +27,52 @@ import * as imgDB from "./database/SQLiteDB";
 const Stack = createStackNavigator();
 
 function App() {
-  //Comment out the reset after first run
-  imgDB.database.reset();
-  //imgDB.database.dbinit();
+    //Comment out the reset after first run
+    // imgDB.database.reset();
+    imgDB.database.dbinit();
+    imgDB.database.limittrigger();
 
-  // imgDB.database.limittrigger();
-  // //test retrieving all items
-  // imgDB.database.getRecentItem(-1);
-  // imgDB.database.getItemDetails(-1);
-  imgDB.database.limittrigger();
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="loginScreen">
-        <Stack.Screen
-          name="loginScreen"
-          component={loginScreen}
-          options={{ headerShown: false }}
-
-
-        />
-        <Stack.Screen
-          name="signupScreen"
-          component={signupScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="WelcomeScreen"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="cameraScreen"
-          component={cameraScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ResultScreen"
-          component={ResultScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ResultScreenDB"
-          component={ResultScreenDB}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="signupScreen">
+                <Stack.Screen
+                    name="loginScreen"
+                    component={loginScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="signupScreen"
+                    component={signupScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="WelcomeScreen"
+                    component={WelcomeScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="HomeScreen"
+                    component={HomeScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="cameraScreen"
+                    component={cameraScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="ResultScreen"
+                    component={ResultScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="ResultScreenDB"
+                    component={ResultScreenDB}
+                    options={{ headerShown: false }}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 export default App;

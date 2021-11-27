@@ -28,7 +28,7 @@ function HomeScreen({ navigation, route }) {
     // const [checkpoint, setCheckpoint] = useState(false);
 
     imgDB.database
-        .getuseritems(User_ID)
+        .getRecentItem(User_ID, -1)
         .then((response) => {
             setItemList(response);
         })
@@ -93,11 +93,12 @@ function HomeScreen({ navigation, route }) {
                 if (data.secure_url) {
                     let dataurl = data.url;
                     const returnedID = await imgDB.database.insertUrl_RecentItems(
-                        dataurl
+                        User_ID, dataurl
                     );
                     navigation.navigate("ResultScreen", {
+                        User_ID: User_ID,
                         imageURL: data.secure_url,
-                        imageID: returnedID,
+                        imageID: returnedID
                     });
                 }
             })
@@ -118,9 +119,10 @@ function HomeScreen({ navigation, route }) {
                         imageURL: item.imageUrl,
                         databaseID: item.rID,
                         imageName: item.imgName,
+                        User_ID: User_ID
                     })
                 }
-                onXPress={() => imgDB.database.imgDelete(item.rID)}
+                onXPress={() => imgDB.database.imgDelete(User_ID, item.rID)}
             />
         ),
         []
@@ -165,7 +167,7 @@ function HomeScreen({ navigation, route }) {
                 <HeadingText style={styles.imageText}>Snap it!</HeadingText>
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("cameraScreen")}
+                    onPress={() => navigation.navigate("cameraScreen", { User_ID: User_ID })}
                     onLongPress={pickImage}
                 >
                     <Image

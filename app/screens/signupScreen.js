@@ -51,7 +51,7 @@ export default function signupScreen({ navigation }) {
             //not finished
             //*navigation.navigate("homeScreen") ex:database ID 
 
-            navigation.navigate("ResultScreen", { User_ID: User_db_ID });
+            navigation.navigate("HomeScreen", { User_ID: User_db_ID });
             //*
 
         }

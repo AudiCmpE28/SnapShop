@@ -62,7 +62,7 @@ export class database {
             db.transaction((tx) => {
                 // console.log("now creating recentitems table");
                 tx.executeSql(
-                    "CREATE TABLE IF NOT EXISTS RecentItems (uID INTEGER PRIMARY KEY, rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT, imgName TEXT)",
+                    "CREATE TABLE IF NOT EXISTS RecentItems (uID INTEGER, rID INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT, imgName TEXT,FOREIGN KEY(uID) REFERENCES UserDetails(uID))",
                     [],
                     () => { console.log("Created Table RecentItems"); resolve },
                     (_, error) => reject(error)
@@ -133,12 +133,12 @@ export class database {
      * @param {*} imgName 
      * @returns 
      */
-    static insertUrl_RecentItems(imageurl, imgName) {
+    static insertUrl_RecentItems(uID, imageurl, imgName) {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
                     "INSERT INTO RecentItems (uID, rID, imageUrl, imgName) values (?,?,?,?)",
-                    [null, imageurl, imgName],
+                    [uID, null, imageurl, imgName],
                     (_, result) => {
                         // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
                         resolve(result.insertId)
@@ -153,7 +153,7 @@ export class database {
      * @param {*} ID 
      * @returns 
      */
-    static getRecentItem(uID,ID) {
+    static getRecentItem(uID, ID) {
         if (ID == -1) {
             // console.log("Inside getRecentItem ALL");
             return new Promise((resolve, reject) => {
@@ -176,7 +176,7 @@ export class database {
                 db.transaction((tx) => {
                     tx.executeSql(
                         "SELECT * FROM RecentItems WHERE uID=(?) rID =(?) ORDER BY rID DESC LIMIT 10",
-                        [uID,ID],
+                        [uID, ID],
                         (_, result) => {
                             // console.log(result.rows._array);
                             resolve(result.rows._array);
@@ -296,11 +296,11 @@ export class database {
      * Cascading Delete of itemDetails and recentImage.
      * @param {ID} ID rID of RecentItem
      */
-    static imgDelete(uID,ID) {
+    static imgDelete(uID, ID) {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    "DELETE FROM RecentItems where uID=? ANDr ID=?", [uID,ID],
+                    "DELETE FROM RecentItems where uID=? ANDr ID=?", [uID, ID],
                     (_, result) => {
                         resolve(result.rowsAffected);
                     },
@@ -314,11 +314,11 @@ export class database {
      * @param {*} ID 
      * @param {*} imgName  
      */
-    static update_imgName(uID,ID, imgName) {
+    static update_imgName(uID, ID, imgName) {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    "UPDATE RecentItems SET imgName=? WHERE uID=? AND rID=?", [imgName,uID, ID],
+                    "UPDATE RecentItems SET imgName=? WHERE uID=? AND rID=?", [imgName, uID, ID],
                     (_, result) => {
                         resolve;
                     },
