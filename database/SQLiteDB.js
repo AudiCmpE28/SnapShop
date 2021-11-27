@@ -29,18 +29,18 @@ export class database {
                 (_, error) => reject(error));
         })
     }
-    static resetTable4() {
-        db.transaction((tx) => {
-            tx.executeSql("  DROP TABLE IF EXISTS UserRecentItems;", [],
-                () => { console.log("Dropped UserRecentItems"); },
-                (_, error) => reject(error));
-        })
-    }
+    // static resetTable4() {
+    //     db.transaction((tx) => {
+    //         tx.executeSql("  DROP TABLE IF EXISTS UserRecentItems;", [],
+    //             () => { console.log("Dropped UserRecentItems"); },
+    //             (_, error) => reject(error));
+    //     })
+    // }
     static reset() {
         this.resetTable1();
         this.resetTable2();
         this.resetTable3();
-        this.resetTable4();
+        // this.resetTable4();
     }
 
 
@@ -87,15 +87,15 @@ export class database {
                     },
                     (_, error) => reject(error)
                 );
-                tx.executeSql(
-                    "CREATE TABLE IF NOT EXISTS UserRecentItems (uID INTEGER PRIMARY KEY AUTOINCREMENT, rID INTEGER PRIMARY KEY)",
-                    [],
-                    () => {
-                        console.log("Created Table UserRecentItems");
-                        resolve
-                    },
-                    (_, error) => reject(error)
-                );
+                // tx.executeSql(
+                //     "CREATE TABLE IF NOT EXISTS UserRecentItems (uID INTEGER PRIMARY KEY AUTOINCREMENT, rID INTEGER PRIMARY KEY, FOREIGN KEY(uID) REFERENCES UserDetails(uID), FOREIGN KEY(rID) REFERENCES RecentItems(rID) ON DELETE CASCADE)",
+                //     [],
+                //     () => {
+                //         console.log("Created Table UserRecentItems");
+                //         resolve
+                //     },
+                //     (_, error) => reject(error)
+                // );
 
                 // console.log("...finished");
             });
@@ -137,7 +137,7 @@ export class database {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    "INSERT INTO RecentItems (rID, imageUrl, imgName) values (?,?,?)",
+                    "INSERT INTO RecentItems (uID, rID, imageUrl, imgName) values (?,?,?,?)",
                     [null, imageurl, imgName],
                     (_, result) => {
                         // console.log("Inside insertUrl_RecentItems, inserting...%d", result.insertId)
@@ -149,18 +149,18 @@ export class database {
         });
     }
     /**
-     * Returns the cloudinary link and ID of the image with specified ID, -1 to return all.
+     * Based on uID provided, Returns the cloudinary link and ID of the image with specified ID, -1 to return all.
      * @param {*} ID 
      * @returns 
      */
-    static getRecentItem(ID) {
+    static getRecentItem(uID,ID) {
         if (ID == -1) {
             // console.log("Inside getRecentItem ALL");
             return new Promise((resolve, reject) => {
                 db.transaction((tx) => {
                     tx.executeSql(
-                        "SELECT * FROM RecentItems ORDER BY rID DESC LIMIT 10",
-                        [],
+                        "SELECT * FROM RecentItems where uID=(?) ORDER BY rID DESC LIMIT 10",
+                        [uID],
                         (_, result) => {
                             // console.log(result.rows._array);
                             resolve(result.rows._array);
@@ -175,8 +175,8 @@ export class database {
             return new Promise((resolve, reject) => {
                 db.transaction((tx) => {
                     tx.executeSql(
-                        "SELECT * FROM RecentItems WHERE rID =? ORDER BY rID DESC LIMIT 10",
-                        [ID],
+                        "SELECT * FROM RecentItems WHERE uID=(?) rID =(?) ORDER BY rID DESC LIMIT 10",
+                        [uID,ID],
                         (_, result) => {
                             // console.log(result.rows._array);
                             resolve(result.rows._array);
@@ -296,11 +296,11 @@ export class database {
      * Cascading Delete of itemDetails and recentImage.
      * @param {ID} ID rID of RecentItem
      */
-    static imgDelete(ID) {
+    static imgDelete(uID,ID) {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    "DELETE FROM RecentItems where rID=?", [ID],
+                    "DELETE FROM RecentItems where uID=? ANDr ID=?", [uID,ID],
                     (_, result) => {
                         resolve(result.rowsAffected);
                     },
@@ -314,11 +314,11 @@ export class database {
      * @param {*} ID 
      * @param {*} imgName  
      */
-    static update_imgName(ID, imgName) {
+    static update_imgName(uID,ID, imgName) {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    "UPDATE RecentItems SET imgName=? WHERE rID=?", [imgName, ID],
+                    "UPDATE RecentItems SET imgName=? WHERE uID=? AND rID=?", [imgName,uID, ID],
                     (_, result) => {
                         resolve;
                     },
@@ -354,20 +354,20 @@ export class database {
      * @param {*} rID 
      * @returns 
      */
-    static adduseritems(uID, rID) {
-        return new Promise((resolve, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "INSERT INTO UserRecentItems (uID, rID) values (?,?)",
-                    [uID, rID],
-                    (_, result) => {
-                        resolve(result.insertId)
-                    },
-                    (_, error) => reject(error)
-                );
-            });
-        });
-    }
+    // static adduseritems(uID, rID) {
+    //     return new Promise((resolve, reject) => {
+    //         db.transaction((tx) => {
+    //             tx.executeSql(
+    //                 "INSERT INTO UserRecentItems (uID, rID) values (?,?)",
+    //                 [uID, rID],
+    //                 (_, result) => {
+    //                     resolve(result.insertId)
+    //                 },
+    //                 (_, error) => reject(error)
+    //             );
+    //         });
+    //     });
+    // }
     /**
      * get the userdetails when given an ID
      * @param {*} uID 
@@ -377,7 +377,7 @@ export class database {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    "SELECT * FROM userDetails where uID=(?)",
+                    "SELECT * FROM UserDetails where uID=(?)",
                     [uID],
                     (_, result) => {
                         resolve(result.insertId)
@@ -397,7 +397,7 @@ export class database {
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    "SELECT uID FROM userDetails where userName=(?) AND userPass=(?)",
+                    "SELECT uID FROM UserDetails where userName=(?) AND userPass=(?)",
                     [userName, userPass],
                     (_, result) => {
                         resolve(result.insertId)
@@ -412,20 +412,20 @@ export class database {
      * @param {*} uID 
      * @returns 
      */
-    static getuseritems(uID) {
-        return new Promise((resolve, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "SELECT rID FROM userItems where uID=(?)",
-                    [uID],
-                    (_, result) => {
-                        resolve(result.insertId)
-                    },
-                    (_, error) => reject(error)
-                );
-            });
-        });
-    }
+    // static getuseritems(uID) {
+    //     return new Promise((resolve, reject) => {
+    //         db.transaction((tx) => {
+    //             tx.executeSql(
+    //                 "SELECT * FROM UserRecentItems INNER JOIN RecentItems on rID=rID",
+    //                 [uID],
+    //                 (_, result) => {
+    //                     resolve(result.insertId)
+    //                 },
+    //                 (_, error) => reject(error)
+    //             );
+    //         });
+    //     });
+    // }
 
 
 
